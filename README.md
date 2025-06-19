@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ⚽ K리그 맛집 지도
 
-## Getting Started
+**K리그 맛집 지도**는 K리그 축구 팬들을 위한 **위치 기반 맛집 탐색 웹 서비스**입니다.  
+경기장 주변에서 믿을 수 있는 맛집 정보를 손쉽게 확인하고, 팬들이 직접 참여해 정보를 확장시킬 수 있는 **지도 기반 통합 플랫폼**을 지향합니다.
 
-First, run the development server:
+<br />
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📌 프로젝트 소개
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+최근 K리그 관람 팬층의 증가에 따라, 경기장 인근 외식도 중요한 팬 경험이 되었습니다.  
+그러나 기존의 지역 정보는 블로그나 포털, SNS 등 **신뢰성 낮고 분산된 정보**에 의존하고 있어 불편함이 있었습니다.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**K리그 맛집 지도**는 이러한 문제를 해결하기 위해,  
+**각 구장을 중심으로 맛집 정보를 지도 기반으로 통합 제공**하는 플랫폼을 목표로 개발되었습니다.
 
-## Learn More
+<br />
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🎯 프로젝트 목표
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### ✔️ 기능 구현 목표
 
-## Deploy on Vercel
+- `Naver Map API`를 활용한 **위치 기반 맛집 지도 서비스**
+- `JWT` 인증 기반 **로그인/회원가입/마이페이지 기능**
+- **리뷰 작성/삭제/추천** 등 사용자 참여형 기능
+- **검색 및 필터** 기능 (지역, 카테고리, 정렬)
+- 모바일/태블릿/데스크탑 대응 **반응형 UI 제공**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### ✔️ 개발 역량 향상 목표
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Next.js 기반 프론트엔드 아키텍처 경험**
+- **지도 API 연동 및 위치 기반 서비스 설계**
+- `zustand`를 활용한 **복잡한 상태 관리**
+- **Git 브랜치 전략 / PR / 코드리뷰** 등 협업 능력 강화
+
+<br />
+
+---
+
+## 🧩 기술 스택
+
+| 분류      | 스택                                                        |
+| --------- | ----------------------------------------------------------- |
+| Frontend  | `Next.js`, `React`, `TypeScript`, `Tailwind CSS`, `Zustand` |
+| API 연동  | `Naver Map API`, `Axios`, `JWT`                             |
+| 협업 관리 | `Git`, `GitHub`, `PR`, `Code Review`                        |
+| 기타      | `Prettier`, `ESLint`, `clsx`, `tailwind-merge`              |
+
+<br />
+
+---
+
+**나머지 파트는 프로젝트 진행 후 추가 예정**
