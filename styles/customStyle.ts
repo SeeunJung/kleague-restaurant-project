@@ -59,6 +59,16 @@ export const button = (...args: ClassValue[]) =>
     ...args,
   )
 
+// Link
+export const link = (...args: ClassValue[]) =>
+  cn(
+    'text-md',
+    'text-[#374151]',
+    'hover:text-blue-500',
+    'cursor-pointer',
+    ...args,
+  )
+
 // Title
 export const mainTitle = (...args: ClassValue[]) =>
   cn('text-xl', 'font-bold', ...args)
