@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import Script from 'next/script'
 
 export const metadata: Metadata = {
   title: 'K리그 맛집 지도',
@@ -13,6 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <Script strategy='beforeInteractive' src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=hn8jtoo8nm`} defer />
+      </head>
       <body>{children}</body>
     </html>
   )
