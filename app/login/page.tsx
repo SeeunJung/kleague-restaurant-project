@@ -1,7 +1,10 @@
 'use client'
 import AuthButtons from '@/components/Auth/AuthButtons'
+import AuthError from '@/components/Auth/AuthError'
 import AuthInput from '@/components/Auth/AuthInput'
 import AuthTitle from '@/components/Auth/AuthTitle'
+import { login } from '@/services/auth'
+import { useAuthStore } from '@/store/useAuthStore'
 import {
   Card,
   flexCol,
@@ -9,20 +12,21 @@ import {
   mainTitle,
 } from '@/styles/customStyle'
 import { LoginForm } from '@/types/Auth'
+import { AxiosErrorRes } from '@/types/Axios'
 import { cn } from '@/utils/cn'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 function Page() {
+  const router = useRouter()
   const [form, setForm] = useState<LoginForm>({
     email: '',
     password: '',
   })
+  const [error, setError] = useState<string | null>(null)
+  const { setAccessToken } = useAuthStore()
 
-  console.log(form)
-
-  const handleInput = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) => {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
   }
@@ -30,6 +34,30 @@ function Page() {
   const isFormValid = Object.values(form).every(
     (v) => v.trim() !== '',
   )
+
+  const handleLogin = async () => {
+    try {
+      const { accessToken } = await login(form.email, form.password)
+
+      setAccessToken(accessToken)
+
+      router.push('/')
+    } catch (err: unknown) {
+      if (
+        err &&
+        typeof err === 'object' &&
+        'response' in err &&
+        err.response &&
+        typeof err.response === 'object' &&
+        'data' in err.response
+      ) {
+        const response = err as AxiosErrorRes
+        setError(response.response.data.message || '로그인 실패')
+      } else {
+        setError('네트워크 또는 서버 에러일까나')
+      }
+    }
+  }
 
   return (
     <div className={cn('mt-9')}>
@@ -50,11 +78,12 @@ function Page() {
             type="password"
             onChange={handleInput}
           />
+          {error && <AuthError error={error} />}
         </div>
         <AuthButtons
           isLogin={true}
           isDisabled={!isFormValid}
-          onButtonClick={() => {}}
+          onButtonClick={handleLogin}
         />
       </div>
     </div>

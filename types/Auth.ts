@@ -1,5 +1,6 @@
 export interface SignupForm {
   name: string
+  nickname: string
   email: string
   password: string
   confirmPw: string
