@@ -1,3 +1,4 @@
+import { Card, flexColIJCenter } from "@/styles/customStyle";
 import StadiumInfo from "./StadiumInfo";
 import StadiumMap from "./StadiumMap";
 
@@ -25,14 +26,14 @@ export default async function StadiumMapContainer({ id } : { id: number }){
   const { name, team, address, latitude, longitude, restaurants } = stadium;
 
   return(
-    <div className="w-full p-4 bg-gray-200 rounded-xl drop-shadow-xs">
+    <div className={Card('w-full mx-auto')}>
       <StadiumInfo
         name={name}
         team={team}
         address={address}
       />
 
-      <div className="flex flex-col justify-center items-center">
+      <div className={flexColIJCenter()}>
         <StadiumMap
           center={{ latitude, longitude }}
           stadiumName={name}
