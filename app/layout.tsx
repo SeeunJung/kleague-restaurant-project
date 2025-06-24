@@ -15,9 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <Header />
-      <body>{children}</body>
-      <ConditionalFooter />
+      <body>
+        <Header />
+        {children}
+        <ConditionalFooter />
+      </body>
     </html>
   )
 }
