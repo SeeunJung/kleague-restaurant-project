@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import Header from '@/components/Layout/Header'
+import ConditionalFooter from '@/components/Layout/ConditionalFooter'
 
 export const metadata: Metadata = {
   title: 'K리그 맛집 지도',
@@ -13,7 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <Header />
       <body>{children}</body>
+      <ConditionalFooter />
     </html>
   )
 }
