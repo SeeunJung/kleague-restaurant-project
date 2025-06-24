@@ -1,3 +1,4 @@
+import FilterBar from "@/components/Stadium/FilterBar";
 import StadiumMapContainer from "@/components/Stadium/StadiumMapContainer";
 
 export default async function Page({ params } : { params: Promise<{id: number}>}){
@@ -7,7 +8,7 @@ export default async function Page({ params } : { params: Promise<{id: number}>}
       <div className="w-full max-w-4xl">
         <StadiumMapContainer id={id} />
       </div>
-      <div>Stadium Searchbar</div>
+      <FilterBar />
       <div>Nearby Restaurants</div>
     </div>
   )
