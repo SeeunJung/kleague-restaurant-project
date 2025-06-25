@@ -2,9 +2,9 @@ import { getRestaurants } from '@/services/restaurants'
 import { useRestaurantsStore } from '@/store/useRestaurantsStore'
 import {
   Card,
+  cardTitle,
   flexCol,
   flexRowICenter,
-  mainTitle,
 } from '@/styles/customStyle'
 import { cn } from '@/utils/cn'
 import { useEffect } from 'react'
@@ -46,7 +46,7 @@ function MainRestaurantList() {
   }, [selectedCategory, sort, setRestaurants, setLoading])
 
   return (
-    <div className={flexCol('w-full', Card())}>
+    <div className={flexCol('w-full', Card(), 'mb-4')}>
       <Tabs
         defaultValue=""
         value={selectedCategory}
@@ -54,7 +54,7 @@ function MainRestaurantList() {
         className={cn('w-full')}
       >
         <div className={flexRowICenter('justify-between')}>
-          <div className={mainTitle()}>인기 맛집</div>
+          <div className={cardTitle()}>인기 맛집</div>
           <RestaurantTabs onSelect={setSelectedCategory} />
         </div>
         <RestaurantTabsContent

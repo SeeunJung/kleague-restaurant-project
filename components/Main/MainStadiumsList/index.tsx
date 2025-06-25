@@ -1,9 +1,10 @@
 import { getStadiums } from '@/services/stadiums'
 import { useStadiumsStore } from '@/store/useStadiumsStore'
 import {
+  Card,
+  cardTitle,
   flexCol,
   flexRowICenter,
-  mainTitle,
 } from '@/styles/customStyle'
 import { useEffect, useState } from 'react'
 import { Tabs } from '../../ui/tabs'
@@ -41,13 +42,13 @@ function MainStadiumList({ keyword }: MainStadiumListProps) {
   }, [stadiums, setStadiums])
 
   return (
-    <div className={flexCol('w-full')}>
+    <div className={flexCol('w-full', Card())}>
       <Tabs
         value={league}
         onValueChange={setLeague}
       >
         <div className={flexRowICenter('justify-between')}>
-          <div className={mainTitle()}>구장 목록</div>
+          <div className={cardTitle()}>구장 목록</div>
           <StadiumTabs onSelect={setLeague} />
         </div>
         <StadiumTabsContent
