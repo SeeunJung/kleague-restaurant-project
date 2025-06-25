@@ -23,8 +23,8 @@ function MainRestaurantCard({ restaurant }: MainRestaurantCardProps) {
   }
 
   return (
-    <div className={flexCol(Card(), 'bg-gray-50', 'cursor-pointer')}>
-      <div className={flexRowICenter()}>
+    <div className={flexCol(Card(), 'bg-gray-50')}>
+      <div className={flexRowICenter('h-[50px]')}>
         <Image
           src={matchedStadium?.logo || '/img/kleague.png'}
           alt={`${matchedStadium?.name} 로고`}
@@ -33,7 +33,7 @@ function MainRestaurantCard({ restaurant }: MainRestaurantCardProps) {
           style={{ objectFit: 'cover' }}
         />
         <div
-          className={cn('text-lg', 'font-semibold')}
+          className={cn('text-lg', 'font-semibold', 'cursor-pointer')}
           onClick={handleClick}
         >
           {restaurant.name}
