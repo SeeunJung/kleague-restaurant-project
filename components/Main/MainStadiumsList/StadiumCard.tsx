@@ -35,8 +35,8 @@ function MainStadiumCard({ stadium }: MainStadiumCardProps) {
         <Image
           src={stadium.logo}
           alt={`${stadium.team} 로고`}
-          width={30}
-          height={30}
+          width={40}
+          height={40}
           className={cn('w-auto')}
         />
         <div
