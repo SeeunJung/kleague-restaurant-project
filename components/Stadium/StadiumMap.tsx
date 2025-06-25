@@ -1,39 +1,23 @@
 'use client'
 
+import { StadiumInfo } from "@/types/Stadium";
 import { useEffect, useRef } from "react";
 
-interface Restaurant{
-  id: number;
-  name: string;
-  latitude: number;
-  longitude: number;
-}
-
-interface StadiumMapProps{
-  center:{
-    latitude: number;
-    longitude: number;
-  };
-  stadiumName: string;
-  restaurants: Restaurant[];
-}
-
-
-export default function StadiumMap({ center, stadiumName, restaurants } : StadiumMapProps){
+export default function StadiumMap({ latitude, longitude, name, restaurants } : StadiumInfo){
   const mapRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if(!window.naver || !mapRef.current) return;
  
     const map = new naver.maps.Map(mapRef.current, {
-      center: new naver.maps.LatLng(center.latitude, center.longitude),
+      center: new naver.maps.LatLng(latitude, longitude),
       zoom: 16,
       minZoom: 10,
     });
 
     new naver.maps.Marker({
-      position: new naver.maps.LatLng(center.latitude, center.longitude),
-      title: stadiumName,
+      position: new naver.maps.LatLng(latitude, longitude),
+      title: name,
       map,
     })
 

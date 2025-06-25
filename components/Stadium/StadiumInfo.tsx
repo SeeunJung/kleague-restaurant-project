@@ -1,10 +1,6 @@
-interface StadiumInfoProps{
-  name: string;
-  team: string;
-  address: string;
-}
+import type { StadiumInfo } from "@/types/Stadium";
 
-export default function StadiumInfo({ name, team, address } : StadiumInfoProps){
+export default function StadiumInfo({ name, team, address } : StadiumInfo){
 
   return(
     <div className="flex flex-row gap-[15px]">

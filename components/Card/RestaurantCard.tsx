@@ -1,24 +1,13 @@
 'use client';
 
 import { button, Card, flexCol, flexRow, flexRowICenter, mainTitle, subTitle } from "@/styles/customStyle";
+import { RestaurantCardInfo } from "@/types/Stadium";
 import { cn } from "@/utils/cn";
 import { Heart, Star } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-interface RestaurantProps{
-  id: number;
-  name: string;
-  category: string;
-  avgRating: number;
-  distance: number;
-}
-
-interface RestaurantCardProps{
-  restaurant: RestaurantProps
-}
-
-export default function RestaurantCard({ restaurant } : RestaurantCardProps){
+export default function RestaurantCard({ restaurant } : RestaurantCardInfo){
   const [isFavorite, setIsFavorite] = useState(false);
   const router = useRouter();
 
