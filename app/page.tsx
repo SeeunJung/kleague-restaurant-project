@@ -19,7 +19,7 @@ export default function Home() {
         'mx-auto',
         'p-3',
         'pt-8',
-        'gap-4',
+        'gap-6',
       )}
     >
       <AuthTitle subT="경기장 주변 맛집을 찾아보세요" />
@@ -27,9 +27,9 @@ export default function Home() {
         value={searchKey}
         onChange={(e) => setSearchKey(e.target.value)}
       />
+      <MainRestaurantList />
       <MainStadiumMap keyword={searchKey} />
       <MainStadiumList keyword={searchKey} />
-      <MainRestaurantList />
     </div>
   )
 }
