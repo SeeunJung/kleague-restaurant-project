@@ -76,6 +76,9 @@ export const mainTitle = (...args: ClassValue[]) =>
 export const subTitle = (...args: ClassValue[]) =>
   cn('text-sm', 'text-[#374151]', ...args)
 
+export const cardTitle = (...args: ClassValue[]) =>
+  cn('text-2xl', 'font-extrabold', ...args)
+
 // 로그인 회원가입 Input
 export const authInput = (...args: ClassValue[]) =>
   cn(

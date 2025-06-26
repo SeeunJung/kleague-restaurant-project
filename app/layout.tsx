@@ -17,7 +17,11 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
-        <Script strategy='beforeInteractive' src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=hn8jtoo8nm`} defer />
+        <Script
+          type="text/javascript"
+          strategy='beforeInteractive'
+          src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NCP_CLIENT_ID}`}
+        ></Script>
       </head>
       <body>
         <Header />
