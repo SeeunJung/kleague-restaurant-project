@@ -3,12 +3,11 @@
 import { button, Card, flexCol, flexRow, flexRowICenter, mainTitle, subTitle } from "@/styles/customStyle";
 import { RestaurantCardInfo } from "@/types/Stadium";
 import { cn } from "@/utils/cn";
-import { Heart, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import FavoriteButton from "./FavoriteButton";
 
 export default function RestaurantCard({ restaurant } : RestaurantCardInfo){
-  const [isFavorite, setIsFavorite] = useState(false);
   const router = useRouter();
 
   const handleDetailClick = () => {
@@ -19,12 +18,9 @@ export default function RestaurantCard({ restaurant } : RestaurantCardInfo){
     <div className={cn(Card(), 'flex flex-col h-full')}>
       <div className={flexRow('justify-between')}>
         <h2 className={cn(mainTitle('sm:text-lg'), 'truncate')}>{restaurant.name}</h2>
-        <button
-          onClick={() => setIsFavorite(!isFavorite)}
-          className={`p-1 rounded-full`}
-          >
-          <Heart fill={isFavorite ? 'red' : 'none'} color={isFavorite ? 'red' : 'black'} />
-        </button>
+        <div>
+          <FavoriteButton restaurantId={restaurant.id} />
+        </div>
       </div>
 
       <div className={flexCol('gap-0')}>
