@@ -1,3 +1,5 @@
+import { SignupForm } from './types/Auth'
+
 export const KLEAGUE_TEAMS = [
   '강원',
   '광주',
@@ -71,4 +73,18 @@ export const RESTAURANT_CATEGORIES = [
   { value: '일식', label: '일식' },
   { value: '양식', label: '양식' },
   { value: '분식', label: '분식' },
+]
+
+export const SIGNUP_INPUT: {
+  value: keyof SignupForm
+  type?: string
+  label: string
+}[] = [
+  { value: 'name', label: '이름' },
+  { value: 'nickname', label: '닉네임' },
+  { value: 'email', type: 'email', label: '이메일' },
+  { value: 'password', type: 'password', label: '비밀번호' },
+  { value: 'confirmPw', type: 'password', label: '비밀번호 확인' },
+  { value: 'phoneNumber', label: '휴대폰번호' },
+  { value: 'favoriteTeam', type: 'select', label: '좋아하는 구단' },
 ]
