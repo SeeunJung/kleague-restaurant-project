@@ -3,15 +3,6 @@ import RestaurantCard from "../Card/RestaurantCard";
 import getDistance from "@/utils/getDistance";
 import { RestaurantInfo, StadiumInfo } from "@/types/Stadium";
 
-async function fetchAvgRating(id: number): Promise<number>{
-  const response = await fetch(`https://kleague-restaurant-api.gaanii.dev/restaurants/${id}`);
-  if(!response.ok){
-    return 0;
-  }
-  const restaurant = await response.json();
-  return restaurant.avgRating;
-}
-
 export default async function StadiumRestaurantContainer({ id } : { id:number }){
   const response = await fetch(`https://kleague-restaurant-api.gaanii.dev/stadiums/${id}`);
   if(!response.ok){
@@ -21,22 +12,22 @@ export default async function StadiumRestaurantContainer({ id } : { id:number })
   const { latitude: stadiumLat, longitude: stadiumLng, restaurants } = stadium;
   const topRestaurants = restaurants.slice(0, 9);
 
-  const restaurantDetails: RestaurantInfo[] = await Promise.all(
-    topRestaurants.map(async (r) => {
-      const distance = getDistance(stadiumLat, stadiumLng, r.latitude, r.longitude);
-      const avgRating = await fetchAvgRating(r.id);
+  const restaurantDetails: RestaurantInfo[] = [];
 
-      return{
-        id: r.id,
-        name: r.name,
-        category: r.category,
-        latitude: r.latitude,
-        longitude: r.longitude,
-        distance,
-        avgRating
-      };
+  for(const r of topRestaurants){
+    const distance = getDistance(stadiumLat, stadiumLng, r.latitude, r.longitude);
+    const avgRating = 3;  //임의값 설정 추후 수정 예정
+
+    restaurantDetails.push({
+      id: r.id,
+      name: r.name,
+      category: r.category,
+      latitude: r.latitude,
+      longitude: r.longitude,
+      distance,
+      avgRating
     })
-  );
+  }
 
   return(
     <div className={flexCol('w-full justify-center')}>
