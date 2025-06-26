@@ -38,9 +38,7 @@ function Page() {
   const handleLogin = async () => {
     try {
       const { accessToken } = await login(form.email, form.password)
-
       setAccessToken(accessToken)
-
       router.push('/')
     } catch (err: unknown) {
       if (
@@ -68,14 +66,15 @@ function Page() {
           <AuthInput
             label="이메일"
             name="email"
+            type="email"
             value={form.email}
             onChange={handleInput}
           />
           <AuthInput
             label="비밀번호"
             name="password"
-            value={form.password}
             type="password"
+            value={form.password}
             onChange={handleInput}
           />
           {error && <AuthError error={error} />}
