@@ -6,7 +6,7 @@ type AuthErrorProps = {
 
 function AuthError({ error }: AuthErrorProps) {
   return (
-    <span className="text-sm text-red-500 text-center">{error}</span>
+    <span className="text-xs text-red-500 text-center">{error}</span>
   )
 }
 
