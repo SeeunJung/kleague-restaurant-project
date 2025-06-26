@@ -65,13 +65,14 @@ export const link = (...args: ClassValue[]) =>
     'text-md',
     'text-[#374151]',
     'hover:text-blue-500',
+    'active:text-blue-500',
     'cursor-pointer',
     ...args,
   )
 
 // Title
 export const mainTitle = (...args: ClassValue[]) =>
-  cn('text-xl', 'font-bold', ...args)
+  cn('text-xl', 'text-black', 'font-bold', ...args)
 
 export const subTitle = (...args: ClassValue[]) =>
   cn('text-sm', 'text-[#374151]', ...args)
