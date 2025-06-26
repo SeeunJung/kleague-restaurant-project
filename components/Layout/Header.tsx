@@ -1,12 +1,7 @@
-import {
-  button,
-  flexRowICenter,
-  link,
-  mainTitle,
-} from '@/styles/customStyle'
+import { flexRowICenter, link, mainTitle } from '@/styles/customStyle'
 import { cn } from '@/utils/cn'
 import Link from 'next/link'
-import React from 'react'
+import HeaderAuthControls from './HeaderAuthControls'
 
 function Header() {
   return (
@@ -40,20 +35,7 @@ function Header() {
             맛집 목록
           </Link>
         </div>
-        <div className={cn('space-x-4')}>
-          <Link
-            href="/login"
-            className={link()}
-          >
-            로그인
-          </Link>
-          <Link
-            href="/signup"
-            className={button()}
-          >
-            회원가입
-          </Link>
-        </div>
+        <HeaderAuthControls />
       </div>
     </div>
   )
