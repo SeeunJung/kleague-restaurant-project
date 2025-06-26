@@ -14,7 +14,7 @@ export default function Home() {
     <div
       className={flexColICenter(
         'w-full',
-        'max-w-full',
+        'min-w-[375px]',
         'lg:max-w-[1200px]',
         'mx-auto',
         'p-3',
