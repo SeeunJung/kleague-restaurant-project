@@ -1,10 +1,11 @@
 import type { StadiumInfo } from "@/types/Stadium";
+import Image from "next/image";
 
-export default function StadiumInfo({ name, team, address } : StadiumInfo){
+export default function StadiumInfo({ name, team, address, logo } : StadiumInfo){
 
   return(
     <div className="flex flex-row gap-[15px]">
-      <div>구장 홈팀 로고</div>
+      <Image src={logo} alt={`${team} 팀 로고`} width={50} height={50} style={{ objectFit: 'cover' }} />
       <div className="flex flex-col">
         <h2 className="text-2xl font-bold">{name}</h2>
         <p className="mt-1 text-xs text-gray-600">{address}</p>

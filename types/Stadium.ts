@@ -15,14 +15,14 @@ export interface StadiumInfo{
   address?: string
   latitude: number | 0
   longitude: number | 0
-  logo?: string
+  logo: string | ''
   restaurants: RestaurantInfo[] | []
 }
 
 export interface RestaurantInfo{
   id: number
   name: string
-  category: string
+  category?: string
   latitude: number
   longitude: number
   distance?: number

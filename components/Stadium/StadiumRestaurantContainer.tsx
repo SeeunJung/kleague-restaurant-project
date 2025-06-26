@@ -1,29 +1,20 @@
 import { Card, flexCol, mainTitle } from "@/styles/customStyle";
 import RestaurantCard from "../Card/RestaurantCard";
 import getDistance from "@/utils/getDistance";
-import { RestaurantInfo, StadiumInfo } from "@/types/Stadium";
+import { RestaurantInfo } from "@/types/Stadium";
+import { getStadiumDetailWithRes } from "@/services/stadiums";
 
 export default async function StadiumRestaurantContainer({ id } : { id:number }){
-  const response = await fetch(`https://kleague-restaurant-api.gaanii.dev/stadiums/${id}`);
-  if(!response.ok){
-    return <div>맛집 정보를 불러오지 못했습니다.</div>
-  }
-  const stadium : StadiumInfo = await response.json();
-  const { latitude: stadiumLat, longitude: stadiumLng, restaurants } = stadium;
-  const topRestaurants = restaurants.slice(0, 9);
-
+  const stadium = await getStadiumDetailWithRes(id);
+  const {latitude: stadiumLat, longitude: stadiumLng, restaurants } = stadium;
+  const topRestaurants = restaurants.slice(0,9);
   const restaurantDetails: RestaurantInfo[] = [];
 
   for(const r of topRestaurants){
     const distance = getDistance(stadiumLat, stadiumLng, r.latitude, r.longitude);
-    const avgRating = 3;  //임의값 설정 추후 수정 예정
-
+    const avgRating = 3; //임의값 설정, 추후 수정 예정
     restaurantDetails.push({
-      id: r.id,
-      name: r.name,
-      category: r.category,
-      latitude: r.latitude,
-      longitude: r.longitude,
+      ...r,
       distance,
       avgRating
     })
