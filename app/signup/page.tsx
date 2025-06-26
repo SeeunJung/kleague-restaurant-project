@@ -15,9 +15,20 @@ import { useRouter } from 'next/navigation'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import validationsSchema from '@/schemas/register'
+import { useState } from 'react'
+import { ModalType } from '@/types/Modal'
+import Modal from '@/components/common/Modal'
+import { AxiosErrorRes } from '@/types/Axios'
 
-function Page() {
+function SignupPage() {
   const router = useRouter()
+  const [modalOpen, setModalOpen] = useState<boolean>(false)
+  const [modalContent, setModalContent] = useState<ModalType>({
+    isError: false,
+    title: '',
+    description: '',
+    onBtnClick: () => {},
+  })
 
   const {
     control,
@@ -38,13 +49,28 @@ function Page() {
   })
 
   const handleSignup = async () => {
-    console.log(getValues(), isValid)
-
     try {
       await signup(getValues())
-      router.push('/login')
-    } catch (e) {
-      console.error(e)
+      setModalContent({
+        isError: false,
+        title: '회원가입 성공',
+        description: '로그인 페이지로 이동합니다.',
+        onBtnClick: () => {
+          setModalOpen(false)
+          router.push('/login')
+        },
+      })
+      setModalOpen(true)
+    } catch (e: unknown) {
+      const err = e as AxiosErrorRes
+      setModalContent({
+        isError: true,
+        title: '회원가입 실패',
+        description:
+          err?.response?.data?.message ||
+          '회원가입 도중 오류가 발생했습니다.',
+      })
+      setModalOpen(true)
     }
   }
 
@@ -80,8 +106,13 @@ function Page() {
           isDisabled={!isValid}
         />
       </div>
+      <Modal
+        isOpen={modalOpen}
+        onOpenChange={setModalOpen}
+        contents={modalContent}
+      />
     </div>
   )
 }
 
-export default Page
+export default SignupPage
