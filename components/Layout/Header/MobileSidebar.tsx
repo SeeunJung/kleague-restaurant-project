@@ -13,7 +13,7 @@ function MobileSidebar({ open }: MobileSidebarProps) {
   const actions = [
     { label: '구장 목록', href: '/stadiums' },
     { label: '맛집 목록', href: '/restaurants' },
-    ...(accessToken
+    ...(!accessToken
       ? [
           { label: '로그인', href: '/login' },
           { label: '회원가입', href: '/signup' },
