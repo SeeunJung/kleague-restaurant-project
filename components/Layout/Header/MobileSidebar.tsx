@@ -1,13 +1,14 @@
 import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/store/useAuthStore'
-import { flexColIJCenter, link } from '@/styles/customStyle'
-import Link from 'next/link'
-
+import { flexColIJCenter } from '@/styles/customStyle'
+import { useRouter } from 'next/navigation'
 type MobileSidebarProps = {
   open: boolean
+  onClose: () => void
 }
 
-function MobileSidebar({ open }: MobileSidebarProps) {
+function MobileSidebar({ open, onClose }: MobileSidebarProps) {
+  const router = useRouter()
   const { accessToken, clearAccessToken } = useAuthStore()
 
   const actions = [
@@ -30,28 +31,39 @@ function MobileSidebar({ open }: MobileSidebarProps) {
           },
         ]),
   ]
+
+  if (!open) return null
+
   return (
-    <div className={cn('w-full', !open && 'hidden')}>
-      <ul>
-        {actions.map((act, idx) => (
-          <li
-            key={idx}
-            className={flexColIJCenter(
-              'w-full',
-              'p-3',
-              'active:bg-gray-100',
-            )}
-          >
-            <Link
-              href={act.href}
-              className={link()}
-              onClick={act.onClick || undefined}
+    <div
+      className={cn('w-full', 'fixed', 'inset-0', 'z-50')}
+      onClick={onClose}
+    >
+      <div
+        className={cn('w-full', 'bg-white', 'absolute', 'top-[60px]')}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <ul>
+          {actions.map((act, idx) => (
+            <li
+              key={idx}
+              className={flexColIJCenter(
+                'text-black',
+                'w-full',
+                'p-3',
+                'active:bg-gray-100',
+              )}
+              onClick={() => {
+                if (act.onClick) act.onClick()
+                onClose()
+                router.push(act.href)
+              }}
             >
               {act.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }
