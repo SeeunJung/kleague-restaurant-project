@@ -65,13 +65,14 @@ export const link = (...args: ClassValue[]) =>
     'text-md',
     'text-[#374151]',
     'hover:text-blue-500',
+    'active:text-blue-500',
     'cursor-pointer',
     ...args,
   )
 
 // Title
 export const mainTitle = (...args: ClassValue[]) =>
-  cn('text-xl', 'font-bold', ...args)
+  cn('text-xl', 'text-black', 'font-bold', ...args)
 
 export const subTitle = (...args: ClassValue[]) =>
   cn('text-sm', 'text-[#374151]', ...args)
@@ -87,7 +88,9 @@ export const authInput = (...args: ClassValue[]) =>
     'rounded-md',
     'border',
     'border-[#ccc]',
-    'focus:border-blue-700',
+    'focus:outline-none',
+    'focus:ring-1',
+    'focus:ring-blue-500',
     'placeholder:text-gray-500',
     'placeholder:text-sm',
     ...args,

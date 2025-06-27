@@ -1,8 +1,8 @@
 'use client'
 import AuthButtons from '@/components/Auth/AuthButtons'
-import AuthError from '@/components/Auth/AuthError'
 import AuthInput from '@/components/Auth/AuthInput'
 import AuthTitle from '@/components/Auth/AuthTitle'
+import Modal from '@/components/common/Modal'
 import { login } from '@/services/auth'
 import { useAuthStore } from '@/store/useAuthStore'
 import {
@@ -13,17 +13,24 @@ import {
 } from '@/styles/customStyle'
 import { LoginForm } from '@/types/Auth'
 import { AxiosErrorRes } from '@/types/Axios'
+import { ModalType } from '@/types/Modal'
 import { cn } from '@/utils/cn'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-function Page() {
+function LoginPage() {
   const router = useRouter()
   const [form, setForm] = useState<LoginForm>({
     email: '',
     password: '',
   })
-  const [error, setError] = useState<string | null>(null)
+  const [modalOpen, setModalOpen] = useState<boolean>(false)
+  const [modalContent, setModalContent] = useState<ModalType>({
+    isError: false,
+    title: '',
+    description: '',
+    onBtnClick: () => {},
+  })
   const { setAccessToken } = useAuthStore()
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,24 +45,27 @@ function Page() {
   const handleLogin = async () => {
     try {
       const { accessToken } = await login(form.email, form.password)
-
       setAccessToken(accessToken)
-
-      router.push('/')
-    } catch (err: unknown) {
-      if (
-        err &&
-        typeof err === 'object' &&
-        'response' in err &&
-        err.response &&
-        typeof err.response === 'object' &&
-        'data' in err.response
-      ) {
-        const response = err as AxiosErrorRes
-        setError(response.response.data.message || '로그인 실패')
-      } else {
-        setError('네트워크 또는 서버 에러일까나')
-      }
+      setModalContent({
+        isError: false,
+        title: '로그인 성공',
+        description: '메인페이지로 이동합니다.',
+        onBtnClick: () => {
+          setModalOpen(false)
+          router.push('/')
+        },
+      })
+    } catch (e: unknown) {
+      const err = e as AxiosErrorRes
+      setModalContent({
+        isError: true,
+        title: '로그인 실패',
+        description:
+          err?.response?.data?.message ||
+          '로그인 도중 오류가 발생했습니다.',
+      })
+    } finally {
+      setModalOpen(true)
     }
   }
 
@@ -68,17 +78,17 @@ function Page() {
           <AuthInput
             label="이메일"
             name="email"
+            type="email"
             value={form.email}
             onChange={handleInput}
           />
           <AuthInput
             label="비밀번호"
             name="password"
-            value={form.password}
             type="password"
+            value={form.password}
             onChange={handleInput}
           />
-          {error && <AuthError error={error} />}
         </div>
         <AuthButtons
           isLogin={true}
@@ -86,8 +96,13 @@ function Page() {
           onButtonClick={handleLogin}
         />
       </div>
+      <Modal
+        isOpen={modalOpen}
+        onOpenChange={setModalOpen}
+        contents={modalContent}
+      />
     </div>
   )
 }
 
-export default Page
+export default LoginPage
