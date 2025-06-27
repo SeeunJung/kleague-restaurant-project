@@ -33,7 +33,7 @@ export default function RestaurantCard({ restaurant } : RestaurantCardInfo){
       </div>
 
         <div className='flex justify-center mt-4'>
-          <button className={cn(button(), 'w-full text-xs sm:text-sm px-2 sm:px-4 py-1 sm:py-2')}
+          <button className={cn(button(), 'w-full text-sm px-2 py-2')}
             onClick={handleDetailClick}>상세보기</button>
         </div>
     </div>
