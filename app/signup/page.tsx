@@ -1,9 +1,8 @@
 'use client'
 import AuthButtons from '@/components/Auth/AuthButtons'
-import AuthError from '@/components/Auth/AuthError'
 import AuthInput from '@/components/Auth/AuthInput'
 import AuthTitle from '@/components/Auth/AuthTitle'
-import { KLEAGUE_TEAMS } from '@/constants'
+import { KLEAGUE_TEAMS, SIGNUP_INPUT } from '@/constants'
 import { signup } from '@/services/auth'
 import {
   Card,
@@ -11,65 +10,67 @@ import {
   flexColIJCenter,
   mainTitle,
 } from '@/styles/customStyle'
-import { SignupForm } from '@/types/Auth'
-import { AxiosErrorRes } from '@/types/Axios'
 import { cn } from '@/utils/cn'
 import { useRouter } from 'next/navigation'
+import { Controller, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import validationsSchema from '@/schemas/register'
 import { useState } from 'react'
+import { ModalType } from '@/types/Modal'
+import Modal from '@/components/common/Modal'
+import { AxiosErrorRes } from '@/types/Axios'
 
-function Page() {
+function SignupPage() {
   const router = useRouter()
-  const [form, setForm] = useState<SignupForm>({
-    name: '',
-    nickname: '',
-    email: '',
-    password: '',
-    confirmPw: '',
-    phoneNumber: '',
-    favoriteTeam: '',
+  const [modalOpen, setModalOpen] = useState<boolean>(false)
+  const [modalContent, setModalContent] = useState<ModalType>({
+    isError: false,
+    title: '',
+    description: '',
+    onBtnClick: () => {},
   })
-  const [error, setError] = useState<string | null>(null)
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setForm((prev) => ({ ...prev, [name]: value }))
-  }
-
-  const isFormValid = Object.values(form).every(
-    (v) => v.trim() !== '',
-  )
+  const {
+    control,
+    formState: { isValid, errors },
+    getValues,
+  } = useForm({
+    resolver: zodResolver(validationsSchema),
+    defaultValues: {
+      name: '',
+      nickname: '',
+      email: '',
+      password: '',
+      confirmPw: '',
+      phoneNumber: '',
+      favoriteTeam: '',
+    },
+    mode: 'onChange',
+  })
 
   const handleSignup = async () => {
-    if (form.password !== form.confirmPw) {
-      setError('비밀번호가 일치하지 않습니다.')
-      return
-    }
-
     try {
-      await signup(
-        form.email,
-        form.password,
-        form.name,
-        form.nickname,
-        form.phoneNumber,
-        form.favoriteTeam,
-      )
-
-      router.push('/login')
-    } catch (err: unknown) {
-      if (
-        err &&
-        typeof err === 'object' &&
-        'response' in err &&
-        err.response &&
-        typeof err.response === 'object' &&
-        'data' in err.response
-      ) {
-        const response = err as AxiosErrorRes
-        setError(response.response.data.message || '로그인 실패')
-      } else {
-        setError('네트워크 또는 서버 에러일까나')
-      }
+      await signup(getValues())
+      setModalContent({
+        isError: false,
+        title: '회원가입 성공',
+        description: '로그인 페이지로 이동합니다.',
+        onBtnClick: () => {
+          setModalOpen(false)
+          router.push('/login')
+        },
+      })
+      setModalOpen(true)
+    } catch (e: unknown) {
+      const err = e as AxiosErrorRes
+      setModalContent({
+        isError: true,
+        title: '회원가입 실패',
+        description:
+          err?.response?.data?.message ||
+          '회원가입 도중 오류가 발생했습니다.',
+      })
+      setModalOpen(true)
     }
   }
 
@@ -79,61 +80,39 @@ function Page() {
       <div className={Card('w-[350px]', 'mx-auto', 'space-y-5')}>
         <span className={flexColIJCenter(mainTitle())}>회원가입</span>
         <div className={flexCol('w-full', 'gap-3')}>
-          <AuthInput
-            label="이름"
-            name="name"
-            value={form.name}
-            onChange={handleInput}
-          />
-          <AuthInput
-            label="닉네임"
-            name="nickname"
-            value={form.nickname}
-            onChange={handleInput}
-          />
-          <AuthInput
-            label="이메일"
-            name="email"
-            value={form.email}
-            onChange={handleInput}
-          />
-          <AuthInput
-            label="비밀번호"
-            name="password"
-            value={form.password}
-            type="password"
-            onChange={handleInput}
-          />
-          <AuthInput
-            label="비밀번호 확인"
-            name="confirmPw"
-            value={form.confirmPw}
-            type="password"
-            onChange={handleInput}
-          />
-          <AuthInput
-            label="휴대폰번호"
-            name="phoneNumber"
-            value={form.phoneNumber}
-            onChange={handleInput}
-          />
-          <AuthInput
-            label="좋아하는 구단"
-            name="favoriteTeam"
-            type="select"
-            value={form.favoriteTeam}
-            onChange={handleInput}
-            options={KLEAGUE_TEAMS}
-          />
-          {error && <AuthError error={error} />}
+          {SIGNUP_INPUT.map(({ value, type, label }) => (
+            <Controller
+              key={value}
+              name={value}
+              control={control}
+              render={({ field }) => (
+                <AuthInput
+                  label={label}
+                  name={field.name}
+                  type={type}
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={errors[value]?.message}
+                  options={
+                    type === 'select' ? KLEAGUE_TEAMS : undefined
+                  }
+                />
+              )}
+            />
+          ))}
         </div>
         <AuthButtons
           onButtonClick={handleSignup}
-          isDisabled={!isFormValid}
+          isDisabled={!isValid}
         />
       </div>
+      <Modal
+        isOpen={modalOpen}
+        onOpenChange={setModalOpen}
+        contents={modalContent}
+      />
     </div>
   )
 }
 
-export default Page
+export default SignupPage

@@ -1,20 +1,10 @@
+import { SignupForm } from '@/types/Auth'
 import axiosInstance from '@/utils/axiosInstance'
 
-export const signup = async (
-  email: string,
-  password: string,
-  name: string,
-  nickname: string,
-  phoneNumber: string,
-  favoriteTeam: string,
-) => {
+export const signup = async (payload: SignupForm) => {
   await axiosInstance.post('/auth/signup', {
-    username: name,
-    email,
-    password,
-    nickname,
-    phoneNumber,
-    favoriteTeam,
+    ...payload,
+    username: payload.name,
   })
 }
 
