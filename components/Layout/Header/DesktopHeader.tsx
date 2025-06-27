@@ -25,13 +25,13 @@ function DesktopHeader() {
           </Link>
           <nav className={flexRowICenter()}>
             <Link
-              href="/stadium"
+              href="/stadiums"
               className={link()}
             >
               구장 목록
             </Link>
             <Link
-              href="/restaurant"
+              href="/restaurants"
               className={link()}
             >
               맛집 목록
