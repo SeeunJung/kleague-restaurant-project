@@ -44,7 +44,10 @@ function MobileHeader() {
           )}
         </button>
       </nav>
-      <MobileSidebar open={sidebarOpen} />
+      <MobileSidebar
+        open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+      />
     </header>
   )
 }
