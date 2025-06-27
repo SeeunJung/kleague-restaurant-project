@@ -24,6 +24,7 @@ function LoginPage() {
     email: '',
     password: '',
   })
+
   const [modalOpen, setModalOpen] = useState<boolean>(false)
   const [modalContent, setModalContent] = useState<ModalType>({
     isError: false,

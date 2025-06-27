@@ -74,6 +74,7 @@ export const link = (...args: ClassValue[]) =>
 export const mainTitle = (...args: ClassValue[]) =>
   cn('text-xl', 'text-black', 'font-bold', ...args)
 
+
 export const subTitle = (...args: ClassValue[]) =>
   cn('text-sm', 'text-[#374151]', ...args)
 

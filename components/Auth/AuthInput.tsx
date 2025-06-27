@@ -49,6 +49,7 @@ function AuthInput({
 
     return (
       <div className={cn('relative', 'w-full')}>
+
         <input
           id={name}
           name={name}
@@ -79,6 +80,7 @@ function AuthInput({
 
   return (
     <div className={flexCol('gap-1')}>
+
       <span className={cn('text-sm', 'font-medium', 'text-nowrap')}>
         {label}
       </span>
