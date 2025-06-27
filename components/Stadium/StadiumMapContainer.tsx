@@ -1,0 +1,39 @@
+import { Card, flexColIJCenter } from "@/styles/customStyle";
+import StadiumInfo from "./StadiumInfo";
+import StadiumMap from "./StadiumMap";
+import { RestaurantInfo } from "@/types/Stadium";
+import { getStadiumDetailWithRes } from "@/services/stadiums";
+
+export default async function StadiumMapContainer({ id } : { id: number }){
+  const stadium = await getStadiumDetailWithRes(id);
+  const { name, team, logo, address, latitude, longitude, restaurants } = stadium;
+
+  return(
+    <div className={Card('w-full mx-auto')}>
+      <StadiumInfo
+        name={name}
+        team={team}
+        address={address}
+        logo={logo}
+        latitude={0}
+        longitude={0}
+        restaurants={[]}
+      />
+
+      <div className={flexColIJCenter()}>
+        <StadiumMap
+          latitude={latitude}
+          longitude={longitude}
+          name={name}
+          logo={logo}
+          restaurants={restaurants.map((r : RestaurantInfo) => ({
+            id: r.id,
+            name: r.name,
+            latitude: r.latitude,
+            longitude: r.longitude
+          }))}
+         />
+      </div>
+    </div>
+  )
+}
