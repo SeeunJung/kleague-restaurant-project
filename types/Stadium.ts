@@ -6,9 +6,10 @@ export interface Stadium {
   latitude: number
   longitude: number
   logo: string
+  restaurantCount: number
 }
 
-export interface StadiumInfo{
+export interface StadiumInfo {
   id?: number
   name: string
   team?: string
@@ -19,7 +20,7 @@ export interface StadiumInfo{
   restaurants: RestaurantInfo[] | []
 }
 
-export interface RestaurantInfo{
+export interface RestaurantInfo {
   id: number
   name: string
   category?: string
@@ -34,6 +35,6 @@ export interface RestaurantInfo{
   avgRating?: number
 }
 
-export interface RestaurantCardInfo{
+export interface RestaurantCardInfo {
   restaurant: RestaurantInfo
 }

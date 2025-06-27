@@ -57,7 +57,9 @@ function MainStadiumCard({ stadium }: MainStadiumCardProps) {
         <div className={subTitle()}>{stadium.address}</div>
       </div>
       <div className={flexRowICenter('justify-between')}>
-        <span className={subTitle()}>맛집 N곳</span>
+        <span className={subTitle()}>
+          맛집 {stadium.restaurantCount}곳
+        </span>
         <button
           className={button('rounded-2xl', 'p-2', 'text-sm')}
           onClick={handleClick}
