@@ -18,7 +18,6 @@ export default function Home() {
         'lg:max-w-[1200px]',
         'mx-auto',
         'p-3',
-        'pt-8',
         'gap-6',
       )}
     >
