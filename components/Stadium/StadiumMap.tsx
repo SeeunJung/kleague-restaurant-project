@@ -1,47 +1,38 @@
 'use client'
 
+import { StadiumInfo } from "@/types/Stadium";
 import { useEffect, useRef } from "react";
 
-interface Restaurant{
-  id: number;
-  name: string;
-  latitude: number;
-  longitude: number;
-}
-
-interface StadiumMapProps{
-  center:{
-    latitude: number;
-    longitude: number;
-  };
-  stadiumName: string;
-  restaurants: Restaurant[];
-}
-
-
-export default function StadiumMap({ center, stadiumName, restaurants } : StadiumMapProps){
+export default function StadiumMap({ latitude, longitude, name, logo, restaurants } : StadiumInfo){
   const mapRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if(!window.naver || !mapRef.current) return;
  
     const map = new naver.maps.Map(mapRef.current, {
-      center: new naver.maps.LatLng(center.latitude, center.longitude),
+      center: new naver.maps.LatLng(latitude, longitude),
       zoom: 16,
       minZoom: 10,
     });
 
     new naver.maps.Marker({
-      position: new naver.maps.LatLng(center.latitude, center.longitude),
-      title: stadiumName,
+      position: new naver.maps.LatLng(latitude, longitude),
+      title: name,
       map,
+      icon: {
+          url: logo,
+          size: new naver.maps.Size(45, 45),
+          scaledSize: new naver.maps.Size(45, 45),
+          origin: new naver.maps.Point(0, 0),
+          anchor: new naver.maps.Point(12, 12),
+        }
     })
 
     restaurants.forEach(restaurant => {
       new naver.maps.Marker({
         position: new naver.maps.LatLng(restaurant.latitude, restaurant.longitude),
         map,
-        title: restaurant.name
+        title: restaurant.name,
       });
     })
   }, [])

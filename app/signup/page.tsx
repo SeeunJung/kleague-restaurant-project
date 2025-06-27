@@ -71,6 +71,10 @@ function SignupPage() {
           '회원가입 도중 오류가 발생했습니다.',
       })
       setModalOpen(true)
+<<<<<<< HEAD
+=======
+
+>>>>>>> b87c7f40f735de1a9494bb3f12ac1c117efdd7c3
     }
   }
 
@@ -111,8 +115,16 @@ function SignupPage() {
         onOpenChange={setModalOpen}
         contents={modalContent}
       />
+<<<<<<< HEAD
+=======
+
+>>>>>>> b87c7f40f735de1a9494bb3f12ac1c117efdd7c3
     </div>
   )
 }
 
+<<<<<<< HEAD
 export default SignupPage
+=======
+export default SignupPage
+>>>>>>> b87c7f40f735de1a9494bb3f12ac1c117efdd7c3

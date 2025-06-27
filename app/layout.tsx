@@ -4,6 +4,10 @@ import Header from '@/components/Layout/Header'
 import ConditionalFooter from '@/components/Layout/Footer/ConditionalFooter'
 import Script from 'next/script'
 import { cn } from '@/utils/cn'
+<<<<<<< HEAD
+=======
+
+>>>>>>> b87c7f40f735de1a9494bb3f12ac1c117efdd7c3
 
 export const metadata: Metadata = {
   title: 'K리그 맛집 지도',

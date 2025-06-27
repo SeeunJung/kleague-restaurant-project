@@ -49,6 +49,10 @@ function AuthInput({
 
     return (
       <div className={cn('relative', 'w-full')}>
+<<<<<<< HEAD
+=======
+
+>>>>>>> b87c7f40f735de1a9494bb3f12ac1c117efdd7c3
         <input
           id={name}
           name={name}
@@ -79,6 +83,10 @@ function AuthInput({
 
   return (
     <div className={flexCol('gap-1')}>
+<<<<<<< HEAD
+=======
+
+>>>>>>> b87c7f40f735de1a9494bb3f12ac1c117efdd7c3
       <span className={cn('text-sm', 'font-medium', 'text-nowrap')}>
         {label}
       </span>

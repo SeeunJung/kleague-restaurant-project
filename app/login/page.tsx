@@ -24,6 +24,10 @@ function LoginPage() {
     email: '',
     password: '',
   })
+<<<<<<< HEAD
+=======
+
+>>>>>>> b87c7f40f735de1a9494bb3f12ac1c117efdd7c3
   const [modalOpen, setModalOpen] = useState<boolean>(false)
   const [modalContent, setModalContent] = useState<ModalType>({
     isError: false,
@@ -105,4 +109,8 @@ function LoginPage() {
   )
 }
 
+<<<<<<< HEAD
 export default LoginPage
+=======
+export default LoginPage
+>>>>>>> b87c7f40f735de1a9494bb3f12ac1c117efdd7c3
