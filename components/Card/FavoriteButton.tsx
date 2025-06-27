@@ -12,16 +12,14 @@ interface FavoriteButtonProps{
 export default function FavoriteButton({ restaurantId }: FavoriteButtonProps){
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  axiosInstance.interceptors.request.use((config) => {
-      const accessToken = useAuthStore.getState().accessToken;
-      config.headers['Authorization'] = `Bearer ${accessToken}`;
-      return config;
-    }
-  )
+  const accessToken = useAuthStore(state => state.accessToken);
 
   useEffect(() => {
     const checkFavorite = async() => {
+      if(!accessToken){
+        setIsFavorite(false);
+        return;
+      }
       try{
         const res = await axiosInstance.post('/favorites/me');
         const favorites = res.data as {restaurantId: number}[];
@@ -32,9 +30,13 @@ export default function FavoriteButton({ restaurantId }: FavoriteButtonProps){
       }
     }
     checkFavorite()
-  }, [restaurantId])
+  }, [restaurantId, accessToken])
 
   const toggleFavorite = async() => {
+    if(!accessToken){
+      alert('즐겨찾기는 로그인 후에 사용 가능합니다.')
+      return;
+    }
     if(isLoading) return;
     setIsLoading(true);
 
