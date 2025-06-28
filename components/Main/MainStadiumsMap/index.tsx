@@ -64,7 +64,7 @@ function MainStadiumMap({ keyword }: MainStadiumsMapProps) {
     <div className={flexCol(Card('w-full'))}>
       <Tabs>
         <div className={flexRowICenter('justify-between')}>
-          <div className={cardTitle()}>전국 K리그 구장</div>
+          <div className={cardTitle()}>구장 지도</div>
           <StadiumTabs onSelect={setLeague} />
         </div>
         <div
