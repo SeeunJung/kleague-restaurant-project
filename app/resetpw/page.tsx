@@ -4,14 +4,13 @@ import AuthInput from '@/components/Auth/AuthInput'
 import AuthTitle from '@/components/Auth/AuthTitle'
 import Modal from '@/components/common/Modal'
 import useAuthForm from '@/hooks/useAuthForm'
+import useModal from '@/hooks/useModal'
 import { reset } from '@/services/auth'
 import { Card } from '@/styles/customStyle'
 import { SignupForm } from '@/types/Auth'
 import { AxiosErrorRes } from '@/types/Axios'
-import { ModalType } from '@/types/Modal'
 import { cn } from '@/utils/cn'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
 
 function ResetPwPage() {
   const router = useRouter()
@@ -24,18 +23,13 @@ function ResetPwPage() {
     password: '',
   })
 
-  const [modalOpen, setModalOpen] = useState<boolean>(false)
-  const [modalContent, setModalContent] = useState<ModalType>({
-    isError: false,
-    title: '',
-    description: '',
-    onBtnClick: () => {},
-  })
+  const { modalOpen, setModalOpen, modalContent, openModal } =
+    useModal()
 
   const handleSubmit = async () => {
     try {
       await reset(form)
-      setModalContent({
+      openModal({
         isError: false,
         title: '비밀번호 변경 성공',
         description: '로그인 페이지로 이동합니다.',
@@ -46,15 +40,13 @@ function ResetPwPage() {
       })
     } catch (e: unknown) {
       const err = e as AxiosErrorRes
-      setModalContent({
+      openModal({
         isError: true,
         title: '비밀번호 변경 실패',
         description:
           err?.response?.data?.message ||
           '비밀번호 변경 중 오류가 발생했습니다.',
       })
-    } finally {
-      setModalOpen(true)
     }
   }
 

@@ -4,6 +4,7 @@ import AuthInput from '@/components/Auth/AuthInput'
 import AuthTitle from '@/components/Auth/AuthTitle'
 import Modal from '@/components/common/Modal'
 import useAuthForm from '@/hooks/useAuthForm'
+import useModal from '@/hooks/useModal'
 import { login } from '@/services/auth'
 import { useAuthStore } from '@/store/useAuthStore'
 import {
@@ -16,11 +17,9 @@ import {
 } from '@/styles/customStyle'
 import { LoginForm } from '@/types/Auth'
 import { AxiosErrorRes } from '@/types/Axios'
-import { ModalType } from '@/types/Modal'
 import { cn } from '@/utils/cn'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
 
 function LoginPage() {
   const router = useRouter()
@@ -28,14 +27,8 @@ function LoginPage() {
     email: '',
     password: '',
   })
-
-  const [modalOpen, setModalOpen] = useState<boolean>(false)
-  const [modalContent, setModalContent] = useState<ModalType>({
-    isError: false,
-    title: '',
-    description: '',
-    onBtnClick: () => {},
-  })
+  const { modalOpen, setModalOpen, modalContent, openModal } =
+    useModal()
 
   const { setAccessToken } = useAuthStore()
 
@@ -43,7 +36,7 @@ function LoginPage() {
     try {
       const { accessToken } = await login(form.email, form.password)
       setAccessToken(accessToken)
-      setModalContent({
+      openModal({
         isError: false,
         title: '로그인 성공',
         description: '메인페이지로 이동합니다.',
@@ -54,15 +47,13 @@ function LoginPage() {
       })
     } catch (e: unknown) {
       const err = e as AxiosErrorRes
-      setModalContent({
+      openModal({
         isError: true,
         title: '로그인 실패',
         description:
           err?.response?.data?.message ||
           '로그인 도중 오류가 발생했습니다.',
       })
-    } finally {
-      setModalOpen(true)
     }
   }
 

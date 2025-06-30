@@ -1,4 +1,4 @@
-export interface ModalType {
+export interface IModalType {
   isError: boolean
   title: string
   description: string
