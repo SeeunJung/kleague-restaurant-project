@@ -16,3 +16,14 @@ export const login = async (email: string, password: string) => {
 
   return res.data
 }
+
+export const reset = async (
+  payload: Pick<SignupForm, 'email' | 'phoneNumber' | 'password'>,
+) => {
+  const res = await axiosInstance.post('/auth/resetPw', {
+    ...payload,
+    newPassword: payload.password,
+  })
+
+  return res.data
+}

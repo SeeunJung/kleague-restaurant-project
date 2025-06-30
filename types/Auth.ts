@@ -1,4 +1,4 @@
-export interface SignupForm {
+export type SignupForm = {
   name: string
   nickname: string
   email: string
@@ -8,12 +8,12 @@ export interface SignupForm {
   favoriteTeam: string
 }
 
-export interface LoginForm {
+export type LoginForm = {
   email: string
   password: string
 }
 
-export interface User {
+export type User = {
   id: number
   username: string
   nickname: string
