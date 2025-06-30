@@ -7,24 +7,42 @@ import {
 import Link from 'next/link'
 
 type AuthButtonsProps = {
-  isLogin?: boolean
+  mode: 'login' | 'signup' | 'reset'
   isDisabled: boolean
   onButtonClick: (e: React.MouseEvent) => void
 }
 
 function AuthButtons({
-  isLogin,
+  mode,
   isDisabled,
   onButtonClick,
 }: AuthButtonsProps) {
-  const btnLabel = isLogin ? '로그인' : '회원가입'
-  const spanText = isLogin
-    ? '계정이 없으신가요? '
-    : '이미 계정이 있으신가요? '
-  const linkLabel = isLogin ? '회원가입' : '로그인'
+  const btnLabel = {
+    login: '로그인',
+    signup: '회원가입',
+    reset: '비밀번호 재설정',
+  }[mode]
+
+  const extraUI = {
+    login: {
+      text: '계정이 없으신가요? ',
+      linkText: '회원가입',
+      linkHref: '/signup',
+    },
+    signup: {
+      text: '이미 계정이 있으신가요? ',
+      linkText: '로그인',
+      linkHref: '/login',
+    },
+    reset: {
+      text: '계정이 기억나셨나요? ',
+      linkText: '로그인',
+      linkHref: '/login',
+    },
+  }[mode]
 
   return (
-    <div className={flexColIJCenter('gap-4')}>
+    <div className={flexColIJCenter('gap-4', 'w-full')}>
       <button
         className={button('w-full')}
         onClick={onButtonClick}
@@ -33,12 +51,12 @@ function AuthButtons({
         {btnLabel}
       </button>
       <div>
-        <span className={span()}>{spanText}</span>
+        <span className={span()}>{extraUI.text}</span>
         <Link
-          href={`/${isLogin ? 'signup' : 'login'}`}
+          href={extraUI.linkHref}
           className={authButtonLink()}
         >
-          {linkLabel}
+          {extraUI.linkText}
         </Link>
       </div>
     </div>
