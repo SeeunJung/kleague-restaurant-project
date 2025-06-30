@@ -22,7 +22,7 @@ export default function StadiumRestaurantContainer({ id }: { id: number }) {
       const processed = restaurants.map((r) => ({
         ...r,
         distance: getDistance(stadiumLat, stadiumLng, r.latitude, r.longitude),
-        avgRating: 3 // 추후 API 연동 예정
+        avgRating: r.avgRating
       }));
       setRestaurants(processed);
     };
