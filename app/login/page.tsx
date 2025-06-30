@@ -6,8 +6,10 @@ import Modal from '@/components/common/Modal'
 import { login } from '@/services/auth'
 import { useAuthStore } from '@/store/useAuthStore'
 import {
+  authButtonLink,
   Card,
   flexCol,
+  flexColICenter,
   flexColIJCenter,
   mainTitle,
 } from '@/styles/customStyle'
@@ -15,6 +17,7 @@ import { LoginForm } from '@/types/Auth'
 import { AxiosErrorRes } from '@/types/Axios'
 import { ModalType } from '@/types/Modal'
 import { cn } from '@/utils/cn'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
@@ -32,6 +35,7 @@ function LoginPage() {
     description: '',
     onBtnClick: () => {},
   })
+
   const { setAccessToken } = useAuthStore()
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,7 +77,14 @@ function LoginPage() {
   return (
     <div className={cn('mt-9')}>
       <AuthTitle subT="로그인하여 더 많은 기능을 이용하세요" />
-      <div className={Card('w-[350px]', 'mx-auto', 'space-y-5')}>
+      <div
+        className={Card(
+          'w-[350px]',
+          'mx-auto',
+          'space-y-4',
+          flexColICenter(),
+        )}
+      >
         <span className={flexColIJCenter(mainTitle())}>로그인</span>
         <div className={flexCol('w-full', 'gap-3')}>
           <AuthInput
@@ -91,8 +102,14 @@ function LoginPage() {
             onChange={handleInput}
           />
         </div>
+        <Link
+          href="/resetpw"
+          className={authButtonLink()}
+        >
+          비밀번호를 잊으셨나요?
+        </Link>
         <AuthButtons
-          isLogin={true}
+          mode="login"
           isDisabled={!isFormValid}
           onButtonClick={handleLogin}
         />

@@ -71,7 +71,6 @@ function SignupPage() {
           '회원가입 도중 오류가 발생했습니다.',
       })
       setModalOpen(true)
-
     }
   }
 
@@ -103,6 +102,7 @@ function SignupPage() {
           ))}
         </div>
         <AuthButtons
+          mode="signup"
           onButtonClick={handleSignup}
           isDisabled={!isValid}
         />
@@ -112,7 +112,6 @@ function SignupPage() {
         onOpenChange={setModalOpen}
         contents={modalContent}
       />
-
     </div>
   )
 }
