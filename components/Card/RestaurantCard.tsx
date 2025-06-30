@@ -9,7 +9,7 @@ import FavoriteButton from "./FavoriteButton";
 
 export default function RestaurantCard({ restaurant } : RestaurantCardInfo){
   const router = useRouter();
-
+  console.log(restaurant)
   const handleDetailClick = () => {
     router.push(`/restaurants/${restaurant.id}`);
   }
