@@ -5,7 +5,7 @@ import Footer from '.'
 
 function ConditionalFooter() {
   const pathname = usePathname()
-  const hideFooterRoutes = ['/login', '/signup']
+  const hideFooterRoutes = ['/login', '/signup', '/resetpw']
 
   if (hideFooterRoutes.includes(pathname)) return null
 

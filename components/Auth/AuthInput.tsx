@@ -45,11 +45,14 @@ function AuthInput({
     }
 
     const isPassword = type === 'password'
-    const inputType = isPassword && !showPassword ? 'password' : type
+    const inputType = isPassword
+      ? showPassword
+        ? 'text'
+        : 'password'
+      : type
 
     return (
       <div className={cn('relative', 'w-full')}>
-
         <input
           id={name}
           name={name}
@@ -80,7 +83,6 @@ function AuthInput({
 
   return (
     <div className={flexCol('gap-1')}>
-
       <span className={cn('text-sm', 'font-medium', 'text-nowrap')}>
         {label}
       </span>
