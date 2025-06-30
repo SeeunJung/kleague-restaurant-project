@@ -3,6 +3,7 @@ import AuthButtons from '@/components/Auth/AuthButtons'
 import AuthInput from '@/components/Auth/AuthInput'
 import AuthTitle from '@/components/Auth/AuthTitle'
 import Modal from '@/components/common/Modal'
+import useAuthForm from '@/hooks/useAuthForm'
 import { login } from '@/services/auth'
 import { useAuthStore } from '@/store/useAuthStore'
 import {
@@ -23,7 +24,7 @@ import { useState } from 'react'
 
 function LoginPage() {
   const router = useRouter()
-  const [form, setForm] = useState<LoginForm>({
+  const { form, handleInput, isFormValid } = useAuthForm<LoginForm>({
     email: '',
     password: '',
   })
@@ -37,15 +38,6 @@ function LoginPage() {
   })
 
   const { setAccessToken } = useAuthStore()
-
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setForm((prev) => ({ ...prev, [name]: value }))
-  }
-
-  const isFormValid = Object.values(form).every(
-    (v) => v.trim() !== '',
-  )
 
   const handleLogin = async () => {
     try {
