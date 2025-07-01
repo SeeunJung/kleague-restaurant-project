@@ -60,7 +60,7 @@ export default function StadiumRestaurantContainer({ id }: { id: number }) {
           <p className="text-center w-full mt-6 text-gray-500">일치하는 식당이 존재하지 않습니다.</p>
           ) : (
           sorted.map((restaurant) => (
-          <RestaurantCard key={restaurant.id} restaurant={restaurant} />
+          <RestaurantCard key={restaurant.id} restaurant={restaurant} showDistance={true} />
         )))}
       </div>
     </div>

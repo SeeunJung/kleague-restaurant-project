@@ -7,7 +7,7 @@ import { Star } from "lucide-react";
 import { useRouter } from "next/navigation";
 import FavoriteButton from "./FavoriteButton";
 
-export default function RestaurantCard({ restaurant } : RestaurantCardInfo){
+export default function RestaurantCard({ restaurant, showDistance, stadiumName } : RestaurantCardInfo){
   const router = useRouter();
   console.log(restaurant)
   const handleDetailClick = () => {
@@ -25,11 +25,19 @@ export default function RestaurantCard({ restaurant } : RestaurantCardInfo){
 
       <div className={flexCol('gap-0')}>
           <span className={subTitle('text-sm font-semibold')}>{restaurant.category}</span>
-          <span className={cn(subTitle(flexRowICenter()), 'text-sm font-semibold')}>
-            <Star fill="#FFD94D" strokeWidth={0} width={18} height={18} />
-            {restaurant.avgRating}
-          </span>
-          <span className="inline-block w-fit mt-1 px-2 py-1 text-xs font-semibold bg-gray-200 bg-opacity-75 rounded-full">{restaurant.distance} km</span>
+          
+          {restaurant.avgRating !== undefined && (
+            <span className={cn(subTitle(flexRowICenter()), 'text-sm font-semibold')}>
+              <Star fill="#FFD94D" strokeWidth={0} width={18} height={18} />
+              {restaurant.avgRating}
+            </span>
+          )}
+
+          {showDistance && restaurant.distance !== undefined ? (
+            <span className="inline-block w-fit mt-1 px-2 py-1 text-xs font-semibold bg-gray-200 bg-opacity-75 rounded-full">{restaurant.distance} km</span>
+          ) : stadiumName?(
+            <span className="inline-block w-fit mt-1 px-2 py-1 text-xs font-semibold bg-gray-200 bg-opacity-75 rounded-full">{stadiumName}</span>
+          ) : null}
       </div>
 
         <div className='flex justify-center mt-4'>

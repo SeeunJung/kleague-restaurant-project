@@ -1,8 +1,6 @@
 'use client'
 
-import FavoriteCard from "@/components/Card/FavoriteCard"
 import RestaurantCard from "@/components/Card/RestaurantCard"
-import LoadingSpinner from "@/components/LoadingSpinner"
 import { useAuthStore } from "@/store/useAuthStore"
 import axiosInstance from "@/utils/axiosInstance"
 import { useEffect, useState } from "react"
@@ -44,13 +42,13 @@ export default function UserFavorites(){
     fetchFavorites();
   }, [accessToken, favorites]);
 
-  if(loading) return <LoadingSpinner />
+  if(loading) return <div>로딩 중...</div>
   if(favorites.length === 0) return <div>즐겨찾기한 식당이 없습니다.</div>
 
   return(
     <div>
       {favorites.map(({ restaurant }) => (
-        <RestaurantCard key={restaurant.id} restaurant={{...restaurant}} />
+        <RestaurantCard key={restaurant.id} restaurant={{...restaurant}} showDistance={false} />
       ))}
     </div>
   )

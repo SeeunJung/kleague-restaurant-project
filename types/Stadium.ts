@@ -37,4 +37,6 @@ export interface RestaurantInfo {
 
 export interface RestaurantCardInfo {
   restaurant: RestaurantInfo
+  showDistance?: boolean
+  stadiumName?: string
 }
