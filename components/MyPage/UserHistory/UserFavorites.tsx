@@ -2,7 +2,9 @@
 
 import RestaurantCard from "@/components/Card/RestaurantCard"
 import { useAuthStore } from "@/store/useAuthStore"
+import { mainTitle } from "@/styles/customStyle"
 import axiosInstance from "@/utils/axiosInstance"
+import { getStadiumNameById } from "@/utils/getStudiumById"
 import { useEffect, useState } from "react"
 
 interface FavoriteRestaurantProps{
@@ -47,9 +49,12 @@ export default function UserFavorites(){
 
   return(
     <div>
-      {favorites.map(({ restaurant }) => (
-        <RestaurantCard key={restaurant.id} restaurant={{...restaurant}} showDistance={false} />
+      <h3 className={mainTitle("mb-2")}>즐겨찾기한 맛집</h3>
+      <div className={"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full mx-auto gap-4"}>
+        {favorites.map(({ restaurant }) => (
+        <RestaurantCard key={restaurant.id} restaurant={{...restaurant}} showDistance={false} stadiumName={getStadiumNameById(restaurant.stadiumId)} />
       ))}
+      </div>
     </div>
   )
 }

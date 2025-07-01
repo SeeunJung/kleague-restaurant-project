@@ -3,7 +3,7 @@ import { flexCol, flexRowICenter } from '@/styles/customStyle';
 
 export default function DefaultProfile(){
   return(
-    <div className={flexRowICenter('justify-between m-4 p-2')}>
+    <div className={flexRowICenter('justify-between m-2 p-2')}>
       <div className={flexCol()}>
         <h2 className="mb-1 text-2xl font-bold">닉네임</h2>
         <p className="text-sm text-gray-600">이메일</p>
