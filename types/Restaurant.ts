@@ -1,17 +1,17 @@
 import { User } from './Auth'
 
-export interface Review {
-  id?: number
-  content?: string
+export type Review = {
+  id: number
+  content: string
   rating: number
-  userId?: number
-  restaurantId?: number
-  createdAt?: string
-  updatedAt?: string
-  user?: User
+  userId: number
+  restaurantId: number
+  createdAt: Date
+  updatedAt: Date
+  user: User
 }
 
-export interface Restaurant {
+export type Restaurant = {
   id: number
   name: string
   category: string
