@@ -24,8 +24,8 @@ export interface RestaurantInfo {
   id: number
   name: string
   category?: string
-  latitude: number
-  longitude: number
+  latitude?: number
+  longitude?: number
   distance?: number
   phone?: string
   businessHours?: string

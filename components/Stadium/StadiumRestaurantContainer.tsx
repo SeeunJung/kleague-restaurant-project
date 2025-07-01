@@ -21,7 +21,7 @@ export default function StadiumRestaurantContainer({ id }: { id: number }) {
 
       const processed = restaurants.map((r) => ({
         ...r,
-        distance: getDistance(stadiumLat, stadiumLng, r.latitude, r.longitude),
+        distance: getDistance(stadiumLat, stadiumLng, r.latitude ?? 0, r.longitude ?? 0),
         avgRating: r.avgRating
       }));
       setRestaurants(processed);

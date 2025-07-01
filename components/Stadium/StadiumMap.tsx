@@ -19,7 +19,7 @@ export default function StadiumMap({ latitude, longitude, name, logo, restaurant
 
     restaurants.forEach(restaurant => {
       new naver.maps.Marker({
-        position: new naver.maps.LatLng(restaurant.latitude, restaurant.longitude),
+        position: new naver.maps.LatLng(restaurant.latitude ?? 0, restaurant.longitude ?? 0),
         map,
         title: restaurant.name,
         icon: {

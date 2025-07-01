@@ -1,0 +1,54 @@
+'use client';
+
+import { button, Card, flexCol, flexRow, flexRowICenter, mainTitle, subTitle } from "@/styles/customStyle";
+import { RestaurantCardInfo } from "@/types/Stadium";
+import { cn } from "@/utils/cn";
+import { Star } from "lucide-react";
+import { useRouter } from "next/navigation";
+import FavoriteButton from "./FavoriteButton";
+
+interface FavoriteRestaurantProps{
+  id: number
+  name: string
+  category: string
+  address: string
+  stadiumId: number
+}
+
+interface FavoriteProps{
+  id: number
+  restaurantId: number
+  restaurant: FavoriteRestaurantProps
+}
+
+export default function RestaurantCard({ restaurant } : FavoriteProps){
+  const router = useRouter();
+  console.log(restaurant)
+  const handleDetailClick = () => {
+    router.push(`/restaurants/${restaurant.id}`);
+  }
+
+  return(
+    <div className={cn(Card(), 'flex flex-col h-full')}>
+      <div className={flexRow('justify-between')}>
+        <h2 className={cn(mainTitle('sm:text-lg'), 'truncate')}>{restaurant.name}</h2>
+        <div>
+          <FavoriteButton restaurantId={restaurant.id} />
+        </div>
+      </div>
+
+      <div className={flexCol('gap-0')}>
+          <span className={subTitle('text-sm font-semibold')}>{restaurant.category}</span>
+          {/* <span className={cn(subTitle(flexRowICenter()), 'text-sm font-semibold')}>
+            <Star fill="#FFD94D" strokeWidth={0} width={18} height={18} />
+            {restaurant.avgRating}
+          </span> */}
+      </div>
+
+        <div className='flex justify-center mt-4'>
+          <button className={cn(button(), 'w-full text-sm px-2 py-2')}
+            onClick={handleDetailClick}>상세보기</button>
+        </div>
+    </div>
+  )
+}
