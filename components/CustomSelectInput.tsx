@@ -1,3 +1,4 @@
+'use client'
 import {
   customSelectOptions,
   flexRowICenter,
@@ -32,7 +33,7 @@ function CustomSelectInput({
   }
 
   return (
-    <div className={cn('relative', 'w-full')}>
+    <div className={cn('relative', 'w-full', 'bg-white')}>
       <button
         className={cn(
           'w-full',
