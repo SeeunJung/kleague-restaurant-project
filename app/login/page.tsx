@@ -30,12 +30,15 @@ function LoginPage() {
   const { modalOpen, setModalOpen, modalContent, openModal } =
     useModal()
 
-  const { setAccessToken } = useAuthStore()
+  const { loggedIn } = useAuthStore()
 
   const handleLogin = async () => {
     try {
-      const { accessToken } = await login(form.email, form.password)
-      setAccessToken(accessToken)
+      const { user, accessToken } = await login(
+        form.email,
+        form.password,
+      )
+      loggedIn(user.id, accessToken)
       openModal({
         isError: false,
         title: '로그인 성공',
