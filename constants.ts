@@ -1,4 +1,5 @@
 import { SignupForm } from './types/Auth'
+import { SortOptions } from './types/Review'
 
 export const TEAM_LOGOS = {
   울산: '/img/ulsan.png',
@@ -117,3 +118,15 @@ export const SIGNUP_INPUT: {
   { value: 'phoneNumber', label: '휴대폰번호' },
   { value: 'favoriteTeam', type: 'select', label: '좋아하는 구단' },
 ]
+
+export const sortLabelToValueMap: Record<string, SortOptions> = {
+  '작성 순': 'created',
+  '별점 높은 순': 'ratingDesc',
+  '별점 낮은 순': 'ratingAsc',
+}
+
+export const sortValueToLabelMap: Record<SortOptions, string> = {
+  created: '작성 순',
+  ratingDesc: '별점 높은 순',
+  ratingAsc: '별점 낮은 순',
+}

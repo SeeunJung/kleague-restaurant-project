@@ -5,38 +5,27 @@ import {
   flexRowICenter,
   mainTitle,
 } from '@/styles/customStyle'
-import { Restaurant, Review } from '@/types/Restaurant'
-import React, { useMemo, useState } from 'react'
+import { Restaurant } from '@/types/Restaurant'
+import { SortOptions } from '@/types/Review'
+import React, { useEffect, useMemo, useState } from 'react'
 import RestaurantReviewForm from './RestaurantReviewForm'
 import RestaurantReviewsList from './RestaurantReviewsList'
 import CustomSelectInput from '@/components/CustomSelectInput'
 import { cn } from '@/utils/cn'
+import { sortLabelToValueMap, sortValueToLabelMap } from '@/constants'
+import { useReviewStore } from '@/store/useReviewStore'
 
 type RestaurantReviewsProps = {
   restaurant: Restaurant
 }
 
-type SortOptions = 'created' | 'ratingDesc' | 'ratingAsc'
-
-const sortLabelToValueMap: Record<string, SortOptions> = {
-  '작성 순': 'created',
-  '별점 높은 순': 'ratingDesc',
-  '별점 낮은 순': 'ratingAsc',
-}
-
-const sortValueToLabelMap: Record<SortOptions, string> = {
-  created: '작성 순',
-  ratingDesc: '별점 높은 순',
-  ratingAsc: '별점 낮은 순',
-}
-
 function RestauranttReviews({ restaurant }: RestaurantReviewsProps) {
-  const [reviews, setReviews] = useState<Review[]>(restaurant.reviews)
+  const { reviews, setReviews } = useReviewStore()
   const [sortBy, setSortBy] = useState<SortOptions>('created')
 
-  const addReview = (newReview: Review) => {
-    setReviews((prev) => [newReview, ...prev])
-  }
+  useEffect(() => {
+    setReviews(restaurant.reviews)
+  }, [restaurant.reviews, setReviews])
 
   const sortedReviews = useMemo(() => {
     return [...reviews].sort((a, b) => {
@@ -76,10 +65,7 @@ function RestauranttReviews({ restaurant }: RestaurantReviewsProps) {
           />
         </div>
       </div>
-      <RestaurantReviewForm
-        restaurantId={restaurant.id}
-        onReviewSubmit={addReview}
-      />
+      <RestaurantReviewForm restaurantId={restaurant.id} />
       <RestaurantReviewsList reviews={sortedReviews} />
     </div>
   )
