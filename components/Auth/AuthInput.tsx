@@ -6,7 +6,7 @@ import {
 import { cn } from '@/utils/cn'
 import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
-import CustomSelectInput from '../CustomSelectInput'
+import CustomSelectInput from '../common/CustomSelectInput'
 import AuthError from './AuthError'
 
 type AuthInputProps = {
