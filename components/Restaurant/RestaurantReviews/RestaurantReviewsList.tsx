@@ -1,5 +1,5 @@
 import { flexCol } from '@/styles/customStyle'
-import { Review } from '@/types/Restaurant'
+import { Review } from '@/types/Review'
 import RestaurantReviewContent from './RestaurantReviewContent'
 
 type ReviewsListProps = {
