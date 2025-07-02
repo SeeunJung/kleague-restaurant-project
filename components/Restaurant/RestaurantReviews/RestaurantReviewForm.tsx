@@ -1,44 +1,37 @@
 'use client'
 import Modal from '@/components/common/Modal'
-import CustomSelectInput from '@/components/CustomSelectInput'
 import useForm from '@/hooks/useForm'
 import useModal from '@/hooks/useModal'
-import { createReview } from '@/services/review'
+import { useReviewStore } from '@/store/useReviewStore'
 import { button, flexCol, flexRowICenter } from '@/styles/customStyle'
 import { AxiosErrorRes } from '@/types/Axios'
-import { Review } from '@/types/Restaurant'
+import { ReviewFormType } from '@/types/Review'
 import { cn } from '@/utils/cn'
+import StarRating from './StarRating'
 
 type RestaurantReviewFormProps = {
   restaurantId: number
-  onReviewSubmit: (newReview: Review) => void
-}
-
-type ReviewFormType = {
-  rating: string
-  content: string
 }
 
 function RestaurantReviewForm({
   restaurantId,
-  onReviewSubmit,
 }: RestaurantReviewFormProps) {
-  const { form, handleInput, isFormValid, resetForm } =
+  const { form, handleInput, isFormValid, setField, resetForm } =
     useForm<ReviewFormType>({
       rating: '',
       content: '',
     })
   const { modalOpen, setModalOpen, modalContent, openModal } =
     useModal()
+  const { addReview } = useReviewStore()
 
   const handleSubmit = async () => {
     try {
-      const newReview = await createReview({
+      await addReview({
         restaurantId,
         rating: parseInt(form.rating),
         content: form.content,
       })
-      onReviewSubmit(newReview)
       resetForm()
       openModal({
         isError: true,
@@ -73,12 +66,9 @@ function RestaurantReviewForm({
         >
           평점:{' '}
         </span>
-        <CustomSelectInput
-          placeholder="평점을 선택하세요"
-          name="rating"
-          value={form.rating}
-          onChange={handleInput}
-          options={['5점', '4점', '3점', '2점', '1점']}
+        <StarRating
+          rating={parseInt(form.rating)}
+          onChange={(rating) => setField('rating', rating.toString())}
         />
       </div>
       <textarea

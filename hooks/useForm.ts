@@ -11,13 +11,24 @@ function useForm<T extends Record<string, string>>(initialState: T) {
     setForm((prev) => ({ ...prev, [name]: value }))
   }
 
+  const setField = (name: string, value: string) => {
+    setForm((prev) => ({ ...prev, [name]: value }))
+  }
+
   const isFormValid = Object.values(form).every(
     (v) => v.trim() !== '',
   )
 
   const resetForm = () => setForm(initialState)
 
-  return { form, handleInput, isFormValid, setForm, resetForm }
+  return {
+    form,
+    handleInput,
+    isFormValid,
+    setForm,
+    setField,
+    resetForm,
+  }
 }
 
 export default useForm
