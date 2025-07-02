@@ -1,15 +1,4 @@
-import { User } from './Auth'
-
-export type Review = {
-  id: number
-  content: string
-  rating: number
-  userId: number
-  restaurantId: number
-  createdAt: Date
-  updatedAt: Date
-  user: User
-}
+import { Review } from './Review'
 
 export type Restaurant = {
   id: number
@@ -23,9 +12,6 @@ export type Restaurant = {
   team: string
   remark: string | null
   stadiumId: number
-  _count?: {
-    rating: number
-  }
-  reviews: Review[]
   avgRating: number
+  reviews: Review[]
 }
