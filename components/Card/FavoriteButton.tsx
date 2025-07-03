@@ -1,7 +1,11 @@
 'use client'
 
+import {
+  addFavorite,
+  deleteFavorite,
+  fetchFavorites,
+} from '@/services/favorites'
 import { useAuthStore } from '@/store/useAuthStore'
-import axiosInstance from '@/utils/axiosInstance'
 import { Heart } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
@@ -23,8 +27,7 @@ export default function FavoriteButton({
         return
       }
       try {
-        const res = await axiosInstance.post('/favorites/me')
-        const favorites = res.data as { restaurantId: number }[]
+        const favorites = await fetchFavorites()
         const exists = favorites.some(
           (fav) => fav.restaurantId === restaurantId,
         )
@@ -46,10 +49,10 @@ export default function FavoriteButton({
 
     try {
       if (isFavorite) {
-        await axiosInstance.delete(`/favorites/${restaurantId}`)
+        await deleteFavorite(restaurantId)
         setIsFavorite(false)
       } else {
-        await axiosInstance.post(`/favorites/${restaurantId}`)
+        await addFavorite(restaurantId)
         setIsFavorite(true)
       }
     } catch (error) {
