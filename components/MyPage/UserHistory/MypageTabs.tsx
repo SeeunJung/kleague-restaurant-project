@@ -4,14 +4,19 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs'
-import { FavoriteProps } from '@/types/Mypage'
+import { FavoriteProps, ReviewProps } from '@/types/Mypage'
 import UserFavorites from './UserFavorites'
+import UserReviews from './UserReviews'
 
 interface UserTabsProps {
   favorites: FavoriteProps[]
+  reviews: ReviewProps[]
 }
 
-export default function MypageTabs({ favorites }: UserTabsProps) {
+export default function MypageTabs({
+  favorites,
+  reviews,
+}: UserTabsProps) {
   return (
     <Tabs
       defaultValue="favorites"
@@ -27,7 +32,7 @@ export default function MypageTabs({ favorites }: UserTabsProps) {
       </TabsContent>
 
       <TabsContent value="reviews">
-        <div>리뷰 목록</div>
+        <UserReviews reviews={reviews} />
       </TabsContent>
     </Tabs>
   )

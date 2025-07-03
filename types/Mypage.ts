@@ -1,4 +1,4 @@
-export interface FavoriteRestaurantProps {
+export interface RestaurantProps {
   id: number
   name: string
   category: string
@@ -9,7 +9,18 @@ export interface FavoriteRestaurantProps {
 export interface FavoriteProps {
   id: number
   restaurantId: number
-  restaurant: FavoriteRestaurantProps
+  restaurant: RestaurantProps
+}
+
+export interface ReviewProps {
+  id: number
+  content: string
+  rating: number
+  userId: number
+  restaurantId: number
+  createdAt: string
+  updatedAt: string
+  restaurant: Partial<RestaurantProps>
 }
 
 export interface UserData {
@@ -21,4 +32,5 @@ export interface UserData {
   createdAt: string
   updatedAt: string
   favorites: FavoriteProps[]
+  reviews: ReviewProps[]
 }
