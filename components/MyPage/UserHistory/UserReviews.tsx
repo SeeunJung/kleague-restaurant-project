@@ -1,29 +1,67 @@
+'use client'
+
 import ReviewCard from '@/components/Card/ReviewCard'
+import { deleteReview, updateReview } from '@/services/mypage'
 import { mainTitle } from '@/styles/customStyle'
 import { ReviewProps } from '@/types/Mypage'
+import { useState } from 'react'
 
 interface UserReviewsProps {
   reviews: ReviewProps[]
 }
 
-export default function UserReviews({ reviews }: UserReviewsProps) {
-  if (reviews.length === 0) return <div>작성한 리뷰가 없습니다.</div>
+export default function UserReviews({
+  reviews: initialReviews,
+}: UserReviewsProps) {
+  const [updatedReviews, setUpdatedReviews] =
+    useState<ReviewProps[]>(initialReviews)
+
+  const handleDelete = async (id: number) => {
+    try {
+      await deleteReview(id)
+      setUpdatedReviews((prev) =>
+        prev.filter((review) => review.id !== id),
+      )
+    } catch (err) {
+      console.error('리뷰 삭제 실패: ', err)
+    }
+  }
+
+  const handleEdit = async (
+    id: number,
+    updatedFields: { content: string; rating: number },
+  ) => {
+    try {
+      const updatedReview = await updateReview(id, updatedFields)
+      setUpdatedReviews((prev) =>
+        prev.map((review) =>
+          review.id === id ? { ...review, ...updatedReview } : review,
+        ),
+      )
+    } catch (err) {
+      console.error('리뷰 수정 실패: ', err)
+    }
+  }
+
+  if (updatedReviews.length === 0)
+    return <div>작성한 리뷰가 없습니다.</div>
 
   return (
     <div>
       <h3 className={mainTitle('mb-2')}>내 리뷰</h3>
       <div>
-        {reviews.map(
-          ({ id, restaurant, rating, createdAt, content }) => (
-            <ReviewCard
-              key={id}
-              restaurantName={restaurant.name}
-              rating={rating}
-              createdAt={createdAt}
-              content={content}
-            />
-          ),
-        )}
+        {updatedReviews.map((review) => (
+          <ReviewCard
+            key={review.id}
+            id={review.id}
+            restaurantName={review.restaurant.name}
+            rating={review.rating}
+            createdAt={review.createdAt}
+            content={review.content}
+            onDelete={handleDelete}
+            onEdit={handleEdit}
+          />
+        ))}
       </div>
     </div>
   )

@@ -7,3 +7,16 @@ export const setUserData = async (
   const res = await axiosInstance.patch(`/users/me`, data)
   return res.data
 }
+
+export const updateReview = async (
+  id: number,
+  data: { content: string; rating: number },
+) => {
+  const res = await axiosInstance.patch(`/reviews/${id}`, data)
+  return res.data
+}
+
+export const deleteReview = async (id: number) => {
+  const res = await axiosInstance.delete(`/reviews/${id}`)
+  return res.data
+}
