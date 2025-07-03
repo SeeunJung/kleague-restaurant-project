@@ -105,7 +105,7 @@ export const customSelectOptions = (...args: ClassValue[]) =>
 
 // Card
 export const Card = (...args: ClassValue[]) =>
-  cn('p-5', 'rounded-md', 'shadow-lg', ...args)
+  cn('bg-white', 'p-5', 'rounded-md', 'shadow-lg', ...args)
 
 export const Pages = (...args: ClassValue[]) =>
   cn(
