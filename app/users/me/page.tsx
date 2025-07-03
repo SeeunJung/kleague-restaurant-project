@@ -1,37 +1,14 @@
 'use client'
 
-import UserFavorites from '@/components/MyPage/UserHistory/UserFavorites'
+import MypageTabs from '@/components/MyPage/UserHistory/MypageTabs'
 import DefaultProfile from '@/components/MyPage/UserProfile/DefaultProfile'
 import EditProfile from '@/components/MyPage/UserProfile/EditProfile'
 import { useAuthStore } from '@/store/useAuthStore'
 import { Card, flexColIJCenter } from '@/styles/customStyle'
+import { UserData } from '@/types/Mypage'
 import axiosInstance from '@/utils/axiosInstance'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-
-interface FavoriteRestaurantProps {
-  id: number
-  name: string
-  category: string
-  address: string
-  stadiumId: number
-}
-
-interface FavoriteProps {
-  id: number
-  restaurantId: number
-  restaurant: FavoriteRestaurantProps
-}
-interface UserData {
-  id: number
-  nickname: string
-  email: string
-  phoneNumber: string
-  favoriteTeam: string
-  createdAt: string
-  updatedAt: string
-  favorites: FavoriteProps[]
-}
 
 export default function Page() {
   const router = useRouter()
@@ -68,7 +45,7 @@ export default function Page() {
   if (!user) return <div>유저 정보를 불러오는 중입니다.</div>
 
   return (
-    <div className={flexColIJCenter('gap-[20px mt-6 mb-6 p-6')}>
+    <div className={flexColIJCenter('gap-[20px] mt-6 mb-6 p-6')}>
       <div className="w-full max-w-4xl gap-4">
         <div className={Card()}>
           {isEditing ? (
@@ -92,7 +69,7 @@ export default function Page() {
         </div>
 
         <div className={Card()}>
-          <UserFavorites favorites={user.favorites} />
+          <MypageTabs favorites={user.favorites} />
         </div>
       </div>
     </div>
