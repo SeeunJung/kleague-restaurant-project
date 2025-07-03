@@ -2,9 +2,11 @@
 
 import UserFavorites from '@/components/MyPage/UserHistory/UserFavorites'
 import DefaultProfile from '@/components/MyPage/UserProfile/DefaultProfile'
+import EditProfile from '@/components/MyPage/UserProfile/EditProfile'
 import { useAuthStore } from '@/store/useAuthStore'
 import { Card, flexColIJCenter } from '@/styles/customStyle'
 import axiosInstance from '@/utils/axiosInstance'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 interface FavoriteRestaurantProps {
@@ -32,9 +34,23 @@ interface UserData {
 }
 
 export default function Page() {
+  const router = useRouter()
+  const [hasMounted, setHasMounted] = useState(false)
   const [user, setUser] = useState<UserData | null>(null)
   const [isEditing, setIsEditing] = useState(false)
-  const accessToken = useAuthStore((state) => state.accessToken)
+  const accessToken = useAuthStore.getState().accessToken
+
+  useEffect(() => {
+    setHasMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!hasMounted) return
+    if (!accessToken) {
+      alert('로그인 후 이용 가능한 서비스입니다.')
+      router.push('/login')
+    }
+  }, [hasMounted, accessToken, router])
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -46,18 +62,28 @@ export default function Page() {
       }
     }
     fetchUser()
-  }, [])
+  }, [accessToken])
 
-  if (!accessToken) {
-    ;<div>로그인이 필요한 페이지입니다.</div>
-  }
+  if (!hasMounted || !accessToken) return null
   if (!user) return <div>유저 정보를 불러오는 중입니다.</div>
 
   return (
     <div className={flexColIJCenter('gap-[20px mt-6 mb-6 p-6')}>
       <div className="w-full max-w-4xl gap-4">
         <div className={Card()}>
-          {user && (
+          {isEditing ? (
+            <EditProfile
+              user={user}
+              onSave={(updatedFields) => {
+                setUser({
+                  ...user,
+                  ...updatedFields,
+                })
+                setIsEditing(false)
+              }}
+              onCancel={() => setIsEditing(false)}
+            />
+          ) : (
             <DefaultProfile
               user={user}
               onEdit={() => setIsEditing(true)}
