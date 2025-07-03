@@ -17,3 +17,6 @@ export type Restaurant = {
   reviewCount: number
   reviews: Review[]
 }
+
+export type RestaurantSortType = '평점순' | '리뷰순' | '이름순'
+export type RestaurantViewType = '카드형' | '리스트형'
