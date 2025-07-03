@@ -28,4 +28,11 @@ export interface Restaurant {
   }
   reviews: Review[]
   avgRating: number
+  distance?: number
+}
+
+export interface RestaurantCardInfo {
+  restaurant: Restaurant
+  showDistance?: boolean
+  stadiumName?: string
 }

@@ -108,4 +108,7 @@ function SignupPage() {
   )
 }
 
+<<<<<<< HEAD
+export default SignupPage
+=======
 export default SignupPage
