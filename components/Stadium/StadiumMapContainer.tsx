@@ -38,7 +38,7 @@ export default async function StadiumMapContainer({
           longitude={longitude}
           name={name}
           logo={logo}
-          restaurants={restaurants.map((r: RestaurantInfo) => ({
+          restaurants={restaurants?.map((r: RestaurantInfo) => ({
             id: r.id,
             name: r.name,
             latitude: r.latitude,

@@ -6,18 +6,8 @@ export interface Stadium {
   latitude: number
   longitude: number
   logo: string
+  restaurants: RestaurantInfo[]
   restaurantCount: number
-}
-
-export interface StadiumInfo {
-  id?: number
-  name: string
-  team?: string
-  address?: string
-  latitude: number | 0
-  longitude: number | 0
-  logo: string | ''
-  restaurants: RestaurantInfo[] | []
 }
 
 export interface RestaurantInfo {

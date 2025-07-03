@@ -1,6 +1,6 @@
 'use client'
 
-import { StadiumInfo } from '@/types/Stadium'
+import { Stadium } from '@/types/Stadium'
 import { useEffect, useRef } from 'react'
 
 const MARKER_ICON = '/restaurantMarker.png'
@@ -11,19 +11,19 @@ export default function StadiumMap({
   name,
   logo,
   restaurants,
-}: StadiumInfo) {
+}: Partial<Stadium>) {
   const mapRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     if (!window.naver || !mapRef.current) return
 
     const map = new naver.maps.Map(mapRef.current, {
-      center: new naver.maps.LatLng(latitude, longitude),
+      center: new naver.maps.LatLng(latitude ?? 0, longitude ?? 0),
       zoom: 16,
       minZoom: 10,
     })
 
-    restaurants.forEach((restaurant) => {
+    restaurants?.forEach((restaurant) => {
       new naver.maps.Marker({
         position: new naver.maps.LatLng(
           restaurant.latitude ?? 0,
@@ -42,11 +42,11 @@ export default function StadiumMap({
     })
 
     new naver.maps.Marker({
-      position: new naver.maps.LatLng(latitude, longitude),
+      position: new naver.maps.LatLng(latitude ?? 0, longitude ?? 0),
       title: name,
       map,
       icon: {
-        url: logo,
+        url: logo ?? MARKER_ICON,
         size: new naver.maps.Size(70, 70),
         scaledSize: new naver.maps.Size(70, 70),
         origin: new naver.maps.Point(0, 0),

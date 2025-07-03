@@ -31,9 +31,6 @@ export default function StadiumCard({ stadium }: StadiumCardProps) {
         team={stadium.team}
         address={stadium.address}
         logo={stadium.logo}
-        latitude={0}
-        longitude={0}
-        restaurants={[]}
       />
     </div>
   )

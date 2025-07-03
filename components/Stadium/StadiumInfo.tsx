@@ -1,4 +1,4 @@
-import type { StadiumInfo } from '@/types/Stadium'
+import type { Stadium } from '@/types/Stadium'
 import Image from 'next/image'
 
 export default function StadiumInfo({
@@ -6,11 +6,11 @@ export default function StadiumInfo({
   team,
   address,
   logo,
-}: StadiumInfo) {
+}: Partial<Stadium>) {
   return (
     <div className="flex flex-row gap-[15px]">
       <Image
-        src={logo}
+        src={logo ?? ''}
         alt={`${team} 팀 로고`}
         width={50}
         height={50}

@@ -27,11 +27,11 @@ export default function StadiumRestaurantContainer({
         restaurants,
       } = stadium
 
-      const processed = restaurants.map((r) => ({
+      const processed = (restaurants ?? []).map((r) => ({
         ...r,
         distance: getDistance(
-          stadiumLat,
-          stadiumLng,
+          stadiumLat ?? 0,
+          stadiumLng ?? 0,
           r.latitude ?? 0,
           r.longitude ?? 0,
         ),
