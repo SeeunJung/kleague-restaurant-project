@@ -1,4 +1,5 @@
 import { Review } from './Review'
+import { Stadium } from './Stadium'
 
 export type Restaurant = {
   id: number
@@ -11,7 +12,8 @@ export type Restaurant = {
   businessHours: string
   team: string
   remark: string | null
-  stadiumId: number
+  stadium: Stadium
   avgRating: number
+  reviewCount: number
   reviews: Review[]
 }
