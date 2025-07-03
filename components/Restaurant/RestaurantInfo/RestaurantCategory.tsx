@@ -1,6 +1,6 @@
 import { flexRowICenter } from '@/styles/customStyle'
 import { cn } from '@/utils/cn'
-import { Star } from 'lucide-react'
+import RestaurantReviewStar from '@/components/common/RestaurantReviewStar'
 
 type RestaurantCategoryProps = {
   category: string
@@ -25,17 +25,10 @@ function RestaurantCategory({
       >
         {category}
       </div>
-      <div className={flexRowICenter('font-semibold')}>
-        <Star
-          fill="#FFD94D"
-          strokeWidth={0}
-          size={24}
-        />
-        {avgRating}
-        <span className={cn('test-sm', 'text-[#ccc]')}>
-          ({reviewsLen})
-        </span>
-      </div>
+      <RestaurantReviewStar
+        avgRating={avgRating}
+        reviewCount={reviewsLen}
+      />
     </div>
   )
 }
