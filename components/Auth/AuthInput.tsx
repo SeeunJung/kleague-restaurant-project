@@ -38,7 +38,11 @@ function AuthInput({
           placeholder="좋아하는 구단을 선택해주세요"
           name={name}
           value={value}
-          onChange={onChange}
+          onChange={(val) =>
+            onChange({
+              target: { name, value: val },
+            } as React.ChangeEvent<HTMLInputElement>)
+          }
           options={options}
         />
       )

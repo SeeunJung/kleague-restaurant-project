@@ -68,9 +68,8 @@ function RestauranttReviews({ restaurant }: RestaurantReviewsProps) {
               placeholder="리뷰 정렬하기"
               name="sortBy"
               value={sortValueToLabelMap[sortBy]}
-              onChange={(e) => {
-                const selectedLabel = e.target.value
-                const mappedValue = sortLabelToValueMap[selectedLabel]
+              onChange={(label) => {
+                const mappedValue = sortLabelToValueMap[label]
                 if (mappedValue) setSortBy(mappedValue)
               }}
               options={['작성 순', '별점 높은 순', '별점 낮은 순']}
