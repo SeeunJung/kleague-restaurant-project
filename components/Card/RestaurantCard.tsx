@@ -9,7 +9,7 @@ import {
   mainTitle,
   subTitle,
 } from '@/styles/customStyle'
-import { RestaurantCardInfo } from '@/types/Stadium'
+import { RestaurantCardInfo } from '@/types/Restaurant'
 import { cn } from '@/utils/cn'
 import { Star } from 'lucide-react'
 import { useRouter } from 'next/navigation'

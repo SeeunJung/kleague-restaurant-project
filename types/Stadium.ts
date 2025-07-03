@@ -1,3 +1,5 @@
+import { Restaurant } from '@/types/Restaurant'
+
 export interface Stadium {
   id: number
   name: string
@@ -6,27 +8,6 @@ export interface Stadium {
   latitude: number
   longitude: number
   logo: string
-  restaurants: RestaurantInfo[]
+  restaurants: Partial<Restaurant>[]
   restaurantCount: number
-}
-
-export interface RestaurantInfo {
-  id: number
-  name: string
-  category?: string
-  latitude?: number
-  longitude?: number
-  distance?: number
-  phone?: string
-  businessHours?: string
-  team?: string
-  remark?: string
-  stadiumId?: number
-  avgRating?: number
-}
-
-export interface RestaurantCardInfo {
-  restaurant: RestaurantInfo
-  showDistance?: boolean
-  stadiumName?: string
 }

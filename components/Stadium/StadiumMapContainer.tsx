@@ -1,8 +1,8 @@
 import { Card, flexColIJCenter } from '@/styles/customStyle'
 import StadiumInfo from './StadiumInfo'
 import StadiumMap from './StadiumMap'
-import { RestaurantInfo } from '@/types/Stadium'
 import { getStadiumDetailWithRes } from '@/services/stadiums'
+import { Restaurant } from '@/types/Restaurant'
 
 export default async function StadiumMapContainer({
   id,
@@ -38,7 +38,7 @@ export default async function StadiumMapContainer({
           longitude={longitude}
           name={name}
           logo={logo}
-          restaurants={restaurants?.map((r: RestaurantInfo) => ({
+          restaurants={restaurants?.map((r: Partial<Restaurant>) => ({
             id: r.id,
             name: r.name,
             latitude: r.latitude,
