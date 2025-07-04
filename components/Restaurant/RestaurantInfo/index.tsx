@@ -5,13 +5,15 @@ import RestaurantDetails from './RestaurantDetails'
 import RestaurantMap from './RestaurantMap'
 import RestaurantCategory from './RestaurantCategory'
 import RestaurantTitle from './RestaurantTitle'
+import RestaurantImage from './RestaurantImage'
 
 type RestaurantInfoProps = {
   restaurant: Restaurant
 }
 function RestaurantInfo({ restaurant }: RestaurantInfoProps) {
   return (
-    <div className={Card(flexCol('w-full'))}>
+    <div className={Card(flexCol('w-full', 'gap-3'))}>
+      <RestaurantImage />
       <RestaurantTitle
         title={restaurant.name}
         restId={restaurant.id}
