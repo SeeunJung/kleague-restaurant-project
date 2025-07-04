@@ -38,14 +38,12 @@ function RestaurantCard({
     >
       <div
         className={flexColIJCenter(
-          'w-full',
-          'h-35',
           'bg-gray-300',
           'text-gray-600',
           'relative',
           {
             'w-full h-35': viewMode === '카드형',
-            'w-40 h-full': viewMode === '리스트형',
+            'w-50 h-full': viewMode === '리스트형',
           },
         )}
       >
