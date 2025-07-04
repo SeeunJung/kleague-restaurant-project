@@ -1,4 +1,4 @@
-import { Stadium, StadiumInfo } from '@/types/Stadium'
+import { Stadium } from '@/types/Stadium'
 import axiosInstance from '@/utils/axiosInstance'
 
 export const getStadiums = async (): Promise<Stadium[]> => {
@@ -13,9 +13,9 @@ export const getStadiumsDetail = async (
   return res.data
 }
 
-export const getStadiumDetailWithRes = async(
-  id: number
-): Promise<StadiumInfo> => {
-  const res = await axiosInstance.get(`stadiums/${id}`);
-  return res.data;
+export const getStadiumDetailWithRes = async (
+  id: number,
+): Promise<Partial<Stadium>> => {
+  const res = await axiosInstance.get(`stadiums/${id}`)
+  return res.data
 }

@@ -14,8 +14,15 @@ export type Restaurant = {
   remark: string | null
   stadium: Stadium
   avgRating: number
-  reviewCount: number
-  reviews: Review[]
+  reviewCount?: number
+  reviews?: Review[]
+  distance?: number
+}
+
+export interface RestaurantCardInfo {
+  restaurant: Restaurant
+  showDistance?: boolean
+  stadiumName?: string
 }
 
 export type RestaurantSortType = '평점순' | '리뷰순' | '이름순'
