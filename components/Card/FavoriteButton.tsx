@@ -7,25 +7,25 @@ import {
 } from '@/services/favorites'
 import { useAuthStore } from '@/store/useAuthStore'
 import useModal from '@/hooks/useModal'
-import axiosInstance from '@/utils/axiosInstance'
 import { Heart } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import Modal from '../common/Modal'
-
+import { cn } from '@/lib/utils'
 
 interface FavoriteButtonProps {
   restaurantId: number
+  version?: 'icon' | 'pill'
 }
 
 export default function FavoriteButton({
   restaurantId,
+  version = 'icon',
 }: FavoriteButtonProps) {
   const [isFavorite, setIsFavorite] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const accessToken = useAuthStore((state) => state.accessToken)
   const { modalOpen, setModalOpen, modalContent, openModal } =
     useModal()
-
 
   useEffect(() => {
     const checkFavorite = async () => {
@@ -78,14 +78,21 @@ export default function FavoriteButton({
 
   return (
     <button
-      className={`p-1 rounded-full`}
+      className={cn(
+        version === 'icon' &&
+          'p-2 rounded-full bg-white border border-gray-200 shadow cursor-pointer',
+        version === 'pill' &&
+          'flex flex-row items-center gap-2 px-4 py-1 rounded-full bg-white text-black text-xs font-bold border border-gray-300 shadow cursor-pointer',
+      )}
       onClick={toggleFavorite}
       disabled={isLoading}
     >
       <Heart
         fill={isFavorite ? 'red' : 'none'}
         color={isFavorite ? 'red' : 'black'}
+        className={version === 'pill' ? 'w-[16px]' : ''}
       />
+      {version === 'pill' && <span>즐겨찾기</span>}
       <Modal
         isOpen={modalOpen}
         onOpenChange={setModalOpen}

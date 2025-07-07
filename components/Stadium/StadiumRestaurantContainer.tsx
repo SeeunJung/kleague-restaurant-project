@@ -5,18 +5,9 @@ import { useEffect, useState } from 'react'
 import { Card, flexCol, mainTitle } from '@/styles/customStyle'
 import RestaurantCard from '../Card/RestaurantCard'
 import getDistance from '@/utils/getDistance'
-import { getStadiumDetailWithRes } from '@/services/stadiums'
+import { getStadiumsDetail } from '@/services/stadiums'
 import FilterBar from './FilterBar'
 import { Restaurant } from '@/types/Restaurant'
-
-function isValidRestaurant(r: Partial<Restaurant>): r is Restaurant {
-  return (
-    r.id !== undefined &&
-    r.name !== undefined &&
-    r.latitude !== undefined &&
-    r.longitude !== undefined
-  )
-}
 
 export default function StadiumRestaurantContainer({
   id,
@@ -29,28 +20,24 @@ export default function StadiumRestaurantContainer({
 
   useEffect(() => {
     const fetchData = async () => {
-      const stadium = await getStadiumDetailWithRes(id)
+      const stadium = await getStadiumsDetail(id)
       const {
         latitude: stadiumLat,
         longitude: stadiumLng,
         restaurants,
       } = stadium
 
-      //로직 수정 필요
-      //RangeError: Array buffer allocation failed 발생으로 50개까지 slice
-      const processed = (restaurants ?? [])
-        .filter(isValidRestaurant)
-        .slice(0, 50)
-        .map((r) => ({
-          ...r,
+      const processed: Restaurant[] = (restaurants ?? []).map(
+        (r) => ({
+          ...(r as Restaurant),
           distance: getDistance(
             stadiumLat ?? 0,
             stadiumLng ?? 0,
-            r.latitude,
-            r.longitude,
+            r.latitude!,
+            r.longitude!,
           ),
-          avgRating: r.avgRating ?? 0,
-        }))
+        }),
+      )
       setRestaurants(processed)
     }
     fetchData()
@@ -61,8 +48,8 @@ export default function StadiumRestaurantContainer({
       ? restaurants
       : restaurants.filter((r) => r.category === category)
 
-  const sorted = [...filtered]
-    .sort((a: Restaurant, b: Restaurant) => {
+  const sorted = [...filtered].sort(
+    (a: Restaurant, b: Restaurant) => {
       const aDistance = a.distance ?? Infinity
       const bDistance = b.distance ?? Infinity
       const aRating = a.avgRating ?? 0
@@ -71,8 +58,9 @@ export default function StadiumRestaurantContainer({
       if (sortBy === 'distance') return aDistance - bDistance
       if (sortBy === 'rating') return bRating - aRating
       return 0
-    })
-    .slice(0, 9)
+    },
+  )
+  // .slice(0, 9)
 
   return (
     <div

@@ -12,10 +12,3 @@ export const getStadiumsDetail = async (
   const res = await axiosInstance.get(`stadiums/${stadiumId}`)
   return res.data
 }
-
-export const getStadiumDetailWithRes = async (
-  id: number,
-): Promise<Partial<Stadium>> => {
-  const res = await axiosInstance.get(`stadiums/${id}`)
-  return res.data
-}

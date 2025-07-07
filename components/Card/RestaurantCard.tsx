@@ -21,7 +21,6 @@ export default function RestaurantCard({
   stadiumName,
 }: RestaurantCardInfo) {
   const router = useRouter()
-  console.log(restaurant)
   const handleDetailClick = () => {
     router.push(`/restaurants/${restaurant.id}`)
   }
@@ -33,7 +32,10 @@ export default function RestaurantCard({
           {restaurant.name}
         </h2>
         <div>
-          <FavoriteButton restaurantId={restaurant.id} />
+          <FavoriteButton
+            restaurantId={restaurant.id}
+            version="icon"
+          />
         </div>
       </div>
 
