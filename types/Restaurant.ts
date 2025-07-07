@@ -12,6 +12,7 @@ export type Restaurant = {
   businessHours: string
   team: string
   remark: string | null
+  stadiumId: number
   stadium: Stadium
   avgRating: number
   reviewCount?: number

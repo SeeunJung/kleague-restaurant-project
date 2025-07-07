@@ -1,17 +1,12 @@
 import RestaurantCard from '@/components/Card/RestaurantCard'
 import { mainTitle } from '@/styles/customStyle'
+import { Restaurant } from '@/types/Restaurant'
 import { getStadiumNameById } from '@/utils/getStudiumById'
-interface FavoriteRestaurantProps {
-  id: number
-  name: string
-  category: string
-  address: string
-  stadiumId: number
-}
+
 interface FavoriteProps {
   id: number
   restaurantId: number
-  restaurant: FavoriteRestaurantProps
+  restaurant: Restaurant
 }
 interface UserFavoritesProps {
   favorites: FavoriteProps[]
@@ -25,7 +20,12 @@ export default function UserFavorites({
 
   return (
     <div>
-      <h3 className={mainTitle('mb-2')}>즐겨찾기한 맛집</h3>
+      <div className="flex flex-row mb-2 items-end gap-2">
+        <h3 className={mainTitle()}>즐겨찾기한 맛집</h3>
+        <span className="text-sm text-gray-600 font-bold">
+          ({favorites.length})
+        </span>
+      </div>
       <div
         className={
           'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full mx-auto gap-4'
