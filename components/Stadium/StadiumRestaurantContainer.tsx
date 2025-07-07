@@ -48,8 +48,8 @@ export default function StadiumRestaurantContainer({
       ? restaurants
       : restaurants.filter((r) => r.category === category)
 
-  const sorted = [...filtered]
-    .sort((a: Restaurant, b: Restaurant) => {
+  const sorted = [...filtered].sort(
+    (a: Restaurant, b: Restaurant) => {
       const aDistance = a.distance ?? Infinity
       const bDistance = b.distance ?? Infinity
       const aRating = a.avgRating ?? 0
@@ -58,8 +58,9 @@ export default function StadiumRestaurantContainer({
       if (sortBy === 'distance') return aDistance - bDistance
       if (sortBy === 'rating') return bRating - aRating
       return 0
-    })
-    .slice(0, 9)
+    },
+  )
+  // .slice(0, 9)
 
   return (
     <div
