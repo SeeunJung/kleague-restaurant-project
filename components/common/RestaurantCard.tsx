@@ -64,7 +64,7 @@ function RestaurantCard({
           {restaurant.address.slice(0, 2)}
         </div>
         <div className={cn('absolute', 'top-2', 'right-2')}>
-          <FavoriteButton restaurantId={restaurant.id} version="pill" />
+          <FavoriteButton restaurantId={restaurant.id} />
         </div>
       </div>
       <div className={flexCol('w-full', 'p-3', subTitle())}>

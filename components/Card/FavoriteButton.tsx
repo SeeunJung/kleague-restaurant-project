@@ -90,7 +90,7 @@ export default function FavoriteButton({
       <Heart
         fill={isFavorite ? 'red' : 'none'}
         color={isFavorite ? 'red' : 'black'}
-        className={version === 'pill' && 'w-[16px]'}
+        className={version === 'pill' ? 'w-[16px]' : ''}
       />
       {version === 'pill' && <span>즐겨찾기</span>}
       <Modal

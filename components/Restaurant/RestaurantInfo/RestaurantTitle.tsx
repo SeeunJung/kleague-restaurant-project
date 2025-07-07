@@ -16,7 +16,10 @@ function RestaurantTitle({ title, restId }: RestaurantTitleProps) {
       )}
     >
       {title}
-      <FavoriteButton restaurantId={restId} />
+      <FavoriteButton
+        restaurantId={restId}
+        version="pill"
+      />
     </div>
   )
 }
