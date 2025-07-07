@@ -1,3 +1,6 @@
+import { FavoriteTeam } from './Auth'
+import { Restaurant } from './Restaurant'
+
 export interface RestaurantProps {
   id: number
   name: string
@@ -9,7 +12,7 @@ export interface RestaurantProps {
 export interface FavoriteProps {
   id: number
   restaurantId: number
-  restaurant: RestaurantProps
+  restaurant: Restaurant
 }
 
 export interface ReviewProps {
@@ -28,7 +31,7 @@ export interface UserData {
   nickname: string
   email: string
   phoneNumber: string
-  favoriteTeam: string
+  favoriteTeam: FavoriteTeam
   createdAt: string
   updatedAt: string
   favorites: FavoriteProps[]

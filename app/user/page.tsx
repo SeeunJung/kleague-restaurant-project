@@ -68,7 +68,7 @@ export default function Page() {
           )}
         </div>
 
-        <div className={Card()}>
+        <div className={Card('mt-4')}>
           <MypageTabs
             favorites={user.favorites}
             reviews={user.reviews}

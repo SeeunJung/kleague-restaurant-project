@@ -89,7 +89,7 @@ function RestaurantCard({
         <div>{restaurant.address}</div>
         <RestaurantReviewStar
           avgRating={restaurant.avgRating}
-          reviewCount={restaurant.reviewCount}
+          reviewCount={restaurant.reviewCount!}
         />
         <div className={flexRowICenter('justify-between')}>
           <div>{restaurant.stadium.name}</div>

@@ -6,20 +6,21 @@ import React, { useEffect, useState } from 'react'
 import { KLEAGUE_TEAMS } from '@/constants'
 import ProfileInput from './ProfileInput'
 import { setUserData } from '@/services/mypage'
+import { FavoriteTeam } from '@/types/Auth'
 
 interface EditProfileProps {
   user: {
     nickname: string
     email: string
     phoneNumber: string
-    favoriteTeam: string
+    favoriteTeam: FavoriteTeam
     createdAt: string
     updatedAt: string
   }
   onSave: (updatedFields: {
     nickname: string
     phoneNumber: string
-    favoriteTeam: string
+    favoriteTeam: FavoriteTeam
   }) => void
   onCancel: () => void
 }
@@ -104,7 +105,9 @@ export default function EditProfile({
         </p>
         <select
           value={favoriteTeam}
-          onChange={(e) => setFavoriteTeam(e.target.value)}
+          onChange={(e) =>
+            setFavoriteTeam(e.target.value as FavoriteTeam)
+          }
         >
           {KLEAGUE_TEAMS.map((team) => (
             <option

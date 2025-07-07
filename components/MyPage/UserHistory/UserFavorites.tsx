@@ -1,13 +1,8 @@
 import RestaurantCard from '@/components/Card/RestaurantCard'
 import { mainTitle } from '@/styles/customStyle'
-import { Restaurant } from '@/types/Restaurant'
+import { FavoriteProps } from '@/types/Mypage'
 import { getStadiumNameById } from '@/utils/getStudiumById'
 
-interface FavoriteProps {
-  id: number
-  restaurantId: number
-  restaurant: Restaurant
-}
 interface UserFavoritesProps {
   favorites: FavoriteProps[]
 }
