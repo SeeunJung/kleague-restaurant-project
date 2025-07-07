@@ -21,7 +21,6 @@ export default function RestaurantCard({
   stadiumName,
 }: RestaurantCardInfo) {
   const router = useRouter()
-  console.log(restaurant)
   const handleDetailClick = () => {
     router.push(`/restaurants/${restaurant.id}`)
   }

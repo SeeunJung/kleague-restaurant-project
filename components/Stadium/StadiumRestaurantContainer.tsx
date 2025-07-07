@@ -9,15 +9,6 @@ import { getStadiumDetailWithRes } from '@/services/stadiums'
 import FilterBar from './FilterBar'
 import { Restaurant } from '@/types/Restaurant'
 
-function isValidRestaurant(r: Partial<Restaurant>): r is Restaurant {
-  return (
-    r.id !== undefined &&
-    r.name !== undefined &&
-    r.latitude !== undefined &&
-    r.longitude !== undefined
-  )
-}
-
 export default function StadiumRestaurantContainer({
   id,
 }: {
@@ -36,21 +27,17 @@ export default function StadiumRestaurantContainer({
         restaurants,
       } = stadium
 
-      //로직 수정 필요
-      //RangeError: Array buffer allocation failed 발생으로 50개까지 slice
-      const processed = (restaurants ?? [])
-        .filter(isValidRestaurant)
-        .slice(0, 50)
-        .map((r) => ({
-          ...r,
+      const processed: Restaurant[] = (restaurants ?? []).map(
+        (r) => ({
+          ...(r as Restaurant),
           distance: getDistance(
             stadiumLat ?? 0,
             stadiumLng ?? 0,
-            r.latitude,
-            r.longitude,
+            r.latitude!,
+            r.longitude!,
           ),
-          avgRating: r.avgRating ?? 0,
-        }))
+        }),
+      )
       setRestaurants(processed)
     }
     fetchData()
