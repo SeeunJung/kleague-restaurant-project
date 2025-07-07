@@ -21,7 +21,7 @@ function RestaurantInfo({ restaurant }: RestaurantInfoProps) {
       <RestaurantCategory
         category={restaurant.category}
         avgRating={restaurant.avgRating}
-        reviewsLen={restaurant.reviews.length}
+        reviewsLen={restaurant.reviews!.length}
       />
       <div
         className={cn(

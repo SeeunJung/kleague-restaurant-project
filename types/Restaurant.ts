@@ -15,8 +15,8 @@ export type Restaurant = {
   stadiumId: number
   stadium: Stadium
   avgRating: number
-  reviewCount?: number
-  reviews?: Review[]
+  reviewCount: number
+  reviews: Review[]
   distance?: number
 }
 
