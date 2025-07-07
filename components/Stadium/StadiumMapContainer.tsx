@@ -1,7 +1,7 @@
 import { Card, flexColIJCenter } from '@/styles/customStyle'
 import StadiumInfo from './StadiumInfo'
 import StadiumMap from './StadiumMap'
-import { getStadiumDetailWithRes } from '@/services/stadiums'
+import { getStadiumsDetail } from '@/services/stadiums'
 import { Restaurant } from '@/types/Restaurant'
 
 export default async function StadiumMapContainer({
@@ -9,7 +9,7 @@ export default async function StadiumMapContainer({
 }: {
   id: number
 }) {
-  const stadium = await getStadiumDetailWithRes(id)
+  const stadium = await getStadiumsDetail(id)
   const {
     name,
     team,

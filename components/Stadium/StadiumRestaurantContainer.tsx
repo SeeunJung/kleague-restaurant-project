@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { Card, flexCol, mainTitle } from '@/styles/customStyle'
 import RestaurantCard from '../Card/RestaurantCard'
 import getDistance from '@/utils/getDistance'
-import { getStadiumDetailWithRes } from '@/services/stadiums'
+import { getStadiumsDetail } from '@/services/stadiums'
 import FilterBar from './FilterBar'
 import { Restaurant } from '@/types/Restaurant'
 
@@ -20,7 +20,7 @@ export default function StadiumRestaurantContainer({
 
   useEffect(() => {
     const fetchData = async () => {
-      const stadium = await getStadiumDetailWithRes(id)
+      const stadium = await getStadiumsDetail(id)
       const {
         latitude: stadiumLat,
         longitude: stadiumLng,
