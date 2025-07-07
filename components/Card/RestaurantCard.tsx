@@ -32,7 +32,10 @@ export default function RestaurantCard({
           {restaurant.name}
         </h2>
         <div>
-          <FavoriteButton restaurantId={restaurant.id} />
+          <FavoriteButton
+            restaurantId={restaurant.id}
+            version="icon"
+          />
         </div>
       </div>
 
