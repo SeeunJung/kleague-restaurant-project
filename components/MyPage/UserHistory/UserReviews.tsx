@@ -48,7 +48,12 @@ export default function UserReviews({
 
   return (
     <div>
-      <h3 className={mainTitle('mb-2')}>내 리뷰</h3>
+      <div className="flex flex-row mb-2 items-end gap-2">
+        <h3 className={mainTitle()}>내 리뷰</h3>
+        <span className="text-sm text-gray-600 font-bold">
+          ({updatedReviews.length})
+        </span>
+      </div>
       <div>
         {updatedReviews.map((review) => (
           <ReviewCard
