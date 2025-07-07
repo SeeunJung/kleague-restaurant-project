@@ -10,11 +10,13 @@ import {
   subTitle,
 } from '@/styles/customStyle'
 import { Delete, Pencil, Save, Star, Trash } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 interface ReviewCardProps {
   id: number
-  restaurantName?: string
+  restaurantName: string
+  restaurantId: number
   rating: number
   createdAt: string
   content: string
@@ -28,6 +30,7 @@ interface ReviewCardProps {
 export default function ReviewCard({
   id,
   restaurantName,
+  restaurantId,
   rating,
   createdAt,
   content,
@@ -37,17 +40,28 @@ export default function ReviewCard({
   const [isEditing, setIsEditing] = useState(false)
   const [newContent, setNewContent] = useState(content)
   const [newRating, setNewRating] = useState(rating)
+  const router = useRouter()
 
   const handleSave = () => {
     onEdit(id, { content: newContent, rating: newRating })
     setIsEditing(false)
   }
 
+  const handleRoute = (id: number) => {
+    router.push(`/restaurants/${id}`)
+  }
+
   return (
     <div className={cn(Card(), 'flex flex-col h-full mt-2')}>
       <div>
-        <h2 className={cn(mainTitle('sm:text-lg'), 'truncate')}>
-          {restaurantName ?? '이름 없음'}
+        <h2
+          onClick={() => handleRoute(restaurantId)}
+          className={cn(
+            mainTitle('sm:text-lg'),
+            'truncate cursor-pointer hover:underline',
+          )}
+        >
+          {restaurantName}
         </h2>
       </div>
 
@@ -68,25 +82,17 @@ export default function ReviewCard({
             />
           </div>
 
-          <div className={flexCol('justify-start items-end gap-2')}>
-            <button
+          <div className={flexRow('justify-start items-end gap-4')}>
+            <Save
+              size={18}
               onClick={handleSave}
-              className={flexRow(
-                'w-fit h-fit gap-1 px-4 py-2 text-xs font-bold rounded-full border border-gray-300 cursor-pointer',
-              )}
-            >
-              <Save size={18} />
-              저장
-            </button>
-            <button
+              className="cursor-pointer"
+            />
+            <Delete
+              size={18}
               onClick={() => setIsEditing(false)}
-              className={flexRow(
-                'w-fit h-fit gap-1 px-4 py-2 text-xs text-white font-bold bg-black rounded-full border border-gray-300 cursor-pointer',
-              )}
-            >
-              <Delete size={18} />
-              취소
-            </button>
+              className="cursor-pointer"
+            />
           </div>
         </div>
       ) : (
@@ -113,25 +119,17 @@ export default function ReviewCard({
             </div>
             <p className="w-[90%] text-sm font-semibold">{content}</p>
           </div>
-          <div className={flexCol('justify-start items-end gap-2')}>
-            <button
+          <div className={flexRow('justify-start items-end gap-4')}>
+            <Pencil
+              size={18}
               onClick={() => setIsEditing(true)}
-              className={flexRow(
-                'w-fit h-fit gap-1 px-4 py-2 text-xs font-bold rounded-full border border-gray-300 cursor-pointer',
-              )}
-            >
-              <Pencil size={18} />
-              수정
-            </button>
-            <button
+              className="cursor-pointer"
+            />
+            <Trash
+              size={18}
               onClick={() => onDelete(id)}
-              className={flexRow(
-                'w-fit h-fit gap-1 px-4 py-2 text-xs text-white font-bold bg-black rounded-full border border-gray-300 cursor-pointer',
-              )}
-            >
-              <Trash size={18} />
-              삭제
-            </button>
+              className="cursor-pointer"
+            />
           </div>
         </div>
       )}

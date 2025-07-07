@@ -1,6 +1,7 @@
 'use client'
 
 import ReviewCard from '@/components/Card/ReviewCard'
+import LoadingSpinner from '@/components/common/LoadingSpinner'
 import { deleteReview, updateReview } from '@/services/mypage'
 import { mainTitle } from '@/styles/customStyle'
 import { ReviewProps } from '@/types/Mypage'
@@ -43,6 +44,7 @@ export default function UserReviews({
     }
   }
 
+  ;<LoadingSpinner />
   if (updatedReviews.length === 0)
     return <div>작성한 리뷰가 없습니다.</div>
 
@@ -59,7 +61,8 @@ export default function UserReviews({
           <ReviewCard
             key={review.id}
             id={review.id}
-            restaurantName={review.restaurant.name}
+            restaurantName={review.restaurant.name!}
+            restaurantId={review.restaurant.id!}
             rating={review.rating}
             createdAt={review.createdAt}
             content={review.content}
