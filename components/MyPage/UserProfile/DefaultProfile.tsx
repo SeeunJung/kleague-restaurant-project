@@ -1,18 +1,16 @@
 import { Settings } from 'lucide-react'
-import { flexCol, flexRowICenter } from '@/styles/customStyle'
+import {
+  flexCol,
+  flexRow,
+  flexRowICenter,
+} from '@/styles/customStyle'
 import Image from 'next/image'
 import { TEAM_LOGOS } from '@/constants'
-import { FavoriteTeam } from '@/types/Auth'
+// import { FavoriteTeam } from '@/types/Auth'
+import { UserData } from '@/types/Mypage'
 
 interface DefaultProfileProps {
-  user: {
-    nickname: string
-    email: string
-    phoneNumber: string
-    favoriteTeam: FavoriteTeam
-    createdAt: string
-    updatedAt: string
-  }
+  user: UserData
   onEdit: () => void
 }
 
@@ -42,11 +40,20 @@ export default function DefaultProfile({
           {user.phoneNumber}
         </p>
         <p className="text-[10px] md:text-sm text-gray-600">
-          가입일: {new Date(user.createdAt).toLocaleDateString()}
+          가입일:{' '}
+          {new Date(user.createdAt).toISOString().slice(0, 10)}
         </p>
-        <span className="inline-block w-fit mt-1 px-2 py-1 text-[10px] font-semibold bg-gray-300 bg-opacity-75 rounded-full">
-          응원팀: {user.favoriteTeam}
-        </span>
+        <div className={flexRow('items-center gap-4')}>
+          <span className="inline-block w-fit mt-1 px-2 py-1 text-[8px] md:text-xs font-semibold bg-gray-300 bg-opacity-75 rounded-full">
+            응원팀: {user.favoriteTeam}
+          </span>
+          <p className="text-[8px] md:text-xs lg:text-sm text-gray-600 font-semibold">
+            즐겨찾기: {user.favorites.length}곳
+          </p>
+          <p className="text-[8px] md:text-xs lg:text-sm text-gray-600 font-semibold">
+            리뷰: {user.reviews.length}개
+          </p>
+        </div>
       </div>
 
       <div className="ml-4">
