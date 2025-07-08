@@ -1,5 +1,6 @@
 'use client'
 
+import LoadingSpinner from '@/components/common/LoadingSpinner'
 import MypageTabs from '@/components/MyPage/UserHistory/MypageTabs'
 import DefaultProfile from '@/components/MyPage/UserProfile/DefaultProfile'
 import EditProfile from '@/components/MyPage/UserProfile/EditProfile'
@@ -41,8 +42,8 @@ export default function Page() {
     fetchUser()
   }, [accessToken])
 
-  if (!hasMounted || !accessToken) return null
-  if (!user) return <div>유저 정보를 불러오는 중입니다.</div>
+  if (!hasMounted || !accessToken) return <LoadingSpinner />
+  if (!user) return <LoadingSpinner />
 
   return (
     <div className={flexColIJCenter('gap-[20px] mt-6 mb-6 p-6')}>
