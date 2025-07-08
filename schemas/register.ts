@@ -16,7 +16,10 @@ const validationsSchema = z
     confirmPw: z.string().min(1, '비밀번호 확인은 필수입니다.'),
     phoneNumber: z
       .string()
-      .regex(/^01[0-9]{8,9}$/, '휴대폰번호는 숫자만 입력해주세요.'),
+      .transform((val) => val.replace(/-/g, ''))
+      .refine((val) => /^01[0-9]{8,9}$/.test(val), {
+        message: '휴대폰번호는 숫자만 입력해주세요.',
+      }),
     favoriteTeam: z.string().min(1, '좋아하는 구단을 선택해주세요.'),
   })
   .refine((data) => data.password === data.confirmPw, {
