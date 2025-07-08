@@ -28,7 +28,11 @@ function ResetPwPage() {
 
   const handleSubmit = async () => {
     try {
-      await reset(form)
+      await reset({
+        ...form,
+        phoneNumber: form.phoneNumber.replace(/-/g, ''),
+      })
+
       openModal({
         isError: false,
         title: '비밀번호 변경 성공',
@@ -53,34 +57,60 @@ function ResetPwPage() {
   return (
     <div className={cn('mt-9')}>
       <AuthTitle subT="비밀번호를 재설정합니다." />
-      <div className={Card('w-[350px]', 'mx-auto', 'space-y-5')}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          handleSubmit()
+        }}
+        className={Card('w-[350px]', 'mx-auto', 'space-y-5')}
+      >
         <AuthInput
           label="이메일"
           name="email"
           type="email"
           value={form.email}
-          onChange={handleInput}
+          onChange={(val) =>
+            handleInput({
+              target: {
+                name: 'email',
+                value: val,
+              },
+            } as React.ChangeEvent<HTMLInputElement>)
+          }
         />
         <AuthInput
           label="휴대폰번호"
           name="phoneNumber"
           type="text"
           value={form.phoneNumber}
-          onChange={handleInput}
+          onChange={(val) =>
+            handleInput({
+              target: {
+                name: 'phoneNumber',
+                value: val,
+              },
+            } as React.ChangeEvent<HTMLInputElement>)
+          }
         />
         <AuthInput
           label="새 비밀번호"
           name="password"
           type="password"
           value={form.password}
-          onChange={handleInput}
+          onChange={(val) =>
+            handleInput({
+              target: {
+                name: 'password',
+                value: val,
+              },
+            } as React.ChangeEvent<HTMLInputElement>)
+          }
         />
         <AuthButtons
           mode="reset"
           isDisabled={!isFormValid}
-          onButtonClick={handleSubmit}
         />
-      </div>
+      </form>
       <Modal
         isOpen={modalOpen}
         onOpenChange={setModalOpen}
