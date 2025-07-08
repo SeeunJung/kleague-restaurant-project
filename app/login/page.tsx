@@ -5,6 +5,7 @@ import AuthTitle from '@/components/Auth/AuthTitle'
 import Modal from '@/components/common/Modal'
 import useAuthForm from '@/hooks/useForm'
 import useModal from '@/hooks/useModal'
+import { usePathStore } from '@/hooks/usePathStore'
 import { login } from '@/services/auth'
 import { useAuthStore } from '@/store/useAuthStore'
 import {
@@ -24,6 +25,12 @@ import React from 'react'
 
 function LoginPage() {
   const router = useRouter()
+  const getCallbackURL = (): string => {
+    const prevPath = usePathStore.getState().prevPath
+    if (prevPath && !prevPath.includes('/signup')) return prevPath
+    return '/'
+  }
+
   const { form, handleInput, isFormValid } = useAuthForm<LoginForm>({
     email: '',
     password: '',
@@ -40,13 +47,18 @@ function LoginPage() {
         form.password,
       )
       loggedIn(user.id, accessToken)
+
+      const callbackURL = getCallbackURL()
       openModal({
         isError: false,
         title: '로그인 성공',
-        description: '메인페이지로 이동합니다.',
+        description:
+          callbackURL === '/'
+            ? '메인페이지로 이동합니다.'
+            : '이전 페이지로 이동합니다.',
         onBtnClick: () => {
           setModalOpen(false)
-          router.push('/')
+          router.push(callbackURL)
         },
       })
     } catch (e: unknown) {
