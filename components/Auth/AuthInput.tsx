@@ -8,13 +8,14 @@ import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 import CustomSelectInput from '../common/CustomSelectInput'
 import AuthError from './AuthError'
+import formatPhoneNumber from '@/utils/formatPhoneNumber'
 
 type AuthInputProps = {
   label: string
   name: string
   type?: string
   value: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange: (value: string) => void
   options?: string[]
   error?: string
 }
@@ -30,6 +31,18 @@ function AuthInput({
 }: AuthInputProps) {
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const isNumericInput = name === 'phoneNumber'
+  const isPassword = type === 'password'
+  const inputType = isPassword
+    ? showPassword
+      ? 'text'
+      : 'password'
+    : type
+  let autoComplete: string | undefined
+
+  if (isPassword) {
+    if (name === 'password') autoComplete = 'new-password'
+    else autoComplete = 'off'
+  } else if (name === 'email') autoComplete = 'username'
 
   const renderInput = () => {
     if (type === 'select') {
@@ -38,22 +51,11 @@ function AuthInput({
           placeholder="좋아하는 구단을 선택해주세요"
           name={name}
           value={value}
-          onChange={(val) =>
-            onChange({
-              target: { name, value: val },
-            } as React.ChangeEvent<HTMLInputElement>)
-          }
+          onChange={onChange}
           options={options}
         />
       )
     }
-
-    const isPassword = type === 'password'
-    const inputType = isPassword
-      ? showPassword
-        ? 'text'
-        : 'password'
-      : type
 
     return (
       <div className={cn('relative', 'w-full')}>
@@ -62,8 +64,16 @@ function AuthInput({
           name={name}
           type={inputType}
           inputMode={isNumericInput ? 'numeric' : undefined}
+          autoComplete={autoComplete}
           value={value}
-          onChange={onChange}
+          onChange={(e) => {
+            if (isNumericInput) {
+              const maskedNumber = formatPhoneNumber(e.target.value)
+              onChange(maskedNumber)
+            } else {
+              onChange(e.target.value)
+            }
+          }}
           placeholder={`${label}을 입력하세요`}
           className={authInput(
             'w-full',

@@ -9,14 +9,9 @@ import Link from 'next/link'
 type AuthButtonsProps = {
   mode: 'login' | 'signup' | 'reset'
   isDisabled: boolean
-  onButtonClick: (e: React.MouseEvent) => void
 }
 
-function AuthButtons({
-  mode,
-  isDisabled,
-  onButtonClick,
-}: AuthButtonsProps) {
+function AuthButtons({ mode, isDisabled }: AuthButtonsProps) {
   const btnLabel = {
     login: '로그인',
     signup: '회원가입',
@@ -44,8 +39,8 @@ function AuthButtons({
   return (
     <div className={flexColIJCenter('gap-4', 'w-full')}>
       <button
+        type="submit"
         className={button('w-full')}
-        onClick={onButtonClick}
         disabled={isDisabled}
       >
         {btnLabel}
