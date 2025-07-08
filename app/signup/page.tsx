@@ -43,8 +43,15 @@ function SignupPage() {
   })
 
   const handleSignup = async () => {
+    if (!isValid) return
     try {
-      await signup(getValues())
+      const rawData = getValues()
+      const formattedData = {
+        ...rawData,
+        phoneNumber: rawData.phoneNumber.replace(/-/g, ''),
+      }
+
+      await signup(formattedData)
       openModal({
         isError: false,
         title: '회원가입 성공',
@@ -69,7 +76,13 @@ function SignupPage() {
   return (
     <div className={cn('mt-9')}>
       <AuthTitle subT="새로운 계정을 만들어보세요" />
-      <div className={Card('w-[350px]', 'mx-auto', 'space-y-5')}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          handleSignup()
+        }}
+        className={Card('w-[350px]', 'mx-auto', 'space-y-5')}
+      >
         <span className={flexColIJCenter(mainTitle())}>회원가입</span>
         <div className={flexCol('w-full', 'gap-3')}>
           {SIGNUP_INPUT.map(({ value, type, label }) => (
@@ -95,10 +108,9 @@ function SignupPage() {
         </div>
         <AuthButtons
           mode="signup"
-          onButtonClick={handleSignup}
           isDisabled={!isValid}
         />
-      </div>
+      </form>
       <Modal
         isOpen={modalOpen}
         onOpenChange={setModalOpen}

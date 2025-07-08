@@ -20,6 +20,7 @@ import { AxiosErrorRes } from '@/types/Axios'
 import { cn } from '@/utils/cn'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import React from 'react'
 
 function LoginPage() {
   const router = useRouter()
@@ -63,7 +64,11 @@ function LoginPage() {
   return (
     <div className={cn('mt-9')}>
       <AuthTitle subT="로그인하여 더 많은 기능을 이용하세요" />
-      <div
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          handleLogin()
+        }}
         className={Card(
           'w-[350px]',
           'mx-auto',
@@ -78,14 +83,28 @@ function LoginPage() {
             name="email"
             type="email"
             value={form.email}
-            onChange={handleInput}
+            onChange={(val) =>
+              handleInput({
+                target: {
+                  name: 'email',
+                  value: val,
+                },
+              } as React.ChangeEvent<HTMLInputElement>)
+            }
           />
           <AuthInput
             label="비밀번호"
             name="password"
             type="password"
             value={form.password}
-            onChange={handleInput}
+            onChange={(val) =>
+              handleInput({
+                target: {
+                  name: 'password',
+                  value: val,
+                },
+              } as React.ChangeEvent<HTMLInputElement>)
+            }
           />
         </div>
         <Link
@@ -97,9 +116,8 @@ function LoginPage() {
         <AuthButtons
           mode="login"
           isDisabled={!isFormValid}
-          onButtonClick={handleLogin}
         />
-      </div>
+      </form>
       <Modal
         isOpen={modalOpen}
         onOpenChange={setModalOpen}
@@ -108,6 +126,5 @@ function LoginPage() {
     </div>
   )
 }
-
 
 export default LoginPage
