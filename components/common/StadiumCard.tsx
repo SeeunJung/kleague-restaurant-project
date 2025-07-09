@@ -1,5 +1,6 @@
 import {
   button,
+  Card,
   flexCol,
   flexRowICenter,
   mainTitle,
@@ -22,15 +23,7 @@ function StadiumCard({ stadium }: StadiumCardProps) {
   }
 
   return (
-    <div
-      className={flexCol(
-        'rounded-xl',
-        'shadow-lg',
-        'p-4',
-        'gap-5',
-        'h-[210px]',
-      )}
-    >
+    <div className={flexCol(Card(), 'gap-5', 'h-[230px]')}>
       <div className={flexRowICenter('justify-between')}>
         <Image
           src={stadium.logo}
