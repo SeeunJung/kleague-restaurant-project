@@ -6,7 +6,7 @@ import MainRestaurantCard from './RestaurantCard'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import { Navigation } from 'swiper/modules'
-import LoadingSpinner from '@/components/common/LoadingSpinner'
+import SwiperCard from '@/components/Skeleton/SwiperCard'
 
 type RestaurantTabsContentProps = {
   restaurants: Restaurant[]
@@ -17,6 +17,19 @@ function RestaurantTabsContent({
   restaurants,
   isLoading,
 }: RestaurantTabsContentProps) {
+  const renderItem =
+    isLoading || restaurants.length === 0
+      ? Array.from({ length: 4 }).map((_, i) => (
+          <SwiperSlide key={`skeleton-${i}`}>
+            <SwiperCard />
+          </SwiperSlide>
+        ))
+      : restaurants.slice(0, 10).map((rest) => (
+          <SwiperSlide key={rest.id}>
+            <MainRestaurantCard restaurant={rest} />
+          </SwiperSlide>
+        ))
+
   return (
     <>
       {RESTAURANT_CATEGORIES.map(({ value }) => (
@@ -24,28 +37,19 @@ function RestaurantTabsContent({
           key={value}
           value={value}
         >
-          {isLoading ? (
-            <LoadingSpinner />
-          ) : (
-            <Swiper
-              modules={[Navigation]}
-              navigation={true}
-              spaceBetween={24}
-              grabCursor={true}
-              loop={restaurants.length > 4}
-              breakpoints={{
-                0: { slidesPerView: 1 },
-                640: { slidesPerView: 3 },
-                1024: { slidesPerView: 4 },
-              }}
-            >
-              {restaurants.slice(0, 10).map((rest) => (
-                <SwiperSlide key={rest.id}>
-                  <MainRestaurantCard restaurant={rest} />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          )}
+          <Swiper
+            modules={[Navigation]}
+            navigation={true}
+            spaceBetween={24}
+            grabCursor={true}
+            breakpoints={{
+              0: { slidesPerView: 1 },
+              640: { slidesPerView: 3 },
+              1024: { slidesPerView: 4 },
+            }}
+          >
+            {renderItem}
+          </Swiper>
         </TabsContent>
       ))}
     </>
