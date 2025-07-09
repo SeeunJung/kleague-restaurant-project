@@ -6,7 +6,7 @@ import MainRestaurantCard from './RestaurantCard'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import { Navigation } from 'swiper/modules'
-import SwiperCard from '@/components/Skeleton/SwiperCard'
+import SwiperCardSkeleton from '@/components/Skeleton/SwiperCardSkeleton'
 
 type RestaurantTabsContentProps = {
   restaurants: Restaurant[]
@@ -21,7 +21,7 @@ function RestaurantTabsContent({
     isLoading || restaurants.length === 0
       ? Array.from({ length: 4 }).map((_, i) => (
           <SwiperSlide key={`skeleton-${i}`}>
-            <SwiperCard />
+            <SwiperCardSkeleton />
           </SwiperSlide>
         ))
       : restaurants.slice(0, 10).map((rest) => (

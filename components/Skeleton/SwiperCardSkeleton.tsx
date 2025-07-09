@@ -2,7 +2,7 @@ import { Card, flexCol, flexRowICenter } from '@/styles/customStyle'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-function SwiperCard() {
+function SwiperCardSkeleton() {
   return (
     <div className={flexCol(Card(), 'bg-gray-50')}>
       <div className={flexRowICenter('h-[45px]')}>
@@ -20,4 +20,4 @@ function SwiperCard() {
   )
 }
 
-export default SwiperCard
+export default SwiperCardSkeleton
