@@ -1,15 +1,21 @@
 'use client'
-import { useStadiumFilter } from '@/context/StadiumFilterContext'
-import { flexColIJCenter } from '@/styles/customStyle'
+import { flexColIJCenter, SearchbarInput } from '@/styles/customStyle'
 import { cn } from '@/utils/cn'
 import { Search } from 'lucide-react'
 
 type KeywordSearchbarProps = {
+  keyword: string
+  setKeyword: (value: string) => void
+  placeholder: string
   isMain?: boolean
 }
 
-function KeywordSearchbar({ isMain = true }: KeywordSearchbarProps) {
-  const { keyword, setKeyword } = useStadiumFilter()
+function KeywordSearchbar({
+  keyword,
+  setKeyword,
+  placeholder,
+  isMain = true,
+}: KeywordSearchbarProps) {
   return (
     <div className={cn('relative', 'w-full', isMain && 'max-w-md')}>
       <div
@@ -28,24 +34,8 @@ function KeywordSearchbar({ isMain = true }: KeywordSearchbarProps) {
       </div>
       <input
         type="text"
-        placeholder={
-          isMain
-            ? '구장명 또는 팀명으로 검색'
-            : '맛집 이름을 검색하세요'
-        }
-        className={cn(
-          'block',
-          'rounded-xl',
-          'w-full',
-          'p-3',
-          'pl-11',
-          'bg-white',
-          'text-gray-900',
-          'border-2',
-          'border-gray-200',
-          'outline-none',
-          'focus:border-blue-400',
-        )}
+        placeholder={placeholder}
+        className={SearchbarInput()}
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
       />
