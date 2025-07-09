@@ -3,8 +3,8 @@ import { TabsContent } from '@/components/ui/tabs'
 import { KLEAGUE_TYPE } from '@/constants'
 import { cn } from '@/utils/cn'
 import { Stadium } from '@/types/Stadium'
-import MainStadiumCard from './StadiumCard'
 import StadiumShowButtons from './StadiumShowButtons'
+import StadiumCard from '../../common/StadiumCard'
 
 type StadiumTabsContentProps = {
   tab: string
@@ -50,7 +50,7 @@ function StadiumTabsContent({
                   )}
                 >
                   {visibleStadiums.map((stadium) => (
-                    <MainStadiumCard
+                    <StadiumCard
                       key={stadium.id}
                       stadium={stadium}
                     />

@@ -10,11 +10,11 @@ import { cn } from '@/utils/cn'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
-type MainStadiumCardProps = {
+type StadiumCardProps = {
   stadium: Stadium
 }
 
-function MainStadiumCard({ stadium }: MainStadiumCardProps) {
+function StadiumCard({ stadium }: StadiumCardProps) {
   const router = useRouter()
 
   const handleClick = () => {
@@ -71,4 +71,4 @@ function MainStadiumCard({ stadium }: MainStadiumCardProps) {
   )
 }
 
-export default MainStadiumCard
+export default StadiumCard
