@@ -4,13 +4,14 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs'
-import { FavoriteProps, ReviewProps } from '@/types/Mypage'
+import { FavoriteProps } from '@/types/Mypage'
 import UserFavorites from './UserFavorites'
 import UserReviews from './UserReviews'
+import { Review } from '@/types/Review'
 
 interface UserTabsProps {
   favorites: FavoriteProps[]
-  reviews: ReviewProps[]
+  reviews: Review[]
   onRemoveFavorite?: (restaurantId: number) => void
 }
 

@@ -1,4 +1,5 @@
 import { User } from './Auth'
+import { Restaurant } from './Restaurant'
 
 export type Review = {
   id: number
@@ -9,6 +10,7 @@ export type Review = {
   createdAt: Date
   updatedAt: Date
   user: User
+  restaurant?: Pick<Restaurant, 'id' | 'name'>
 }
 
 export type ReviewFormType = {

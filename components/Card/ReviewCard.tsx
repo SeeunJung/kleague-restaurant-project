@@ -18,7 +18,7 @@ interface ReviewCardProps {
   restaurantName: string
   restaurantId: number
   rating: number
-  createdAt: string
+  createdAt: Date
   content: string
   onDelete: (id: number) => void
   onEdit: (
@@ -114,7 +114,7 @@ export default function ReviewCard({
                 {rating}
               </span>
               <span className="text-sm text-gray-600">
-                {new Date(createdAt).toLocaleDateString()}
+                {new Date(createdAt).toISOString().slice(0, 10)}
               </span>
             </div>
             <p className="w-[90%] text-sm font-semibold">{content}</p>
