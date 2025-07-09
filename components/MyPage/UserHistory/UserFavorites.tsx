@@ -5,10 +5,12 @@ import { getStadiumNameById } from '@/utils/getStudiumById'
 
 interface UserFavoritesProps {
   favorites: FavoriteProps[]
+  onRemoveFavorite?: (restaurantId: number) => void
 }
 
 export default function UserFavorites({
   favorites,
+  onRemoveFavorite,
 }: UserFavoritesProps) {
   if (favorites.length === 0)
     return <div>즐겨찾기한 식당이 없습니다.</div>
@@ -32,6 +34,7 @@ export default function UserFavorites({
             restaurant={{ ...restaurant }}
             showDistance={false}
             stadiumName={getStadiumNameById(restaurant.stadiumId)}
+            onRemoveFavorite={onRemoveFavorite}
           />
         ))}
       </div>

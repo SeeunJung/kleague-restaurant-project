@@ -11,11 +11,13 @@ import UserReviews from './UserReviews'
 interface UserTabsProps {
   favorites: FavoriteProps[]
   reviews: ReviewProps[]
+  onRemoveFavorite?: (restaurantId: number) => void
 }
 
 export default function MypageTabs({
   favorites,
   reviews,
+  onRemoveFavorite,
 }: UserTabsProps) {
   return (
     <Tabs
@@ -28,7 +30,10 @@ export default function MypageTabs({
       </TabsList>
 
       <TabsContent value="favorites">
-        <UserFavorites favorites={favorites} />
+        <UserFavorites
+          favorites={favorites}
+          onRemoveFavorite={onRemoveFavorite}
+        />
       </TabsContent>
 
       <TabsContent value="reviews">
