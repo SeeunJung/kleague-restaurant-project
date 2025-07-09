@@ -1,15 +1,15 @@
 import { Settings } from 'lucide-react'
-import { flexCol, flexRowICenter } from '@/styles/customStyle'
+import {
+  flexCol,
+  flexRow,
+  flexRowICenter,
+} from '@/styles/customStyle'
+import Image from 'next/image'
+import { TEAM_LOGOS } from '@/constants'
+import { UserData } from '@/types/Mypage'
 
 interface DefaultProfileProps {
-  user: {
-    nickname: string
-    email: string
-    phoneNumber: string
-    favoriteTeam: string
-    createdAt: string
-    updatedAt: string
-  }
+  user: UserData
   onEdit: () => void
 }
 
@@ -18,20 +18,46 @@ export default function DefaultProfile({
   onEdit,
 }: DefaultProfileProps) {
   return (
-    <div className={flexRowICenter('justify-between m-2 p-2')}>
-      <div className={flexCol()}>
-        <h2 className="mb-1 text-2xl font-bold">{user.nickname}</h2>
-        <p className="text-sm text-gray-600">{user.email}</p>
-        <p className="text-sm text-gray-600">{user.phoneNumber}</p>
-        <p className="text-xs text-gray-600">
-          {new Date(user.createdAt).toLocaleDateString()}
-        </p>
-        <span className="inline-block w-fit mt-1 px-2 py-1 text-[10px] font-semibold bg-gray-300 bg-opacity-75 rounded-full">
-          응원팀: {user.favoriteTeam}
-        </span>
+    <div className="flex items-center justify-between p-2">
+      <div className="flex flex-row gap-2">
+        <div className="flex-shrink-0">
+          <Image
+            src={TEAM_LOGOS[user.favoriteTeam]}
+            alt="사용자 팀 로고"
+            width={96}
+            height={96}
+            className="w-20 h-20 md:w-24 md:h-24"
+          />
+        </div>
+        <div className={flexCol('flex-1 ml-4 gap-0.5')}>
+          <h2 className="mb-1 text-lg md:text-xl lg:text-2xl font-bold">
+            {user.nickname}
+          </h2>
+          <p className="text-xs md:text-sm text-gray-600">
+            {user.email}
+          </p>
+          <p className="text-[10px] md:text-sm text-gray-600">
+            {user.phoneNumber}
+          </p>
+          <p className="text-[10px] md:text-sm text-gray-600">
+            가입일:{' '}
+            {new Date(user.createdAt).toISOString().slice(0, 10)}
+          </p>
+          <div className={flexRow('items-center gap-4')}>
+            <span className="inline-block w-fit mt-1 px-2 py-1 text-[8px] md:text-xs font-semibold bg-gray-300 bg-opacity-75 rounded-full">
+              응원팀: {user.favoriteTeam}
+            </span>
+            <p className="text-[8px] md:text-xs lg:text-sm text-gray-600 font-semibold">
+              즐겨찾기: {user.favorites.length}곳
+            </p>
+            <p className="text-[8px] md:text-xs lg:text-sm text-gray-600 font-semibold">
+              리뷰: {user.reviews.length}개
+            </p>
+          </div>
+        </div>
       </div>
 
-      <div className="flex">
+      <div className="mr-2">
         <button
           onClick={onEdit}
           className={flexRowICenter(
@@ -39,10 +65,10 @@ export default function DefaultProfile({
           )}
         >
           <Settings
-            width={20}
-            height={20}
+            width={18}
+            height={18}
           />
-          <span>프로필 수정</span>
+          <span className="hidden sm:inline">프로필 수정</span>
         </button>
       </div>
     </div>
