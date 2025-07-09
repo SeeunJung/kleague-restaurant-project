@@ -1,18 +1,15 @@
+'use client'
+import { useStadiumFilter } from '@/context/StadiumFilterContext'
 import { flexColIJCenter } from '@/styles/customStyle'
 import { cn } from '@/utils/cn'
 import { Search } from 'lucide-react'
 
 type KeywordSearchbarProps = {
-  value: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   isMain?: boolean
 }
 
-function KeywordSearchbar({
-  value,
-  onChange,
-  isMain = true,
-}: KeywordSearchbarProps) {
+function KeywordSearchbar({ isMain = true }: KeywordSearchbarProps) {
+  const { keyword, setKeyword } = useStadiumFilter()
   return (
     <div className={cn('relative', 'w-full', isMain && 'max-w-md')}>
       <div
@@ -49,8 +46,8 @@ function KeywordSearchbar({
           'outline-none',
           'focus:border-blue-400',
         )}
-        value={value}
-        onChange={onChange}
+        value={keyword}
+        onChange={(e) => setKeyword(e.target.value)}
       />
     </div>
   )

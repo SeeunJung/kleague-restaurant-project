@@ -1,23 +1,18 @@
+'use client'
 import { getStadiums } from '@/services/stadiums'
 import { useStadiumsStore } from '@/store/useStadiumsStore'
-import {
-  Card,
-  cardTitle,
-  flexCol,
-  flexRowICenter,
-} from '@/styles/customStyle'
+import { Card, flexCol } from '@/styles/customStyle'
 import { useEffect, useState } from 'react'
 import { Tabs } from '../../ui/tabs'
 import { KLEAGUE_TYPE } from '@/constants'
 import useFilteredStadiums from '@/hooks/useFilteredStadiums'
-import StadiumTabs from './StadiumTabs'
 import StadiumTabsContent from './StadiumTabsContent'
+import { useStadiumFilter } from '@/context/StadiumFilterContext'
+import SectionTabsHeader from '../SectionTabsHeader'
+import TabsListContent from '../TabsListContent'
 
-type MainStadiumListProps = {
-  keyword: string
-}
-
-function MainStadiumList({ keyword }: MainStadiumListProps) {
+function MainStadiumList() {
+  const { keyword } = useStadiumFilter()
   const { stadiums, k1Stadiums, k2Stadiums, setStadiums } =
     useStadiumsStore()
   const [league, setLeague] = useState<string>(KLEAGUE_TYPE[0].value)
@@ -47,10 +42,12 @@ function MainStadiumList({ keyword }: MainStadiumListProps) {
         value={league}
         onValueChange={setLeague}
       >
-        <div className={flexRowICenter('justify-between')}>
-          <div className={cardTitle()}>구장 목록</div>
-          <StadiumTabs onSelect={setLeague} />
-        </div>
+        <SectionTabsHeader title="구장 목록">
+          <TabsListContent
+            type="league"
+            onSelect={setLeague}
+          />
+        </SectionTabsHeader>
         <StadiumTabsContent
           tab={league}
           stadiums={filtered}
