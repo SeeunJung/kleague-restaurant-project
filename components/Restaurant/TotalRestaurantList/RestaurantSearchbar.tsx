@@ -1,5 +1,5 @@
 import CustomSelectInput from '@/components/common/CustomSelectInput'
-import MainSearchbar from '@/components/common/KeywordSearchbar'
+import KeywordSearchbar from '@/components/common/KeywordSearchbar'
 import { useRestaurantFilter } from '@/context/RestaurantFilterContext'
 import {
   Card,
@@ -30,9 +30,10 @@ function TotalRestaurantSearchbar() {
 
   return (
     <div className={Card('w-full', flexCol('gap-4'))}>
-      <MainSearchbar
-        value={keyword}
-        onChange={(e) => setKeyword(e.target.value)}
+      <KeywordSearchbar
+        keyword={keyword}
+        placeholder="맛집 이름을 검색하세요"
+        setKeyword={setKeyword}
         isMain={false}
       />
       <div

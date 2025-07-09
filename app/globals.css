@@ -47,6 +47,8 @@
 }
 
 html {
+  scrollbar-gutter: stable;
+
   --font-pretendard:
     'Pretendard Variable', Pretendard, -apple-system,
     BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue',

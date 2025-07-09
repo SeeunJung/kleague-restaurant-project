@@ -1,7 +1,6 @@
 'use client'
 import AuthButtons from '@/components/Auth/AuthButtons'
 import AuthInput from '@/components/Auth/AuthInput'
-import AuthTitle from '@/components/Auth/AuthTitle'
 import { KLEAGUE_TEAMS, SIGNUP_INPUT } from '@/constants'
 import { signup } from '@/services/auth'
 import {
@@ -18,6 +17,7 @@ import validationsSchema from '@/schemas/register'
 import Modal from '@/components/common/Modal'
 import { AxiosErrorRes } from '@/types/Axios'
 import useModal from '@/hooks/useModal'
+import PageTitle from '@/components/common/PageTitle'
 
 function SignupPage() {
   const router = useRouter()
@@ -75,7 +75,7 @@ function SignupPage() {
 
   return (
     <div className={cn('mt-9')}>
-      <AuthTitle subT="새로운 계정을 만들어보세요" />
+      <PageTitle subT="새로운 계정을 만들어보세요" />
       <form
         onSubmit={(e) => {
           e.preventDefault()

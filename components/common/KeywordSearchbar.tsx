@@ -1,16 +1,19 @@
-import { flexColIJCenter } from '@/styles/customStyle'
+'use client'
+import { flexColIJCenter, SearchbarInput } from '@/styles/customStyle'
 import { cn } from '@/utils/cn'
 import { Search } from 'lucide-react'
 
 type KeywordSearchbarProps = {
-  value: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  keyword: string
+  setKeyword: (value: string) => void
+  placeholder: string
   isMain?: boolean
 }
 
 function KeywordSearchbar({
-  value,
-  onChange,
+  keyword,
+  setKeyword,
+  placeholder,
   isMain = true,
 }: KeywordSearchbarProps) {
   return (
@@ -31,26 +34,10 @@ function KeywordSearchbar({
       </div>
       <input
         type="text"
-        placeholder={
-          isMain
-            ? '구장명 또는 팀명으로 검색'
-            : '맛집 이름을 검색하세요'
-        }
-        className={cn(
-          'block',
-          'rounded-xl',
-          'w-full',
-          'p-3',
-          'pl-11',
-          'bg-white',
-          'text-gray-900',
-          'border-2',
-          'border-gray-200',
-          'outline-none',
-          'focus:border-blue-400',
-        )}
-        value={value}
-        onChange={onChange}
+        placeholder={placeholder}
+        className={SearchbarInput()}
+        value={keyword}
+        onChange={(e) => setKeyword(e.target.value)}
       />
     </div>
   )

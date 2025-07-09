@@ -1,7 +1,6 @@
 'use client'
 import AuthButtons from '@/components/Auth/AuthButtons'
 import AuthInput from '@/components/Auth/AuthInput'
-import AuthTitle from '@/components/Auth/AuthTitle'
 import Modal from '@/components/common/Modal'
 import useAuthForm from '@/hooks/useForm'
 import useModal from '@/hooks/useModal'
@@ -11,6 +10,7 @@ import { SignupForm } from '@/types/Auth'
 import { AxiosErrorRes } from '@/types/Axios'
 import { cn } from '@/utils/cn'
 import { useRouter } from 'next/navigation'
+import PageTitle from '@/components/common/PageTitle'
 
 function ResetPwPage() {
   const router = useRouter()
@@ -56,7 +56,7 @@ function ResetPwPage() {
 
   return (
     <div className={cn('mt-9')}>
-      <AuthTitle subT="비밀번호를 재설정합니다." />
+      <PageTitle subT="비밀번호를 재설정합니다." />
       <form
         onSubmit={(e) => {
           e.preventDefault()

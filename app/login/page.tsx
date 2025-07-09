@@ -1,7 +1,6 @@
 'use client'
 import AuthButtons from '@/components/Auth/AuthButtons'
 import AuthInput from '@/components/Auth/AuthInput'
-import AuthTitle from '@/components/Auth/AuthTitle'
 import Modal from '@/components/common/Modal'
 import useAuthForm from '@/hooks/useForm'
 import useModal from '@/hooks/useModal'
@@ -22,6 +21,7 @@ import { cn } from '@/utils/cn'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
+import PageTitle from '@/components/common/PageTitle'
 
 function LoginPage() {
   const router = useRouter()
@@ -75,7 +75,7 @@ function LoginPage() {
 
   return (
     <div className={cn('mt-9')}>
-      <AuthTitle subT="로그인하여 더 많은 기능을 이용하세요" />
+      <PageTitle subT="로그인하여 더 많은 기능을 이용하세요" />
       <form
         onSubmit={(e) => {
           e.preventDefault()

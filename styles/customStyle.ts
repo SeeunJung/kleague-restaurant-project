@@ -120,3 +120,19 @@ export const Pages = (...args: ClassValue[]) =>
     'p-3',
     ...args,
   )
+
+export const SearchbarInput = (...args: ClassValue[]) =>
+  cn(
+    'block',
+    'rounded-xl',
+    'w-full',
+    'p-3',
+    'pl-11',
+    'bg-white',
+    'text-gray-900',
+    'border-2',
+    'border-gray-200',
+    'outline-none',
+    'focus:border-blue-400',
+    ...args,
+  )

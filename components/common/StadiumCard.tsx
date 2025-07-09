@@ -1,5 +1,6 @@
 import {
   button,
+  Card,
   flexCol,
   flexRowICenter,
   mainTitle,
@@ -10,11 +11,11 @@ import { cn } from '@/utils/cn'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
-type MainStadiumCardProps = {
+type StadiumCardProps = {
   stadium: Stadium
 }
 
-function MainStadiumCard({ stadium }: MainStadiumCardProps) {
+function StadiumCard({ stadium }: StadiumCardProps) {
   const router = useRouter()
 
   const handleClick = () => {
@@ -22,15 +23,7 @@ function MainStadiumCard({ stadium }: MainStadiumCardProps) {
   }
 
   return (
-    <div
-      className={flexCol(
-        'rounded-xl',
-        'shadow-lg',
-        'p-4',
-        'gap-5',
-        'h-[210px]',
-      )}
-    >
+    <div className={flexCol(Card(), 'gap-5', 'h-[230px]')}>
       <div className={flexRowICenter('justify-between')}>
         <Image
           src={stadium.logo}
@@ -71,4 +64,4 @@ function MainStadiumCard({ stadium }: MainStadiumCardProps) {
   )
 }
 
-export default MainStadiumCard
+export default StadiumCard
