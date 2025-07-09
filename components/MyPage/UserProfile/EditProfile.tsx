@@ -7,6 +7,7 @@ import { KLEAGUE_TEAMS } from '@/constants'
 import ProfileInput from './ProfileInput'
 import { setUserData } from '@/services/mypage'
 import { FavoriteTeam } from '@/types/Auth'
+import CustomSelectInput from '@/components/common/CustomSelectInput'
 
 interface EditProfileProps {
   user: {
@@ -88,36 +89,32 @@ export default function EditProfile({
     <div className={flexRowICenter('justify-between m-2 p-2')}>
       <div className={flexCol()}>
         <ProfileInput
+          label="닉네임"
+          type="text"
           value={nickname}
           placeholder="닉네임을 입력해주세요."
+          minlength={2}
+          maxlength={15}
           onChange={(e) => setNickname(e.target.value)}
           error={nicknameError}
         />
-        <p className="text-sm text-gray-600">{user.email}</p>
         <ProfileInput
+          label="전화번호"
+          type="text"
           value={phoneNumber}
           placeholder="전화번호를 입력해주세요."
+          maxlength={11}
           onChange={(e) => setPhoneNumber(e.target.value)}
           error={phoneError}
         />
-        <p className="text-xs text-gray-600">
-          {new Date(user.createdAt).toLocaleDateString()}
-        </p>
-        <select
+        <CustomSelectInput
+          placeholder="카테고리"
+          name="category"
           value={favoriteTeam}
-          onChange={(e) =>
-            setFavoriteTeam(e.target.value as FavoriteTeam)
-          }
-        >
-          {KLEAGUE_TEAMS.map((team) => (
-            <option
-              key={team}
-              value={team}
-            >
-              {team}
-            </option>
-          ))}
-        </select>
+          onChange={(value) => setFavoriteTeam(value as FavoriteTeam)}
+          options={KLEAGUE_TEAMS}
+          isFiltering={true}
+        />
       </div>
 
       <div className={flexCol('justify-end')}>
@@ -143,23 +140,23 @@ export default function EditProfile({
           )}
         >
           <Save
-            width={20}
-            height={20}
+            width={18}
+            height={18}
           />
-          <span>저장</span>
+          <span className="hidden sm:inline">저장</span>
         </button>
 
         <button
           onClick={onCancel}
           className={flexRowICenter(
-            'w-fit h-fit gap-1 px-4 py-2 text-xs text-white font-bold bg-black rounded-full border border-gray-300 cursor-pointer',
+            'w-fit h-fit gap-1 px-4 py-2 text-xs text-black font-bold bg-white rounded-full border border-gray-300 cursor-pointer',
           )}
         >
           <Delete
-            width={20}
-            height={20}
+            width={18}
+            height={18}
           />
-          <span>취소</span>
+          <span className="hidden sm:inline">취소</span>
         </button>
       </div>
     </div>

@@ -49,23 +49,27 @@ export default function Page() {
     <div className={flexColIJCenter('gap-[20px] mt-6 mb-6 p-6')}>
       <div className="w-full max-w-4xl gap-4">
         <div className={Card()}>
+          <DefaultProfile
+            user={user}
+            onEdit={() => setIsEditing(true)}
+          />
           {isEditing ? (
-            <EditProfile
-              user={user}
-              onSave={(updatedFields) => {
-                setUser({
-                  ...user,
-                  ...updatedFields,
-                })
-                setIsEditing(false)
-              }}
-              onCancel={() => setIsEditing(false)}
-            />
+            <>
+              <hr className="mt-2 mb-2" />
+              <EditProfile
+                user={user}
+                onSave={(updatedFields) => {
+                  setUser({
+                    ...user,
+                    ...updatedFields,
+                  })
+                  setIsEditing(false)
+                }}
+                onCancel={() => setIsEditing(false)}
+              />
+            </>
           ) : (
-            <DefaultProfile
-              user={user}
-              onEdit={() => setIsEditing(true)}
-            />
+            ''
           )}
         </div>
 
