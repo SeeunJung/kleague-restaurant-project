@@ -1,45 +1,23 @@
 'use client'
-import { getRestaurants } from '@/services/restaurants'
 import { useRestaurantsStore } from '@/store/useRestaurantsStore'
 import { Card, flexCol } from '@/styles/customStyle'
 import { cn } from '@/utils/cn'
-import { useEffect } from 'react'
 import { Tabs } from '../../ui/tabs'
 import RestaurantTabsContent from './RestaurantTabsContent'
 import SectionTabsHeader from '../SectionTabsHeader'
 import TabsListContent from '../TabsListContent'
+import useFetchRestaurants from '@/hooks/useFetchRestaurants'
 
 function MainRestaurantList() {
   const {
     restaurants,
-    setRestaurants,
     selectedCategory,
     setSelectedCategory,
     sort,
     loading,
-    setLoading,
   } = useRestaurantsStore()
 
-  useEffect(() => {
-    const fetchRestaurants = async () => {
-      setLoading(true)
-
-      try {
-        const res = await getRestaurants({
-          category: selectedCategory,
-          sort,
-        })
-        setRestaurants(res)
-      } catch (e) {
-        console.error('useEffect Error: ', e)
-        setRestaurants([])
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchRestaurants()
-  }, [selectedCategory, sort, setRestaurants, setLoading])
+  useFetchRestaurants(selectedCategory, sort)
 
   return (
     <div className={flexCol('w-full', Card(), 'mb-4')}>
