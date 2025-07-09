@@ -15,11 +15,13 @@ import { cn } from '@/lib/utils'
 interface FavoriteButtonProps {
   restaurantId: number
   version?: 'icon' | 'pill'
+  onRemoveFavorite?: (restaurantId: number) => void
 }
 
 export default function FavoriteButton({
   restaurantId,
   version = 'icon',
+  onRemoveFavorite,
 }: FavoriteButtonProps) {
   const [isFavorite, setIsFavorite] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -65,6 +67,7 @@ export default function FavoriteButton({
       if (isFavorite) {
         await deleteFavorite(restaurantId)
         setIsFavorite(false)
+        onRemoveFavorite?.(restaurantId)
       } else {
         await addFavorite(restaurantId)
         setIsFavorite(true)
