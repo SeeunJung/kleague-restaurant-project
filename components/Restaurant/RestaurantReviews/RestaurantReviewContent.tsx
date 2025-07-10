@@ -195,7 +195,9 @@ function RestaurantReviewContent({
             </div>
           </div>
         ) : (
-          review.content
+          <div className={cn('whitespace-pre-line')}>
+            {review.content}
+          </div>
         )}
       </div>
       <Modal
