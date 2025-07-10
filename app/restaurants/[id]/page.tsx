@@ -1,5 +1,6 @@
 import RestaurantInfo from '@/components/Restaurant/RestaurantInfo'
 import RestauranttReviews from '@/components/Restaurant/RestaurantReviews'
+import { ReviewSortProvider } from '@/context/ReviewSortContext'
 import { getRestaurantsDetail } from '@/services/restaurants'
 import { Pages } from '@/styles/customStyle'
 
@@ -14,7 +15,9 @@ async function RestaurantsDetailPage({
   return (
     <div className={Pages()}>
       <RestaurantInfo restaurant={restaurant} />
-      <RestauranttReviews restaurant={restaurant} />
+      <ReviewSortProvider>
+        <RestauranttReviews restaurant={restaurant} />
+      </ReviewSortProvider>
     </div>
   )
 }
