@@ -3,11 +3,12 @@ import Modal from '@/components/common/Modal'
 import useForm from '@/hooks/useForm'
 import useModal from '@/hooks/useModal'
 import { useReviewStore } from '@/store/useReviewStore'
-import { button, flexCol, flexRowICenter } from '@/styles/customStyle'
+import { flexCol, flexRowICenter } from '@/styles/customStyle'
 import { AxiosErrorRes } from '@/types/Axios'
 import { ReviewFormType } from '@/types/Review'
 import { cn } from '@/utils/cn'
 import StarRating from './StarRating'
+import { Button } from '@/components/ui/button'
 
 type RestaurantReviewFormProps = {
   restaurantId: number
@@ -18,7 +19,7 @@ function RestaurantReviewForm({
 }: RestaurantReviewFormProps) {
   const { form, handleInput, isFormValid, setField, resetForm } =
     useForm<ReviewFormType>({
-      rating: '',
+      rating: 0,
       content: '',
     })
   const { modalOpen, setModalOpen, modalContent, openModal } =
@@ -29,7 +30,7 @@ function RestaurantReviewForm({
     try {
       await addReview({
         restaurantId,
-        rating: parseInt(form.rating),
+        rating: form.rating,
         content: form.content,
       })
       resetForm()
@@ -67,8 +68,8 @@ function RestaurantReviewForm({
           평점:{' '}
         </span>
         <StarRating
-          rating={parseInt(form.rating)}
-          onChange={(rating) => setField('rating', rating.toString())}
+          rating={form.rating}
+          onChange={(rating) => setField('rating', rating)}
         />
       </div>
       <textarea
@@ -86,13 +87,12 @@ function RestaurantReviewForm({
         )}
         placeholder="맛집에 대한 솔직한 리뷰를 남겨주세요"
       ></textarea>
-      <button
+      <Button
         onClick={() => handleSubmit()}
-        className={button()}
         disabled={!isFormValid}
       >
         리뷰 등록
-      </button>
+      </Button>
       <Modal
         isOpen={modalOpen}
         onOpenChange={setModalOpen}

@@ -32,7 +32,7 @@ function RestaurantReviewContent({
   const { loggedInUserId } = useAuthStore()
   const { editReview, deleteReview } = useReviewStore()
   const { form, handleInput, setField } = useForm<ReviewFormType>({
-    rating: review.rating.toString(),
+    rating: review.rating,
     content: review.content,
   })
 
@@ -42,7 +42,7 @@ function RestaurantReviewContent({
   const handleEdit = () => {
     try {
       editReview(review.id, {
-        rating: parseInt(form.rating),
+        rating: form.rating,
         content: form.content,
       })
       setIsEditing(false)
@@ -112,21 +112,15 @@ function RestaurantReviewContent({
               <div className={flexRowICenter()}>
                 {isEditing ? (
                   <StarRating
-                    rating={parseInt(form.rating)}
-                    onChange={(rating) =>
-                      setField('rating', rating.toString())
-                    }
+                    rating={form.rating}
+                    onChange={(rating) => setField('rating', rating)}
                   />
                 ) : (
                   <div className={flexRowICenter('gap-0.5')}>
                     {Array.from({ length: 5 }).map((_, i) => (
                       <Star
                         key={i}
-                        fill={
-                          i < parseInt(form.rating)
-                            ? '#FFD94D'
-                            : '#ccc'
-                        }
+                        fill={i < form.rating ? '#FFD94D' : '#ccc'}
                         strokeWidth={0}
                         size={18}
                       />

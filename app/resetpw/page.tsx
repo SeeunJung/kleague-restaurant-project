@@ -2,7 +2,7 @@
 import AuthButtons from '@/components/Auth/AuthButtons'
 import AuthInput from '@/components/Auth/AuthInput'
 import Modal from '@/components/common/Modal'
-import useAuthForm from '@/hooks/useForm'
+import useForm from '@/hooks/useForm'
 import useModal from '@/hooks/useModal'
 import { reset } from '@/services/auth'
 import { Card } from '@/styles/customStyle'
@@ -15,7 +15,7 @@ import PageTitle from '@/components/common/PageTitle'
 function ResetPwPage() {
   const router = useRouter()
 
-  const { form, handleInput, isFormValid } = useAuthForm<
+  const { form, handleInput, isFormValid } = useForm<
     Pick<SignupForm, 'email' | 'phoneNumber' | 'password'>
   >({
     email: '',

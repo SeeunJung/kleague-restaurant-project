@@ -2,8 +2,8 @@
 import AuthButtons from '@/components/Auth/AuthButtons'
 import AuthInput from '@/components/Auth/AuthInput'
 import Modal from '@/components/common/Modal'
-import useAuthForm from '@/hooks/useForm'
 import useModal from '@/hooks/useModal'
+import useForm from '@/hooks/useForm'
 import { usePathStore } from '@/hooks/usePathStore'
 import { login } from '@/services/auth'
 import { useAuthStore } from '@/store/useAuthStore'
@@ -20,7 +20,6 @@ import { AxiosErrorRes } from '@/types/Axios'
 import { cn } from '@/utils/cn'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React from 'react'
 import PageTitle from '@/components/common/PageTitle'
 
 function LoginPage() {
@@ -31,7 +30,7 @@ function LoginPage() {
     return '/'
   }
 
-  const { form, handleInput, isFormValid } = useAuthForm<LoginForm>({
+  const { form, handleInput, isFormValid } = useForm<LoginForm>({
     email: '',
     password: '',
   })
