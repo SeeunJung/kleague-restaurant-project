@@ -10,6 +10,7 @@ import { useAuthStore } from '@/store/useAuthStore'
 import ReviewBlurMode from './ReviewBlurMode'
 import RestaurantReviewHeader from './RestaurantReviewHeader'
 import { useReviewSort } from '@/context/ReviewSortContext'
+import { sortReviews } from '@/utils/sortReviews'
 
 type RestaurantReviewsProps = {
   restaurant: Restaurant
@@ -24,23 +25,10 @@ function RestaurantReviews({ restaurant }: RestaurantReviewsProps) {
     setReviews(restaurant.reviews)
   }, [restaurant.reviews, setReviews])
 
-  const sortedReviews = useMemo(() => {
-    return [...reviews].sort((a, b) => {
-      switch (sortBy) {
-        case 'created':
-          return (
-            new Date(b.createdAt).getTime() -
-            new Date(a.createdAt).getTime()
-          )
-        case 'ratingDesc':
-          return b.rating - a.rating
-        case 'ratingAsc':
-          return a.rating - b.rating
-        default:
-          return 0
-      }
-    })
-  }, [reviews, sortBy])
+  const sortedReviews = useMemo(
+    () => sortReviews(reviews, sortBy),
+    [reviews, sortBy],
+  )
 
   return (
     <div className={cn('w-full', 'relative')}>
