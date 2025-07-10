@@ -1,7 +1,5 @@
-import Modal from '@/components/common/Modal'
 import { TEAM_LOGOS } from '@/constants'
 import useForm from '@/hooks/useForm'
-import useModal from '@/hooks/useModal'
 import { useAuthStore } from '@/store/useAuthStore'
 import { useReviewStore } from '@/store/useReviewStore'
 import {
@@ -20,10 +18,16 @@ import StarRating from './StarRating'
 
 type RestaurantReviewContentProps = {
   review: Review
+  openModal: (modalProps: {
+    isError: boolean
+    title: string
+    description: string
+  }) => void
 }
 
 function RestaurantReviewContent({
   review,
+  openModal,
 }: RestaurantReviewContentProps) {
   const { loggedInUserId } = useAuthStore()
   const { editReview, deleteReview } = useReviewStore()
@@ -31,8 +35,7 @@ function RestaurantReviewContent({
     rating: review.rating.toString(),
     content: review.content,
   })
-  const { modalOpen, setModalOpen, modalContent, openModal } =
-    useModal()
+
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const isMyReview = loggedInUserId === review.userId
 
@@ -69,7 +72,6 @@ function RestaurantReviewContent({
         title: '댓글 삭제 성공',
         description: '댓글 삭제에 성공했습니다.',
       })
-      setTimeout(() => {}, 1000)
     } catch (e) {
       console.error(e)
       openModal({
@@ -200,11 +202,6 @@ function RestaurantReviewContent({
           </div>
         )}
       </div>
-      <Modal
-        isOpen={modalOpen}
-        onOpenChange={setModalOpen}
-        contents={modalContent}
-      />
     </div>
   )
 }
