@@ -15,7 +15,7 @@ type RestaurantReviewsProps = {
   restaurant: Restaurant
 }
 
-function RestauranttReviews({ restaurant }: RestaurantReviewsProps) {
+function RestaurantReviews({ restaurant }: RestaurantReviewsProps) {
   const { accessToken } = useAuthStore()
   const { reviews, setReviews } = useReviewStore()
   const { sortBy } = useReviewSort()
@@ -60,4 +60,4 @@ function RestauranttReviews({ restaurant }: RestaurantReviewsProps) {
   )
 }
 
-export default RestauranttReviews
+export default RestaurantReviews
