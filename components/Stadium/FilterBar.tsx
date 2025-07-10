@@ -28,7 +28,6 @@ export default function FilterBar({
             value={category}
             onChange={setCategory}
             options={['전체', '한식', '중식', '일식', '양식', '분식']}
-            isFiltering={true}
           />
         </div>
 
@@ -47,7 +46,6 @@ export default function FilterBar({
               if (value) setSortBy(value)
             }}
             options={sortOptions.map((opt) => opt.label)}
-            isFiltering={true}
           />
         </div>
       </div>

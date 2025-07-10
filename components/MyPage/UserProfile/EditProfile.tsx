@@ -113,7 +113,6 @@ export default function EditProfile({
           value={favoriteTeam}
           onChange={(value) => setFavoriteTeam(value as FavoriteTeam)}
           options={KLEAGUE_TEAMS}
-          isFiltering={true}
         />
       </div>
 

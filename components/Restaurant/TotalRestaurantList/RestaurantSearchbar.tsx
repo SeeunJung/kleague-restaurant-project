@@ -55,7 +55,6 @@ function TotalRestaurantSearchbar() {
             value={category}
             onChange={setCategory}
             options={['전체', '한식', '중식', '일식', '양식', '분식']}
-            isFiltering={true}
           />
         </div>
         <div className={flexRowICenter()}>
@@ -69,7 +68,6 @@ function TotalRestaurantSearchbar() {
             value={sortBy}
             onChange={(val) => setSortBy(val as RestaurantSortType)}
             options={['이름순', '평점순', '리뷰순']}
-            isFiltering={true}
           />
         </div>
         <div className={cn('grid', 'grid-cols-2', 'gap-4')}>
