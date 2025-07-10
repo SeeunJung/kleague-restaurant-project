@@ -1,8 +1,10 @@
 import CustomSelectInput from '@/components/common/CustomSelectInput'
 import KeywordSearchbar from '@/components/common/KeywordSearchbar'
+import { Button } from '@/components/ui/button'
 import { useRestaurantFilter } from '@/context/RestaurantFilterContext'
 import {
   Card,
+  FilteringButton,
   flexCol,
   flexRowICenter,
   flexRowIJCenter,
@@ -25,6 +27,7 @@ function TotalRestaurantSearchbar() {
     setCategory,
     sortBy,
     setSortBy,
+    viewMode,
     setViewMode,
   } = useRestaurantFilter()
 
@@ -71,30 +74,32 @@ function TotalRestaurantSearchbar() {
           />
         </div>
         <div className={cn('grid', 'grid-cols-2', 'gap-4')}>
-          <button
+          <Button
             className={flexRowIJCenter(
-              'rounded-full',
-              'p-2',
-              'border',
-              'border-[#ccc]',
+              FilteringButton(),
+              viewMode === '카드형' && 'bg-slate-100',
             )}
             onClick={() => setViewMode('카드형')}
           >
-            <Grid3x2Icon size={16} />
+            <Grid3x2Icon
+              size={16}
+              color="#ccc"
+            />
             <span className={subTitle()}>카드형</span>
-          </button>
-          <button
+          </Button>
+          <Button
             className={flexRowIJCenter(
-              'rounded-full',
-              'p-2',
-              'border',
-              'border-[#ccc]',
+              FilteringButton(),
+              viewMode === '리스트형' && 'bg-slate-100',
             )}
             onClick={() => setViewMode('리스트형')}
           >
-            <List size={16} />
+            <List
+              size={16}
+              color="#ccc"
+            />
             <span className={subTitle()}>리스트형</span>
-          </button>
+          </Button>
         </div>
       </div>
     </div>
