@@ -12,6 +12,7 @@ import {
 import { Delete, Pencil, Save, Star, Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import StarRating from '../Restaurant/RestaurantReviews/StarRating'
 
 interface ReviewCardProps {
   id: number
@@ -66,23 +67,24 @@ export default function ReviewCard({
       </div>
 
       {isEditing ? (
-        <div className="grid grid-cols-2 gap-4 mt-2">
-          <div className={flexCol('gap-1')}>
-            <input
-              type="number"
-              min={1}
-              max={5}
-              value={newRating}
-              onChange={(e) => setNewRating(Number(e.target.value))}
+        <div className={flexRow('gap-4 mt-2')}>
+          <div className={flexCol('gap-1 w-full')}>
+            <StarRating
+              rating={newRating}
+              onChange={(rating) => setNewRating(Number(rating))}
             />
             <textarea
-              className="w-[90%]"
+              className="p-4 w-full resize-none rounded-xl bg-white border border-gray-500"
               value={newContent}
               onChange={(e) => setNewContent(e.target.value)}
             />
           </div>
 
-          <div className={flexRow('justify-start items-end gap-4')}>
+          <div
+            className={flexRow(
+              'justify-end items-center gap-4 ml-auto',
+            )}
+          >
             <Save
               size={18}
               onClick={handleSave}
@@ -119,7 +121,11 @@ export default function ReviewCard({
             </div>
             <p className="w-[90%] text-sm font-semibold">{content}</p>
           </div>
-          <div className={flexRow('justify-start items-end gap-4')}>
+          <div
+            className={flexRow(
+              'justify-end items-center gap-4 ml-auto',
+            )}
+          >
             <Pencil
               size={18}
               onClick={() => setIsEditing(true)}

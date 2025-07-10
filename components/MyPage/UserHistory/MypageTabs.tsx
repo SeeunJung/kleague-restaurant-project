@@ -25,7 +25,7 @@ export default function MypageTabs({
       defaultValue="favorites"
       className="w-full"
     >
-      <TabsList>
+      <TabsList className="flex w-full justify-between">
         <TabsTrigger value="favorites">즐겨찾기</TabsTrigger>
         <TabsTrigger value="reviews">내가 남긴 리뷰</TabsTrigger>
       </TabsList>
