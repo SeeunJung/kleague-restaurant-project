@@ -14,7 +14,7 @@ export type Review = {
 }
 
 export type ReviewFormType = {
-  rating: string
+  rating: number
   content: string
 }
 

@@ -136,3 +136,14 @@ export const SearchbarInput = (...args: ClassValue[]) =>
     'focus:border-blue-400',
     ...args,
   )
+
+export const FilteringButton = (...args: ClassValue[]) =>
+  cn(
+    'bg-white',
+    'rounded-full',
+    'p-2',
+    'border',
+    'border-[#ccc]',
+    'hover:bg-slate-100',
+    ...args,
+  )
