@@ -12,9 +12,9 @@ export default function StadiumInfo({
       <Image
         src={logo ?? ''}
         alt={`${team} 팀 로고`}
-        width={50}
-        height={50}
-        style={{ objectFit: 'cover' }}
+        width={80}
+        height={80}
+        className="object-contain"
       />
       <div className="flex flex-col">
         <h2 className="text-2xl font-bold">{name}</h2>

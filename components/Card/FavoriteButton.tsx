@@ -15,11 +15,13 @@ import { cn } from '@/lib/utils'
 interface FavoriteButtonProps {
   restaurantId: number
   version?: 'icon' | 'pill'
+  onRemoveFavorite?: (restaurantId: number) => void
 }
 
 export default function FavoriteButton({
   restaurantId,
   version = 'icon',
+  onRemoveFavorite,
 }: FavoriteButtonProps) {
   const [isFavorite, setIsFavorite] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -65,6 +67,7 @@ export default function FavoriteButton({
       if (isFavorite) {
         await deleteFavorite(restaurantId)
         setIsFavorite(false)
+        onRemoveFavorite?.(restaurantId)
       } else {
         await addFavorite(restaurantId)
         setIsFavorite(true)
@@ -80,7 +83,7 @@ export default function FavoriteButton({
     <button
       className={cn(
         version === 'icon' &&
-          'p-2 rounded-full bg-white border border-gray-200 shadow cursor-pointer',
+          'p-2 items-center justify-center rounded-full bg-white border border-gray-200 shadow cursor-pointer',
         version === 'pill' &&
           'flex flex-row items-center gap-2 px-4 py-1 rounded-full bg-white text-black text-xs font-bold border border-gray-300 shadow cursor-pointer',
       )}
@@ -90,7 +93,7 @@ export default function FavoriteButton({
       <Heart
         fill={isFavorite ? 'red' : 'none'}
         color={isFavorite ? 'red' : 'black'}
-        className={version === 'pill' ? 'w-[16px]' : ''}
+        className="w-[16px] h-[16px]"
       />
       {version === 'pill' && <span>즐겨찾기</span>}
       <Modal

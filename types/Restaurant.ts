@@ -24,6 +24,7 @@ export interface RestaurantCardInfo {
   restaurant: Restaurant
   showDistance?: boolean
   stadiumName?: string
+  onRemoveFavorite?: (restaurantId: number) => void
 }
 
 export type RestaurantSortType = '평점순' | '리뷰순' | '이름순'

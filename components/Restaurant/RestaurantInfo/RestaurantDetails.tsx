@@ -1,4 +1,5 @@
 import { flexCol, flexRowICenter } from '@/styles/customStyle'
+import { cn } from '@/utils/cn'
 import {
   Clock4,
   LucideIcon,
@@ -28,8 +29,8 @@ function DetailsRow({ icon: Icon, title, value }: DetailsRowProps) {
         color="#ccc"
       />
       <div className={flexCol('gap-1')}>
-        <div className={'font-semibold'}>{title}</div>
-        <div>{value}</div>
+        <div className={cn('font-semibold')}>{title}</div>
+        <div className={cn('whitespace-pre-line')}>{value}</div>
       </div>
     </div>
   )

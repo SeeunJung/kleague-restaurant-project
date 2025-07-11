@@ -11,6 +11,7 @@
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
     "@radix-ui/react-alert-dialog": "^1.1.14",
+    "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tabs": "^1.1.12",
     "@types/navermaps": "^3.9.1",
@@ -24,6 +25,7 @@
     "react-device-detect": "^2.2.3",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.58.1",
+    "react-loading-skeleton": "^3.5.0",
     "react-spinners": "^0.17.0",
     "swiper": "^11.2.8",
     "tailwind-merge": "^3.3.1",

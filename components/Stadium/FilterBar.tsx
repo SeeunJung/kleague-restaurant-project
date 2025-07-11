@@ -1,3 +1,5 @@
+import CustomSelectInput from '../common/CustomSelectInput'
+
 interface FilterBarProps {
   category: string
   setCategory: (value: string) => void
@@ -11,54 +13,41 @@ export default function FilterBar({
   sortBy,
   setSortBy,
 }: FilterBarProps) {
-  const categories = [
-    '전체',
-    '한식',
-    '양식',
-    '중식',
-    '일식',
-    '분식',
-    '기타',
-  ]
-  const sorting = [
-    { value: 'distance', label: '거리순' },
-    { value: 'rating', label: '평점순' },
+  const sortOptions = [
+    { label: '거리순', value: 'distance' },
+    { label: '평점순', value: 'rating' },
   ]
 
   return (
-    <div className={'w-4/5'}>
-      <div className="flex gap-4 items-center">
-        <select
-          id="category"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="px-4 py-2 text-sm rounded-full border border-gray-300"
-        >
-          {categories.map((category) => (
-            <option
-              key={category}
-              value={category}
-            >
-              {category === '전체' ? '전체' : category}
-            </option>
-          ))}
-        </select>
+    <div className="w-4/5">
+      <div className="flex flex-row gap-4">
+        <div className="min-w-[100px] max-w-[200px]">
+          <CustomSelectInput
+            placeholder="카테고리"
+            name="category"
+            value={category}
+            onChange={setCategory}
+            options={['전체', '한식', '중식', '일식', '양식', '분식']}
+          />
+        </div>
 
-        <select
-          id="sortBy"
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-          className="px-4 py-2 text-sm rounded-full border border-gray-300"
-        >
-          {sorting.map((sort) => (
-            <option
-              key={sort.value}
-              value={sort.value}
-            >
-              {sort.label}
-            </option>
-          ))}
-        </select>
+        <div className="min-w-[100px] max-w-[200px]">
+          <CustomSelectInput
+            placeholder="정렬"
+            name="sortBy"
+            value={
+              sortOptions.find((opt) => opt.value === sortBy)
+                ?.label || ''
+            }
+            onChange={(label) => {
+              const value = sortOptions.find(
+                (opt) => opt.label === label,
+              )?.value
+              if (value) setSortBy(value)
+            }}
+            options={sortOptions.map((opt) => opt.label)}
+          />
+        </div>
       </div>
     </div>
   )

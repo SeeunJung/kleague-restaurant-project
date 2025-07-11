@@ -1,7 +1,5 @@
-import Modal from '@/components/common/Modal'
 import { TEAM_LOGOS } from '@/constants'
 import useForm from '@/hooks/useForm'
-import useModal from '@/hooks/useModal'
 import { useAuthStore } from '@/store/useAuthStore'
 import { useReviewStore } from '@/store/useReviewStore'
 import {
@@ -20,26 +18,31 @@ import StarRating from './StarRating'
 
 type RestaurantReviewContentProps = {
   review: Review
+  openModal: (modalProps: {
+    isError: boolean
+    title: string
+    description: string
+  }) => void
 }
 
 function RestaurantReviewContent({
   review,
+  openModal,
 }: RestaurantReviewContentProps) {
   const { loggedInUserId } = useAuthStore()
   const { editReview, deleteReview } = useReviewStore()
   const { form, handleInput, setField } = useForm<ReviewFormType>({
-    rating: review.rating.toString(),
+    rating: review.rating,
     content: review.content,
   })
-  const { modalOpen, setModalOpen, modalContent, openModal } =
-    useModal()
+
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const isMyReview = loggedInUserId === review.userId
 
   const handleEdit = () => {
     try {
       editReview(review.id, {
-        rating: parseInt(form.rating),
+        rating: form.rating,
         content: form.content,
       })
       setIsEditing(false)
@@ -69,7 +72,6 @@ function RestaurantReviewContent({
         title: '댓글 삭제 성공',
         description: '댓글 삭제에 성공했습니다.',
       })
-      setTimeout(() => {}, 1000)
     } catch (e) {
       console.error(e)
       openModal({
@@ -110,21 +112,15 @@ function RestaurantReviewContent({
               <div className={flexRowICenter()}>
                 {isEditing ? (
                   <StarRating
-                    rating={parseInt(form.rating)}
-                    onChange={(rating) =>
-                      setField('rating', rating.toString())
-                    }
+                    rating={form.rating}
+                    onChange={(rating) => setField('rating', rating)}
                   />
                 ) : (
                   <div className={flexRowICenter('gap-0.5')}>
                     {Array.from({ length: 5 }).map((_, i) => (
                       <Star
                         key={i}
-                        fill={
-                          i < parseInt(form.rating)
-                            ? '#FFD94D'
-                            : '#ccc'
-                        }
+                        fill={i < form.rating ? '#FFD94D' : '#ccc'}
                         strokeWidth={0}
                         size={18}
                       />
@@ -195,14 +191,11 @@ function RestaurantReviewContent({
             </div>
           </div>
         ) : (
-          review.content
+          <div className={cn('whitespace-pre-line')}>
+            {review.content}
+          </div>
         )}
       </div>
-      <Modal
-        isOpen={modalOpen}
-        onOpenChange={setModalOpen}
-        contents={modalContent}
-      />
     </div>
   )
 }

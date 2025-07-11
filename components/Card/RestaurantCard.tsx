@@ -19,6 +19,7 @@ export default function RestaurantCard({
   restaurant,
   showDistance,
   stadiumName,
+  onRemoveFavorite,
 }: RestaurantCardInfo) {
   const router = useRouter()
   const handleDetailClick = () => {
@@ -35,6 +36,7 @@ export default function RestaurantCard({
           <FavoriteButton
             restaurantId={restaurant.id}
             version="icon"
+            onRemoveFavorite={onRemoveFavorite}
           />
         </div>
       </div>

@@ -8,6 +8,7 @@ import getDistance from '@/utils/getDistance'
 import { getStadiumsDetail } from '@/services/stadiums'
 import FilterBar from './FilterBar'
 import { Restaurant } from '@/types/Restaurant'
+import LoadingSpinner from '../common/LoadingSpinner'
 
 export default function StadiumRestaurantContainer({
   id,
@@ -17,28 +18,36 @@ export default function StadiumRestaurantContainer({
   const [restaurants, setRestaurants] = useState<Restaurant[]>([])
   const [category, setCategory] = useState<string>('전체')
   const [sortBy, setSortBy] = useState<string>('distance')
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const fetchData = async () => {
-      const stadium = await getStadiumsDetail(id)
-      const {
-        latitude: stadiumLat,
-        longitude: stadiumLng,
-        restaurants,
-      } = stadium
+      setIsLoading(true)
+      try {
+        const stadium = await getStadiumsDetail(id)
+        const {
+          latitude: stadiumLat,
+          longitude: stadiumLng,
+          restaurants,
+        } = stadium
 
-      const processed: Restaurant[] = (restaurants ?? []).map(
-        (r) => ({
-          ...(r as Restaurant),
-          distance: getDistance(
-            stadiumLat ?? 0,
-            stadiumLng ?? 0,
-            r.latitude!,
-            r.longitude!,
-          ),
-        }),
-      )
-      setRestaurants(processed)
+        const processed: Restaurant[] = (restaurants ?? []).map(
+          (r) => ({
+            ...(r as Restaurant),
+            distance: getDistance(
+              stadiumLat ?? 0,
+              stadiumLng ?? 0,
+              r.latitude!,
+              r.longitude!,
+            ),
+          }),
+        )
+        setRestaurants(processed)
+      } catch (e) {
+        console.error('레스토랑 목록 불러오기 실패: ', e)
+      } finally {
+        setIsLoading(false)
+      }
     }
     fetchData()
   }, [id])
@@ -60,7 +69,6 @@ export default function StadiumRestaurantContainer({
       return 0
     },
   )
-  // .slice(0, 9)
 
   return (
     <div
@@ -75,25 +83,28 @@ export default function StadiumRestaurantContainer({
         sortBy={sortBy}
         setSortBy={setSortBy}
       />
-      <div
-        className={
-          'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full mx-auto gap-4'
-        }
-      >
-        {sorted.length === 0 ? (
-          <p className="text-center w-full mt-6 text-gray-500">
-            일치하는 식당이 존재하지 않습니다.
-          </p>
-        ) : (
-          sorted.map((restaurant) => (
+
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : sorted.length === 0 ? (
+        <p className="text-center w-full mt-6 text-gray-500">
+          일치하는 식당이 존재하지 않습니다.
+        </p>
+      ) : (
+        <div
+          className={
+            'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full mx-auto gap-4'
+          }
+        >
+          {sorted.map((restaurant) => (
             <RestaurantCard
               key={restaurant.id}
               restaurant={restaurant}
               showDistance={true}
             />
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

@@ -1,10 +1,10 @@
 'use client'
 import AuthButtons from '@/components/Auth/AuthButtons'
 import AuthInput from '@/components/Auth/AuthInput'
-import AuthTitle from '@/components/Auth/AuthTitle'
 import Modal from '@/components/common/Modal'
-import useAuthForm from '@/hooks/useForm'
 import useModal from '@/hooks/useModal'
+import useForm from '@/hooks/useForm'
+import { usePathStore } from '@/hooks/usePathStore'
 import { login } from '@/services/auth'
 import { useAuthStore } from '@/store/useAuthStore'
 import {
@@ -20,10 +20,17 @@ import { AxiosErrorRes } from '@/types/Axios'
 import { cn } from '@/utils/cn'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import PageTitle from '@/components/common/PageTitle'
 
 function LoginPage() {
   const router = useRouter()
-  const { form, handleInput, isFormValid } = useAuthForm<LoginForm>({
+  const getCallbackURL = (): string => {
+    const prevPath = usePathStore.getState().prevPath
+    if (prevPath && !prevPath.includes('/signup')) return prevPath
+    return '/'
+  }
+
+  const { form, handleInput, isFormValid } = useForm<LoginForm>({
     email: '',
     password: '',
   })
@@ -39,13 +46,18 @@ function LoginPage() {
         form.password,
       )
       loggedIn(user.id, accessToken)
+
+      const callbackURL = getCallbackURL()
       openModal({
         isError: false,
         title: '로그인 성공',
-        description: '메인페이지로 이동합니다.',
+        description:
+          callbackURL === '/'
+            ? '메인페이지로 이동합니다.'
+            : '이전 페이지로 이동합니다.',
         onBtnClick: () => {
           setModalOpen(false)
-          router.push('/')
+          router.push(callbackURL)
         },
       })
     } catch (e: unknown) {
@@ -62,8 +74,12 @@ function LoginPage() {
 
   return (
     <div className={cn('mt-9')}>
-      <AuthTitle subT="로그인하여 더 많은 기능을 이용하세요" />
-      <div
+      <PageTitle subT="로그인하여 더 많은 기능을 이용하세요" />
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          handleLogin()
+        }}
         className={Card(
           'w-[350px]',
           'mx-auto',
@@ -78,14 +94,28 @@ function LoginPage() {
             name="email"
             type="email"
             value={form.email}
-            onChange={handleInput}
+            onChange={(val) =>
+              handleInput({
+                target: {
+                  name: 'email',
+                  value: val,
+                },
+              } as React.ChangeEvent<HTMLInputElement>)
+            }
           />
           <AuthInput
             label="비밀번호"
             name="password"
             type="password"
             value={form.password}
-            onChange={handleInput}
+            onChange={(val) =>
+              handleInput({
+                target: {
+                  name: 'password',
+                  value: val,
+                },
+              } as React.ChangeEvent<HTMLInputElement>)
+            }
           />
         </div>
         <Link
@@ -97,9 +127,8 @@ function LoginPage() {
         <AuthButtons
           mode="login"
           isDisabled={!isFormValid}
-          onButtonClick={handleLogin}
         />
-      </div>
+      </form>
       <Modal
         isOpen={modalOpen}
         onOpenChange={setModalOpen}
@@ -108,6 +137,5 @@ function LoginPage() {
     </div>
   )
 }
-
 
 export default LoginPage

@@ -3,18 +3,18 @@
 import ReviewCard from '@/components/Card/ReviewCard'
 import { deleteReview, updateReview } from '@/services/mypage'
 import { mainTitle } from '@/styles/customStyle'
-import { ReviewProps } from '@/types/Mypage'
+import { Review } from '@/types/Review'
 import { useState } from 'react'
 
 interface UserReviewsProps {
-  reviews: ReviewProps[]
+  reviews: Review[]
 }
 
 export default function UserReviews({
   reviews: initialReviews,
 }: UserReviewsProps) {
   const [updatedReviews, setUpdatedReviews] =
-    useState<ReviewProps[]>(initialReviews)
+    useState<Review[]>(initialReviews)
 
   const handleDelete = async (id: number) => {
     try {
@@ -55,19 +55,22 @@ export default function UserReviews({
         </span>
       </div>
       <div>
-        {updatedReviews.map((review) => (
-          <ReviewCard
-            key={review.id}
-            id={review.id}
-            restaurantName={review.restaurant.name!}
-            restaurantId={review.restaurant.id!}
-            rating={review.rating}
-            createdAt={review.createdAt}
-            content={review.content}
-            onDelete={handleDelete}
-            onEdit={handleEdit}
-          />
-        ))}
+        {updatedReviews.map((review) => {
+          if (!review.restaurant) return null
+          return (
+            <ReviewCard
+              key={review.id}
+              id={review.id}
+              restaurantName={review.restaurant.name}
+              restaurantId={review.restaurant.id}
+              rating={review.rating}
+              createdAt={review.createdAt}
+              content={review.content}
+              onDelete={handleDelete}
+              onEdit={handleEdit}
+            />
+          )
+        })}
       </div>
     </div>
   )

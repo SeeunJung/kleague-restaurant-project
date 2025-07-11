@@ -1,5 +1,6 @@
 'use client'
 
+import LoadingSpinner from '@/components/common/LoadingSpinner'
 import MypageTabs from '@/components/MyPage/UserHistory/MypageTabs'
 import DefaultProfile from '@/components/MyPage/UserProfile/DefaultProfile'
 import EditProfile from '@/components/MyPage/UserProfile/EditProfile'
@@ -41,30 +42,44 @@ export default function Page() {
     fetchUser()
   }, [accessToken])
 
-  if (!hasMounted || !accessToken) return null
-  if (!user) return <div>유저 정보를 불러오는 중입니다.</div>
+  const removeFavorite = (restaurantId: number) => {
+    if (!user) return
+    setUser({
+      ...user,
+      favorites: user.favorites.filter(
+        (fav) => fav.restaurant.id !== restaurantId,
+      ),
+    })
+  }
+
+  if (!hasMounted || !accessToken) return <LoadingSpinner />
+  if (!user) return <LoadingSpinner />
 
   return (
     <div className={flexColIJCenter('gap-[20px] mt-6 mb-6 p-6')}>
       <div className="w-full max-w-4xl gap-4">
         <div className={Card()}>
+          <DefaultProfile
+            user={user}
+            onEdit={() => setIsEditing(true)}
+          />
           {isEditing ? (
-            <EditProfile
-              user={user}
-              onSave={(updatedFields) => {
-                setUser({
-                  ...user,
-                  ...updatedFields,
-                })
-                setIsEditing(false)
-              }}
-              onCancel={() => setIsEditing(false)}
-            />
+            <>
+              <hr className="mt-2 mb-2" />
+              <EditProfile
+                user={user}
+                onSave={(updatedFields) => {
+                  setUser({
+                    ...user,
+                    ...updatedFields,
+                  })
+                  setIsEditing(false)
+                }}
+                onCancel={() => setIsEditing(false)}
+              />
+            </>
           ) : (
-            <DefaultProfile
-              user={user}
-              onEdit={() => setIsEditing(true)}
-            />
+            ''
           )}
         </div>
 
@@ -72,6 +87,7 @@ export default function Page() {
           <MypageTabs
             favorites={user.favorites}
             reviews={user.reviews}
+            onRemoveFavorite={removeFavorite}
           />
         </div>
       </div>
