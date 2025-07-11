@@ -14,14 +14,16 @@ import { cn } from '@/utils/cn'
 import { Star } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import FavoriteButton from './FavoriteButton'
+import useMatchStadium from '@/hooks/useMatchStadium'
 
 export default function RestaurantCard({
   restaurant,
   showDistance,
-  stadiumName,
   onRemoveFavorite,
 }: RestaurantCardInfo) {
   const router = useRouter()
+  const matchedStadium = useMatchStadium(restaurant.stadiumId)
+  const stadiumName = matchedStadium?.name ?? ''
   const handleDetailClick = () => {
     router.push(`/restaurants/${restaurant.id}`)
   }

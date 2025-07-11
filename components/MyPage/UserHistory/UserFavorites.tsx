@@ -1,7 +1,6 @@
 import RestaurantCard from '@/components/Card/RestaurantCard'
 import { mainTitle } from '@/styles/customStyle'
 import { FavoriteProps } from '@/types/Mypage'
-import { getStadiumNameById } from '@/utils/getStudiumById'
 
 interface UserFavoritesProps {
   favorites: FavoriteProps[]
@@ -33,7 +32,6 @@ export default function UserFavorites({
             key={restaurant.id}
             restaurant={{ ...restaurant }}
             showDistance={false}
-            stadiumName={getStadiumNameById(restaurant.stadiumId)}
             onRemoveFavorite={onRemoveFavorite}
           />
         ))}
