@@ -9,11 +9,19 @@ import { useMemo, useRef, useState } from 'react'
 
 interface UserReviewsProps {
   reviews: Review[]
+  openModal: (modalProps: {
+    isError: boolean
+    title: string
+    description: string
+  }) => void
 }
 
 const PAGE_SIZE = 10
 
-export default function UserReviews({ reviews }: UserReviewsProps) {
+export default function UserReviews({
+  reviews,
+  openModal,
+}: UserReviewsProps) {
   const [allReviews, setAllReviews] = useState<Review[]>(reviews)
   const [page, setPage] = useState(1)
   const observerRef = useRef<HTMLDivElement | null>(null)
@@ -24,8 +32,21 @@ export default function UserReviews({ reviews }: UserReviewsProps) {
       setAllReviews((prev) =>
         prev.filter((review) => review.id !== id),
       )
+      openModal({
+        isError: true,
+        title: '리뷰 삭제 성공',
+        description: '리뷰 삭제에 성공했습니다.',
+      })
     } catch (err) {
-      console.error('리뷰 삭제 실패: ', err)
+      console.error(err)
+      openModal({
+        isError: true,
+        title: '리뷰 삭제 실패',
+        description:
+          err instanceof Error
+            ? err.message
+            : '알 수 없는 오류가 발생했습니다.',
+      })
     }
   }
 
@@ -40,8 +61,21 @@ export default function UserReviews({ reviews }: UserReviewsProps) {
           review.id === id ? { ...review, ...updatedReview } : review,
         ),
       )
+      openModal({
+        isError: true,
+        title: '리뷰 수정 성공',
+        description: '리뷰 수정에 성공했습니다.',
+      })
     } catch (err) {
-      console.error('리뷰 수정 실패: ', err)
+      console.error(err)
+      openModal({
+        isError: true,
+        title: '리뷰 수정 실패',
+        description:
+          err instanceof Error
+            ? err.message
+            : '알 수 없는 오류가 발생했습니다.',
+      })
     }
   }
 
