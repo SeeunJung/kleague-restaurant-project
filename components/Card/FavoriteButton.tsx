@@ -11,6 +11,7 @@ import { Heart } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import Modal from '../common/Modal'
 import { cn } from '@/lib/utils'
+import useDebounce from '@/hooks/useDebounce'
 
 interface FavoriteButtonProps {
   restaurantId: number
@@ -79,6 +80,8 @@ export default function FavoriteButton({
     }
   }
 
+  const debouncedToggle = useDebounce(toggleFavorite, 200)
+
   return (
     <button
       className={cn(
@@ -87,7 +90,7 @@ export default function FavoriteButton({
         version === 'pill' &&
           'flex flex-row items-center gap-2 px-4 py-1 rounded-full bg-white text-black text-xs font-bold border border-gray-300 shadow cursor-pointer',
       )}
-      onClick={toggleFavorite}
+      onClick={debouncedToggle}
       disabled={isLoading}
     >
       <Heart
