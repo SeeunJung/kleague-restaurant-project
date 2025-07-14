@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@/utils/cn'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Card, flexCol, mainTitle } from '@/styles/customStyle'
 import RestaurantCard from '../Card/RestaurantCard'
 import getDistance from '@/utils/getDistance'
@@ -9,6 +9,9 @@ import { getStadiumsDetail } from '@/services/stadiums'
 import FilterBar from './FilterBar'
 import { Restaurant } from '@/types/Restaurant'
 import LoadingSpinner from '../common/LoadingSpinner'
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll'
+
+const PAGE_SIZE = 9
 
 export default function StadiumRestaurantContainer({
   id,
@@ -19,6 +22,9 @@ export default function StadiumRestaurantContainer({
   const [category, setCategory] = useState<string>('전체')
   const [sortBy, setSortBy] = useState<string>('distance')
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false)
+  const [page, setPage] = useState<number>(1)
+  const observerRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,6 +76,30 @@ export default function StadiumRestaurantContainer({
     },
   )
 
+  const load = () => {
+    if (
+      page * PAGE_SIZE >= sorted.length ||
+      isLoading ||
+      isLoadingMore
+    )
+      return
+    setIsLoadingMore(true)
+    setTimeout(() => {
+      setPage((prev) => prev + 1)
+      setIsLoadingMore(false)
+    }, 300)
+  }
+
+  useInfiniteScroll(
+    observerRef,
+    load,
+    page * PAGE_SIZE < sorted.length,
+  )
+
+  const visibleRestaurants = useMemo(() => {
+    return sorted.slice(0, page * PAGE_SIZE)
+  }, [sorted, page])
+
   return (
     <div
       className={cn(Card(), flexCol('w-full justify-center mt-6'))}
@@ -91,19 +121,30 @@ export default function StadiumRestaurantContainer({
           일치하는 식당이 존재하지 않습니다.
         </p>
       ) : (
-        <div
-          className={
-            'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full mx-auto gap-4'
-          }
-        >
-          {sorted.map((restaurant) => (
-            <RestaurantCard
-              key={restaurant.id}
-              restaurant={restaurant}
-              showDistance={true}
-            />
-          ))}
-        </div>
+        <>
+          <div
+            className={
+              'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full mx-auto gap-4'
+            }
+          >
+            {visibleRestaurants.map((restaurant) => (
+              <RestaurantCard
+                key={restaurant.id}
+                restaurant={restaurant}
+                showDistance={true}
+              />
+            ))}
+          </div>
+          <div
+            ref={observerRef}
+            className="h-10"
+          />
+          {isLoadingMore && (
+            <div className="flex justify-center">
+              <LoadingSpinner />
+            </div>
+          )}
+        </>
       )}
     </div>
   )

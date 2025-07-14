@@ -9,7 +9,7 @@ import {
   mainTitle,
   subTitle,
 } from '@/styles/customStyle'
-import { Delete, Pencil, Save, Star, Trash } from 'lucide-react'
+import { Pencil, Save, Star, Trash, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import StarRating from '../Restaurant/RestaurantReviews/StarRating'
@@ -90,7 +90,7 @@ export default function ReviewCard({
               onClick={handleSave}
               className="cursor-pointer"
             />
-            <Delete
+            <X
               size={18}
               onClick={() => setIsEditing(false)}
               className="cursor-pointer"
@@ -129,12 +129,12 @@ export default function ReviewCard({
             <Pencil
               size={18}
               onClick={() => setIsEditing(true)}
-              className="cursor-pointer"
+              className="cursor-pointer text-gray-500"
             />
             <Trash
               size={18}
               onClick={() => onDelete(id)}
-              className="cursor-pointer"
+              className="cursor-pointer text-red-600"
             />
           </div>
         </div>

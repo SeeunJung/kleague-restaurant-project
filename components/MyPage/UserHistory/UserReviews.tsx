@@ -1,29 +1,54 @@
 'use client'
 
 import ReviewCard from '@/components/Card/ReviewCard'
+import LoadingSpinner from '@/components/common/LoadingSpinner'
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll'
 import { deleteReview, updateReview } from '@/services/mypage'
 import { mainTitle } from '@/styles/customStyle'
 import { Review } from '@/types/Review'
-import { useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 
 interface UserReviewsProps {
   reviews: Review[]
+  openModal: (modalProps: {
+    isError: boolean
+    title: string
+    description: string
+  }) => void
 }
 
+const PAGE_SIZE = 10
+
 export default function UserReviews({
-  reviews: initialReviews,
+  reviews,
+  openModal,
 }: UserReviewsProps) {
-  const [updatedReviews, setUpdatedReviews] =
-    useState<Review[]>(initialReviews)
+  const [allReviews, setAllReviews] = useState<Review[]>(reviews)
+  const [page, setPage] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
+  const observerRef = useRef<HTMLDivElement | null>(null)
 
   const handleDelete = async (id: number) => {
     try {
       await deleteReview(id)
-      setUpdatedReviews((prev) =>
+      setAllReviews((prev) =>
         prev.filter((review) => review.id !== id),
       )
+      openModal({
+        isError: true,
+        title: '리뷰 삭제 성공',
+        description: '리뷰 삭제에 성공했습니다.',
+      })
     } catch (err) {
-      console.error('리뷰 삭제 실패: ', err)
+      console.error(err)
+      openModal({
+        isError: true,
+        title: '리뷰 삭제 실패',
+        description:
+          err instanceof Error
+            ? err.message
+            : '알 수 없는 오류가 발생했습니다.',
+      })
     }
   }
 
@@ -33,17 +58,49 @@ export default function UserReviews({
   ) => {
     try {
       const updatedReview = await updateReview(id, updatedFields)
-      setUpdatedReviews((prev) =>
+      setAllReviews((prev) =>
         prev.map((review) =>
           review.id === id ? { ...review, ...updatedReview } : review,
         ),
       )
+      openModal({
+        isError: true,
+        title: '리뷰 수정 성공',
+        description: '리뷰 수정에 성공했습니다.',
+      })
     } catch (err) {
-      console.error('리뷰 수정 실패: ', err)
+      console.error(err)
+      openModal({
+        isError: true,
+        title: '리뷰 수정 실패',
+        description:
+          err instanceof Error
+            ? err.message
+            : '알 수 없는 오류가 발생했습니다.',
+      })
     }
   }
 
-  if (updatedReviews.length === 0)
+  const load = () => {
+    if (page * PAGE_SIZE >= allReviews.length || isLoading) return
+    setIsLoading(true)
+    setTimeout(() => {
+      setPage((prev) => prev + 1)
+      setIsLoading(false)
+    }, 500)
+  }
+
+  useInfiniteScroll(
+    observerRef,
+    load,
+    page * PAGE_SIZE < allReviews.length,
+  )
+
+  const visibleReviews = useMemo(() => {
+    return allReviews.slice(0, page * PAGE_SIZE)
+  }, [allReviews, page])
+
+  if (allReviews.length === 0)
     return <div>작성한 리뷰가 없습니다.</div>
 
   return (
@@ -51,11 +108,11 @@ export default function UserReviews({
       <div className="flex flex-row mb-2 items-end gap-2">
         <h3 className={mainTitle()}>내 리뷰</h3>
         <span className="text-sm text-gray-600 font-bold">
-          ({updatedReviews.length})
+          ({allReviews.length})
         </span>
       </div>
       <div>
-        {updatedReviews.map((review) => {
+        {visibleReviews.map((review) => {
           if (!review.restaurant) return null
           return (
             <ReviewCard
@@ -71,6 +128,15 @@ export default function UserReviews({
             />
           )
         })}
+        <div
+          ref={observerRef}
+          className="h-10"
+        />
+        {isLoading && (
+          <div className="flex justify-center">
+            <LoadingSpinner />
+          </div>
+        )}
       </div>
     </div>
   )
