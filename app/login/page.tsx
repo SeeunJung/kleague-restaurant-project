@@ -4,7 +4,7 @@ import AuthInput from '@/components/Auth/AuthInput'
 import Modal from '@/components/common/Modal'
 import useModal from '@/hooks/useModal'
 import useForm from '@/hooks/useForm'
-import { usePathStore } from '@/hooks/usePathStore'
+import { usePathStore } from '@/store/usePathStore'
 import { login } from '@/services/auth'
 import { useAuthStore } from '@/store/useAuthStore'
 import {
