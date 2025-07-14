@@ -1,3 +1,4 @@
+import { usePathStore } from '@/store/usePathStore'
 import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/store/useAuthStore'
 import { flexColIJCenter } from '@/styles/customStyle'
@@ -10,6 +11,10 @@ type MobileSidebarProps = {
 function MobileSidebar({ open, onClose }: MobileSidebarProps) {
   const router = useRouter()
   const { accessToken, loggedOut } = useAuthStore()
+  const currentPath = usePathStore((state) => state.currentPath)
+  const logoutRedirect = currentPath.startsWith('/user')
+    ? '/'
+    : currentPath
 
   const actions = [
     { label: '구장 목록', href: '/stadiums' },
@@ -22,11 +27,11 @@ function MobileSidebar({ open, onClose }: MobileSidebarProps) {
       : [
           {
             label: '마이페이지',
-            href: 'user',
+            href: '/user',
           },
           {
             label: '로그아웃',
-            href: '/',
+            href: `${logoutRedirect}`,
             onClick: () => loggedOut(),
           },
         ]),
