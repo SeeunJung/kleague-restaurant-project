@@ -31,11 +31,11 @@ export default function FavoriteButton({
     useModal()
 
   useEffect(() => {
+    if (!accessToken) {
+      return
+    }
+
     const checkFavorite = async () => {
-      if (!accessToken) {
-        setIsFavorite(false)
-        return
-      }
       try {
         const favorites = await fetchFavorites()
         const exists = favorites.some(
