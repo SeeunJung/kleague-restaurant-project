@@ -5,7 +5,7 @@ import DesktopHeader from './DesktopHeader'
 import MobileHeader from './MobileHeader'
 import { cn } from '@/utils/cn'
 import { usePathname } from 'next/navigation'
-import { usePathStore } from '@/hooks/usePathStore'
+import { usePathStore } from '@/store/usePathStore'
 
 function Header() {
   const [isDesktop, setIsDesktop] = useState<boolean>(true)
