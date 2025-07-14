@@ -1,6 +1,7 @@
 'use client'
 
 import ReviewCard from '@/components/Card/ReviewCard'
+import LoadingSpinner from '@/components/common/LoadingSpinner'
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll'
 import { deleteReview, updateReview } from '@/services/mypage'
 import { mainTitle } from '@/styles/customStyle'
@@ -24,6 +25,7 @@ export default function UserReviews({
 }: UserReviewsProps) {
   const [allReviews, setAllReviews] = useState<Review[]>(reviews)
   const [page, setPage] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
   const observerRef = useRef<HTMLDivElement | null>(null)
 
   const handleDelete = async (id: number) => {
@@ -80,8 +82,12 @@ export default function UserReviews({
   }
 
   const load = () => {
-    if (page * PAGE_SIZE >= allReviews.length) return
-    setPage((prev) => prev + 1)
+    if (page * PAGE_SIZE >= allReviews.length || isLoading) return
+    setIsLoading(true)
+    setTimeout(() => {
+      setPage((prev) => prev + 1)
+      setIsLoading(false)
+    }, 500)
   }
 
   useInfiniteScroll(
@@ -126,6 +132,11 @@ export default function UserReviews({
           ref={observerRef}
           className="h-10"
         />
+        {isLoading && (
+          <div className="flex justify-center">
+            <LoadingSpinner />
+          </div>
+        )}
       </div>
     </div>
   )
