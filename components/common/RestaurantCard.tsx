@@ -11,7 +11,7 @@ import { Restaurant, RestaurantViewType } from '@/types/Restaurant'
 import { cn } from '@/utils/cn'
 import RestaurantReviewStar from './RestaurantReviewStar'
 import { useRouter } from 'next/navigation'
-import FavoriteButton from '../Card/FavoriteButton'
+import FavoriteButton from './FavoriteButton'
 import { memo } from 'react'
 
 type RestaurantCardProps = {

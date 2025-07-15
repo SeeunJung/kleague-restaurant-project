@@ -9,7 +9,7 @@ import { useAuthStore } from '@/store/useAuthStore'
 import useModal from '@/hooks/useModal'
 import { Heart } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import Modal from '../common/Modal'
+import Modal from './Modal'
 import { cn } from '@/lib/utils'
 import useDebounce from '@/hooks/useDebounce'
 
