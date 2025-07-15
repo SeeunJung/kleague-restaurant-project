@@ -13,7 +13,7 @@ import { RestaurantCardInfo } from '@/types/Restaurant'
 import { cn } from '@/utils/cn'
 import { Star } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import FavoriteButton from './FavoriteButton'
+import FavoriteButton from '../common/FavoriteButton'
 import useMatchStadium from '@/hooks/useMatchStadium'
 
 export default function RestaurantCard({

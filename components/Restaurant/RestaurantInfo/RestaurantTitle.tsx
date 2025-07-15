@@ -1,4 +1,4 @@
-import FavoriteButton from '@/components/Card/FavoriteButton'
+import FavoriteButton from '@/components/common/FavoriteButton'
 import { flexRowICenter } from '@/styles/customStyle'
 
 type RestaurantTitleProps = {
