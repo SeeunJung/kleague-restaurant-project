@@ -26,7 +26,12 @@ function LoginPage() {
   const router = useRouter()
   const getCallbackURL = (): string => {
     const prevPath = usePathStore.getState().prevPath
-    if (prevPath && !prevPath.includes('/signup')) return prevPath
+    if (
+      prevPath &&
+      !prevPath.includes('/signup') &&
+      !prevPath.includes('/resetpw')
+    )
+      return prevPath
     return '/'
   }
 
