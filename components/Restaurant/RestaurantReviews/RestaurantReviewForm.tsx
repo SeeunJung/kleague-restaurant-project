@@ -9,6 +9,7 @@ import { ReviewFormType } from '@/types/Review'
 import { cn } from '@/utils/cn'
 import StarRating from './StarRating'
 import { Button } from '@/components/ui/button'
+import { useState } from 'react'
 
 type RestaurantReviewFormProps = {
   restaurantId: number
@@ -25,9 +26,11 @@ function RestaurantReviewForm({
   const { modalOpen, setModalOpen, modalContent, openModal } =
     useModal()
   const { addReview } = useReviewStore()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleSubmit = async () => {
     try {
+      setIsLoading(true)
       await addReview({
         restaurantId,
         rating: form.rating,
@@ -48,6 +51,8 @@ function RestaurantReviewForm({
           err?.response?.data?.message ||
           '리뷰 작성 도중 오류가 발생했습니다.',
       })
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -89,7 +94,7 @@ function RestaurantReviewForm({
       ></textarea>
       <Button
         onClick={() => handleSubmit()}
-        disabled={!isFormValid}
+        disabled={!isFormValid || isLoading}
       >
         리뷰 등록
       </Button>
