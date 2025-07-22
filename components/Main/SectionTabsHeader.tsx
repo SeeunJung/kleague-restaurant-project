@@ -11,7 +11,9 @@ function SectionTabsHeader({
 }: SectionTabsHeaderProps) {
   return (
     <div className={flexRowICenter('justify-between')}>
-      <div className={cardTitle()}>{title}</div>
+      <div className={cardTitle('w-[6rem]', ' whitespace-nowrap')}>
+        {title}
+      </div>
       {children}
     </div>
   )
