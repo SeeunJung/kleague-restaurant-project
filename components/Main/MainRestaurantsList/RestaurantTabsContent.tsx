@@ -4,8 +4,8 @@ import { Restaurant } from '@/types/Restaurant'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import MainRestaurantCard from './RestaurantCard'
 import 'swiper/css'
-import 'swiper/css/navigation'
-import { Navigation } from 'swiper/modules'
+import 'swiper/css/pagination'
+import { Pagination } from 'swiper/modules'
 import SwiperCardSkeleton from '@/components/Skeleton/SwiperCardSkeleton'
 
 type RestaurantTabsContentProps = {
@@ -38,8 +38,8 @@ function RestaurantTabsContent({
           value={value}
         >
           <Swiper
-            modules={[Navigation]}
-            navigation={true}
+            modules={[Pagination]}
+            pagination={true}
             spaceBetween={24}
             grabCursor={true}
             breakpoints={{
