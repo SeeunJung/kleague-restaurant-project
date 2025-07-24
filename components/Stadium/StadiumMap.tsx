@@ -24,13 +24,12 @@ export default function StadiumMap({
     })
 
     restaurants?.forEach((restaurant) => {
-      new naver.maps.Marker({
+      const marker = new naver.maps.Marker({
         position: new naver.maps.LatLng(
           restaurant.latitude ?? 0,
           restaurant.longitude ?? 0,
         ),
         map,
-        title: restaurant.name,
         icon: {
           url: MARKER_ICON,
           size: new naver.maps.Size(45, 45),
@@ -38,6 +37,41 @@ export default function StadiumMap({
           origin: new naver.maps.Point(0, 0),
           anchor: new naver.maps.Point(12, 12),
         },
+      })
+      const infoWindow = new naver.maps.InfoWindow({
+        content: `
+        <div style="padding: 10px; background-color: white; font-size: 14px; line-height: 1.4; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15)">
+          <strong style="display:block; font-size: 16px; margin-bottom: 6px;">
+            ${restaurant.name}
+          </strong>
+          <div><strong>카테고리:</strong> ${restaurant.category ?? '정보 없음'}</div>
+          <div><strong>영업시간:</strong> ${restaurant.businessHours ?? '정보 없음'}</div>
+          <div><strong>전화번호:</strong> ${restaurant.phone ?? '정보 없음'}</div>
+        </div>
+        `,
+        maxWidth: 300,
+        anchorSize: {
+          width: 12,
+          height: 14,
+        },
+        borderColor: '#ccc',
+      })
+
+      let isOpen = false
+      naver.maps.Event.addListener(marker, 'click', () => {
+        if (isOpen) {
+          infoWindow.close()
+          isOpen = false
+        } else {
+          infoWindow.open(map, marker)
+          isOpen = true
+        }
+      })
+      naver.maps.Event.addListener(map, 'click', () => {
+        if (isOpen) {
+          infoWindow.close()
+          isOpen = false
+        }
       })
     })
 

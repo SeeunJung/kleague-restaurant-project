@@ -41,6 +41,9 @@ export default async function StadiumMapContainer({
           restaurants={restaurants?.map((r: Partial<Restaurant>) => ({
             id: r.id,
             name: r.name,
+            category: r.category,
+            phone: r.phone,
+            businessHours: r.businessHours,
             latitude: r.latitude,
             longitude: r.longitude,
           }))}
