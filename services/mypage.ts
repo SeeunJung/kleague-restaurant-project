@@ -1,4 +1,5 @@
 import { User } from '@/types/Auth'
+import { Review } from '@/types/Review'
 import axiosInstance from '@/utils/axiosInstance'
 
 export const setUserData = async (
@@ -10,7 +11,7 @@ export const setUserData = async (
 
 export const updateReview = async (
   id: number,
-  data: { content: string; rating: number },
+  data: Partial<Pick<Review, 'rating' | 'content'>>,
 ) => {
   const res = await axiosInstance.patch(`/reviews/${id}`, data)
   return res.data

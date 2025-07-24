@@ -85,8 +85,7 @@ export default function Page() {
 
         <div className={Card('mt-4')}>
           <MypageTabs
-            favorites={user.favorites}
-            reviews={user.reviews}
+            user={user}
             onRemoveFavorite={removeFavorite}
           />
         </div>

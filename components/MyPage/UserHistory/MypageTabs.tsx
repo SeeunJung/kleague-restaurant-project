@@ -1,29 +1,31 @@
+'use client'
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs'
-import { FavoriteProps } from '@/types/Mypage'
+import { UserData } from '@/types/Mypage'
 import UserFavorites from './UserFavorites'
 import UserReviews from './UserReviews'
-import { Review } from '@/types/Review'
-import useModal from '@/hooks/useModal'
-import Modal from '@/components/common/Modal'
+import { useUserStore } from '@/store/useUserStore'
+import { useEffect } from 'react'
 
 interface UserTabsProps {
-  favorites: FavoriteProps[]
-  reviews: Review[]
+  user: UserData
   onRemoveFavorite?: (restaurantId: number) => void
 }
 
 export default function MypageTabs({
-  favorites,
-  reviews,
+  user,
   onRemoveFavorite,
 }: UserTabsProps) {
-  const { modalOpen, setModalOpen, modalContent, openModal } =
-    useModal()
+  const { favorites, setFavorites, myReviews, setMyReviews } =
+    useUserStore()
+  useEffect(() => {
+    setFavorites(user.favorites)
+    setMyReviews(user.reviews)
+  }, [user.favorites, user.reviews, setFavorites, setMyReviews])
   return (
     <Tabs
       defaultValue="favorites"
@@ -42,15 +44,7 @@ export default function MypageTabs({
       </TabsContent>
 
       <TabsContent value="reviews">
-        <UserReviews
-          reviews={reviews}
-          openModal={openModal}
-        />
-        <Modal
-          isOpen={modalOpen}
-          onOpenChange={setModalOpen}
-          contents={modalContent}
-        />
+        <UserReviews reviews={myReviews} />
       </TabsContent>
     </Tabs>
   )

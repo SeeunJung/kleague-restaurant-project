@@ -11,41 +11,79 @@ import {
 } from '@/styles/customStyle'
 import { Pencil, Save, Star, Trash, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import StarRating from '../Restaurant/RestaurantReviews/StarRating'
+import { useUserStore } from '@/store/useUserStore'
+import { Review } from '@/types/Review'
 
 interface ReviewCardProps {
-  id: number
-  restaurantName: string
-  restaurantId: number
-  rating: number
-  createdAt: Date
-  content: string
-  onDelete: (id: number) => void
-  onEdit: (
-    id: number,
-    updatedFields: { content: string; rating: number },
-  ) => void
+  review: Review
+  openModal: (modalProps: {
+    isError: boolean
+    title: string
+    description: string
+  }) => void
 }
 
 export default function ReviewCard({
-  id,
-  restaurantName,
-  restaurantId,
-  rating,
-  createdAt,
-  content,
-  onDelete,
-  onEdit,
+  review,
+  openModal,
 }: ReviewCardProps) {
+  const { editMyReview, deleteMyReview } = useUserStore()
   const [isEditing, setIsEditing] = useState(false)
-  const [newContent, setNewContent] = useState(content)
-  const [newRating, setNewRating] = useState(rating)
+  const [newContent, setNewContent] = useState(review.content)
+  const [newRating, setNewRating] = useState(review.rating)
   const router = useRouter()
 
+  useEffect(() => {
+    setNewContent(review.content)
+    setNewRating(review.rating)
+  }, [review.content, review.rating])
+
   const handleSave = () => {
-    onEdit(id, { content: newContent, rating: newRating })
-    setIsEditing(false)
+    try {
+      editMyReview(review.id, {
+        content: newContent,
+        rating: newRating,
+      })
+      setIsEditing(false)
+      openModal({
+        isError: true,
+        title: '리뷰 수정 성공',
+        description: '리뷰 수정에 성공했습니다.',
+      })
+    } catch (err) {
+      console.error(err)
+      openModal({
+        isError: true,
+        title: '리뷰 수정 실패',
+        description:
+          err instanceof Error
+            ? err.message
+            : '알 수 없는 오류가 발생했습니다.',
+      })
+    }
+  }
+
+  const handleDelete = () => {
+    try {
+      deleteMyReview(review.id)
+      openModal({
+        isError: true,
+        title: '리뷰 삭제 성공',
+        description: '리뷰 삭제에 성공했습니다.',
+      })
+    } catch (err) {
+      console.error(err)
+      openModal({
+        isError: true,
+        title: '리뷰 수정 실패',
+        description:
+          err instanceof Error
+            ? err.message
+            : '알 수 없는 오류가 발생했습니다.',
+      })
+    }
   }
 
   const handleRoute = (id: number) => {
@@ -56,13 +94,13 @@ export default function ReviewCard({
     <div className={cn(Card(), 'flex flex-col h-full mt-2')}>
       <div>
         <h2
-          onClick={() => handleRoute(restaurantId)}
+          onClick={() => handleRoute(review.restaurant!.id)}
           className={cn(
             mainTitle('sm:text-lg'),
             'truncate cursor-pointer hover:underline',
           )}
         >
-          {restaurantName}
+          {review.restaurant?.name ?? '이름 없음'}
         </h2>
       </div>
 
@@ -87,7 +125,7 @@ export default function ReviewCard({
           >
             <Save
               size={18}
-              onClick={handleSave}
+              onClick={() => handleSave()}
               className="cursor-pointer"
             />
             <X
@@ -113,13 +151,17 @@ export default function ReviewCard({
                   width={18}
                   height={18}
                 />
-                {rating}
+                {review.rating}
               </span>
               <span className="text-sm text-gray-600">
-                {new Date(createdAt).toISOString().slice(0, 10)}
+                {new Date(review.createdAt)
+                  .toISOString()
+                  .slice(0, 10)}
               </span>
             </div>
-            <p className="w-[90%] text-sm font-semibold">{content}</p>
+            <p className="w-[90%] text-sm font-semibold">
+              {review.content}
+            </p>
           </div>
           <div
             className={flexRow(
@@ -133,7 +175,7 @@ export default function ReviewCard({
             />
             <Trash
               size={18}
-              onClick={() => onDelete(id)}
+              onClick={() => handleDelete()}
               className="cursor-pointer text-red-600"
             />
           </div>
