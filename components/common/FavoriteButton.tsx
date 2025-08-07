@@ -12,42 +12,38 @@ import { useEffect, useState } from 'react'
 import Modal from './Modal'
 import { cn } from '@/lib/utils'
 import useDebounce from '@/hooks/useDebounce'
+import { useUserStore } from '@/store/useUserStore'
 
 interface FavoriteButtonProps {
   restaurantId: number
   version?: 'icon' | 'pill'
-  onRemoveFavorite?: (restaurantId: number) => void
 }
 
 export default function FavoriteButton({
   restaurantId,
   version = 'icon',
-  onRemoveFavorite,
 }: FavoriteButtonProps) {
-  const [isFavorite, setIsFavorite] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [isFavorite, setIsFavorite] = useState(false)
   const accessToken = useAuthStore((state) => state.accessToken)
+  const { favorites, favInitialized, setFavorites, removeFavorites } =
+    useUserStore()
   const { modalOpen, setModalOpen, modalContent, openModal } =
     useModal()
 
   useEffect(() => {
     if (!accessToken) {
+      setIsFavorite(false)
       return
     }
 
-    const checkFavorite = async () => {
-      try {
-        const favorites = await fetchFavorites()
-        const exists = favorites.some(
-          (fav) => fav.restaurantId === restaurantId,
-        )
-        setIsFavorite(exists)
-      } catch (err) {
-        console.error('즐겨찾기 불러오기 실패', err)
-      }
+    if (favInitialized) {
+      const exists = favorites.some(
+        (fav) => fav.restaurantId === restaurantId,
+      )
+      setIsFavorite(exists)
     }
-    checkFavorite()
-  }, [restaurantId, accessToken])
+  }, [favorites, restaurantId, accessToken, favInitialized])
 
   const toggleFavorite = async () => {
     if (!accessToken) {
@@ -68,9 +64,11 @@ export default function FavoriteButton({
       if (isFavorite) {
         await deleteFavorite(restaurantId)
         setIsFavorite(false)
-        onRemoveFavorite?.(restaurantId)
+        removeFavorites(restaurantId)
       } else {
         await addFavorite(restaurantId)
+        const upadatedFavorites = await fetchFavorites()
+        setFavorites(upadatedFavorites)
         setIsFavorite(true)
       }
     } catch (error) {
@@ -80,7 +78,7 @@ export default function FavoriteButton({
     }
   }
 
-  const debouncedToggle = useDebounce(toggleFavorite, 200)
+  const debouncedToggle = useDebounce(toggleFavorite, 500)
 
   return (
     <button
