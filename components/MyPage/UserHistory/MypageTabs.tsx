@@ -1,29 +1,47 @@
+'use client'
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs'
-import { FavoriteProps } from '@/types/Mypage'
+import { UserData } from '@/types/Mypage'
 import UserFavorites from './UserFavorites'
 import UserReviews from './UserReviews'
-import { Review } from '@/types/Review'
-import useModal from '@/hooks/useModal'
-import Modal from '@/components/common/Modal'
+import { useUserStore } from '@/store/useUserStore'
+import { useEffect } from 'react'
 
 interface UserTabsProps {
-  favorites: FavoriteProps[]
-  reviews: Review[]
-  onRemoveFavorite?: (restaurantId: number) => void
+  user: UserData
 }
 
-export default function MypageTabs({
-  favorites,
-  reviews,
-  onRemoveFavorite,
-}: UserTabsProps) {
-  const { modalOpen, setModalOpen, modalContent, openModal } =
-    useModal()
+export default function MypageTabs({ user }: UserTabsProps) {
+  const {
+    setFavorites,
+    favInitialized,
+    setFavInitialized,
+    myReviews,
+    setMyReviews,
+    refetchFavorites,
+  } = useUserStore()
+
+  useEffect(() => {
+    if (!favInitialized) {
+      setFavorites(user.favorites)
+      setFavInitialized(true)
+    }
+    setMyReviews(user.reviews)
+  }, [
+    user,
+    setFavorites,
+    setMyReviews,
+    favInitialized,
+    setFavInitialized,
+  ])
+
+  useEffect(() => {
+    refetchFavorites()
+  }, [refetchFavorites])
   return (
     <Tabs
       defaultValue="favorites"
@@ -35,22 +53,11 @@ export default function MypageTabs({
       </TabsList>
 
       <TabsContent value="favorites">
-        <UserFavorites
-          favorites={favorites}
-          onRemoveFavorite={onRemoveFavorite}
-        />
+        <UserFavorites />
       </TabsContent>
 
       <TabsContent value="reviews">
-        <UserReviews
-          reviews={reviews}
-          openModal={openModal}
-        />
-        <Modal
-          isOpen={modalOpen}
-          onOpenChange={setModalOpen}
-          contents={modalContent}
-        />
+        <UserReviews reviews={myReviews} />
       </TabsContent>
     </Tabs>
   )

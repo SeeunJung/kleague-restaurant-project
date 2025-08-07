@@ -8,6 +8,9 @@ import ProfileInput from './ProfileInput'
 import { setUserData } from '@/services/mypage'
 import { FavoriteTeam } from '@/types/Auth'
 import CustomSelectInput from '@/components/common/CustomSelectInput'
+import useModal from '@/hooks/useModal'
+import Modal from '@/components/common/Modal'
+import { AxiosError } from 'axios'
 
 interface EditProfileProps {
   user: {
@@ -37,6 +40,8 @@ export default function EditProfile({
   const [loading, setLoading] = useState(false)
   const [nicknameError, setNicknameError] = useState('')
   const [phoneError, setPhoneError] = useState('')
+  const { modalOpen, setModalOpen, modalContent, openModal } =
+    useModal()
 
   const validateNickname = (value: string) => {
     if (!value.trim() || value.length < 2 || value.length > 15) {
@@ -78,8 +83,35 @@ export default function EditProfile({
         phoneNumber: updatedUser.phoneNumber,
         favoriteTeam: updatedUser.favoriteTeam,
       })
+      openModal({
+        isError: false,
+        title: '프로필 수정 성공',
+        description: '프로필 수정에 성공했습니다.',
+        onBtnClick: () => {
+          setModalOpen(false)
+        },
+      })
     } catch (err) {
-      console.error('유저 정보 수정 실패: ', err)
+      const error = err as AxiosError
+      if (error.response?.status === 409) {
+        openModal({
+          isError: true,
+          title: '프로필 수정 실패',
+          description: '이미 등록된 전화번호입니다.',
+          onBtnClick: () => {
+            setModalOpen(false)
+          },
+        })
+      } else {
+        openModal({
+          isError: true,
+          title: '프로필 수정 실패',
+          description: '프로필 수정에 실패했습니다.',
+          onBtnClick: () => {
+            setModalOpen(false)
+          },
+        })
+      }
     } finally {
       setLoading(false)
     }
@@ -158,6 +190,11 @@ export default function EditProfile({
           <span className="hidden sm:inline">취소</span>
         </button>
       </div>
+      <Modal
+        isOpen={modalOpen}
+        onOpenChange={setModalOpen}
+        contents={modalContent}
+      />
     </div>
   )
 }
