@@ -13,19 +13,35 @@ import { useEffect } from 'react'
 
 interface UserTabsProps {
   user: UserData
-  onRemoveFavorite?: (restaurantId: number) => void
 }
 
-export default function MypageTabs({
-  user,
-  onRemoveFavorite,
-}: UserTabsProps) {
-  const { favorites, setFavorites, myReviews, setMyReviews } =
-    useUserStore()
+export default function MypageTabs({ user }: UserTabsProps) {
+  const {
+    setFavorites,
+    favInitialized,
+    setFavInitialized,
+    myReviews,
+    setMyReviews,
+    refetchFavorites,
+  } = useUserStore()
+
   useEffect(() => {
-    setFavorites(user.favorites)
+    if (!favInitialized) {
+      setFavorites(user.favorites)
+      setFavInitialized(true)
+    }
     setMyReviews(user.reviews)
-  }, [user.favorites, user.reviews, setFavorites, setMyReviews])
+  }, [
+    user,
+    setFavorites,
+    setMyReviews,
+    favInitialized,
+    setFavInitialized,
+  ])
+
+  useEffect(() => {
+    refetchFavorites()
+  }, [refetchFavorites])
   return (
     <Tabs
       defaultValue="favorites"
@@ -37,10 +53,7 @@ export default function MypageTabs({
       </TabsList>
 
       <TabsContent value="favorites">
-        <UserFavorites
-          favorites={favorites}
-          onRemoveFavorite={onRemoveFavorite}
-        />
+        <UserFavorites />
       </TabsContent>
 
       <TabsContent value="reviews">

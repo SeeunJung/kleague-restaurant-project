@@ -42,16 +42,6 @@ export default function Page() {
     fetchUser()
   }, [accessToken])
 
-  const removeFavorite = (restaurantId: number) => {
-    if (!user) return
-    setUser({
-      ...user,
-      favorites: user.favorites.filter(
-        (fav) => fav.restaurant.id !== restaurantId,
-      ),
-    })
-  }
-
   if (!hasMounted || !accessToken) return <LoadingSpinner />
   if (!user) return <LoadingSpinner />
 
@@ -84,10 +74,7 @@ export default function Page() {
         </div>
 
         <div className={Card('mt-4')}>
-          <MypageTabs
-            user={user}
-            onRemoveFavorite={removeFavorite}
-          />
+          <MypageTabs user={user} />
         </div>
       </div>
     </div>

@@ -3,20 +3,14 @@
 import RestaurantCard from '@/components/Card/RestaurantCard'
 import LoadingSpinner from '@/components/common/LoadingSpinner'
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll'
+import { useUserStore } from '@/store/useUserStore'
 import { mainTitle } from '@/styles/customStyle'
-import { FavoriteProps } from '@/types/Mypage'
 import { useMemo, useRef, useState } from 'react'
 
 const PAGE_SIZE = 9
-interface UserFavoritesProps {
-  favorites: FavoriteProps[]
-  onRemoveFavorite?: (restaurantId: number) => void
-}
 
-export default function UserFavorites({
-  favorites,
-  onRemoveFavorite,
-}: UserFavoritesProps) {
+export default function UserFavorites() {
+  const favorites = useUserStore((state) => state.favorites)
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const observerRef = useRef<HTMLDivElement | null>(null)
@@ -61,7 +55,6 @@ export default function UserFavorites({
             key={restaurant.id}
             restaurant={{ ...restaurant }}
             showDistance={false}
-            onRemoveFavorite={onRemoveFavorite}
           />
         ))}
       </div>

@@ -4,6 +4,7 @@ import Header from '@/components/Layout/Header'
 import ConditionalFooter from '@/components/Layout/Footer/ConditionalFooter'
 import Script from 'next/script'
 import { cn } from '@/utils/cn'
+import FavoritesInitializer from '@/components/common/FavoritesInitializer'
 
 export const metadata: Metadata = {
   title: 'K리그 맛집 지도',
@@ -28,6 +29,7 @@ export default function RootLayout({
       </head>
       <body>
         <Header />
+        <FavoritesInitializer />
         <div className={cn('mt-[80px]', 'bg-[#f9fafb]')}>
           {children}
         </div>

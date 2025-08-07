@@ -19,7 +19,6 @@ import useMatchStadium from '@/hooks/useMatchStadium'
 export default function RestaurantCard({
   restaurant,
   showDistance,
-  onRemoveFavorite,
 }: RestaurantCardInfo) {
   const router = useRouter()
   const matchedStadium = useMatchStadium(restaurant.stadiumId)
@@ -38,7 +37,6 @@ export default function RestaurantCard({
           <FavoriteButton
             restaurantId={restaurant.id}
             version="icon"
-            onRemoveFavorite={onRemoveFavorite}
           />
         </div>
       </div>

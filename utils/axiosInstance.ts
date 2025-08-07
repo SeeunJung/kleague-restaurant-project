@@ -2,7 +2,7 @@ import { useAuthStore } from '@/store/useAuthStore'
 
 import axios from 'axios'
 
-const BASE_URL = 'https://kleague-restaurant-api.gaanii.dev'
+const BASE_URL = 'http://43.201.239.29:3000'
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
